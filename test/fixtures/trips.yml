@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  accomodation_url: MyString
+  price_per_night: 1
+  number_of_possible_attendees: 1
+  start_date: 2018-03-07
+  end_date: 2018-03-07
+  total_possible_cost: 1
+  total_confirmed_cost: 1
+  locked: false
+
+two:
+  name: MyString
+  accomodation_url: MyString
+  price_per_night: 1
+  number_of_possible_attendees: 1
+  start_date: 2018-03-07
+  end_date: 2018-03-07
+  total_possible_cost: 1
+  total_confirmed_cost: 1
+  locked: false
