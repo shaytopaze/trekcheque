@@ -14,7 +14,9 @@
   <div class="field">
     <%= form.label :user_id %>
     <% %>
-    <%= form.select :user_id, @trip_attendees, id: :expense_user_id %>
+    <%= form.select(:user_id) do %>
+      <%= options_from_collection_for_select(@trip_attendees, :id, :name) %>
+    <% end %>
   </div>
 
   <div class="field">
