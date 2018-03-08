@@ -10,6 +10,13 @@ class TripsController < ApplicationController
   # GET /trips/1
   # GET /trips/1.json
   def show
+    @expense = Expense.new
+    @attendees = Attendee.where(trip_id: params[:id])
+    @trip_attendees = []
+    @attendees.each do | attendee |
+      @trip_attendees.push(attendee.user.name)
+    end
+
   end
 
   # GET /trips/new

@@ -4,6 +4,7 @@ class User < ApplicationRecord
   has_many :payees
   has_many :attendees
   has_many :expenses
+  has_many :trips, :through => :attendees
 
   validates :name, presence: true
   validates :email, presence: true, uniqueness: { case_sensitive: false }
