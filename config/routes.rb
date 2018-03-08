@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     resources :attendees, only: [:create, :destroy]
   end
 
-
+  resources :sessions, except: [:index, :edit, :update]
 
   #users/new(register), users/edit(update email, etc.), users/show(user homepage)
   resources :users, only: [:new, :edit, :show] 
