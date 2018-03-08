@@ -10,9 +10,18 @@ Rails.application.routes.draw do
     resources :attendees, only: [:create, :destroy]
   end
 
-  resources :sessions, except: [:index, :edit, :update]
+  # resources :sessions, except: [:index, :edit, :update]
 
   #users/new(register), users/edit(update email, etc.), users/show(user homepage)
-  resources :users, only: [:new, :edit, :show] 
+  resources :users, only: [:new, :create, :edit, :show] 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+ get '/login' => 'users#new'
+ post '/users' => 'users#create'
+
+#  get '/login' => 'sessions#new'
+ post '/login' => 'sessions#create'
+ get '/logout' => 'sessions#destroy'
+
+
+
 end
