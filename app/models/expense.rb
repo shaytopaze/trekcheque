@@ -1,4 +1,4 @@
-class Expense < 
+class Expense <
 
   has_many :payees
   belongs_to :trip
