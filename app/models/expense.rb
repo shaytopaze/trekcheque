@@ -1,4 +1,4 @@
-class Expense <
+class Expense < ApplicationRecord
 
   has_many :payees
   belongs_to :trip
@@ -8,3 +8,4 @@ class Expense <
   validates :description, presence: true
 
 end
+
