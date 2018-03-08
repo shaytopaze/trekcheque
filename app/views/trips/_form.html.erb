@@ -23,12 +23,12 @@
 
   <div class="field">
     <%= form.label :price_per_night %>
-    <%= form.number_field :price_per_night, id: :trip_price_per_night %>
+    <%= form.number_field :price_per_night, :step => 0.01, id: :trip_price_per_night %>
   </div>
 
   <div class="field">
     <%= form.label :number_of_possible_attendees %>
-    <%= form.number_field :number_of_possible_attendees, id: :trip_number_of_possible_attendees %>
+    <%= form.number_field :number_of_possible_attendees,  id: :trip_number_of_possible_attendees %>
   </div>
 
   <div class="field">
@@ -39,21 +39,6 @@
   <div class="field">
     <%= form.label :end_date %>
     <%= form.date_select :end_date, id: :trip_end_date %>
-  </div>
-
-  <div class="field">
-    <%= form.label :total_possible_cost %>
-    <%= form.number_field :total_possible_cost, id: :trip_total_possible_cost %>
-  </div>
-
-  <div class="field">
-    <%= form.label :total_confirmed_cost %>
-    <%= form.number_field :total_confirmed_cost, id: :trip_total_confirmed_cost %>
-  </div>
-
-  <div class="field">
-    <%= form.label :locked %>
-    <%= form.check_box :locked, id: :trip_locked %>
   </div>
 
   <div class="actions">
