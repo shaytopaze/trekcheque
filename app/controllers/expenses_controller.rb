@@ -31,11 +31,12 @@ class ExpensesController < ApplicationController
 
     @expense = Expense.new(expense_params)
     @expense.trip_id = params[:trip_id]
-    @trip = Trip.where(id: @expense.trip_id)
+    # @trip = Trip.where(id: @expense.trip_id)
+    @trip = Trip.find(params[:trip_id].to_i)
 
     respond_to do |format|
       if @expense.save
-        format.html { redirect_to trip_path, notice: 'Expense was successfully created.' }
+        format.html { redirect_to @trip, notice: 'Expense was successfully created.' }
         format.json { render :show, status: :created, location: trip_path }
       else
         format.html { redirect_to @trip, notice: 'Expense not successfully created.' }
