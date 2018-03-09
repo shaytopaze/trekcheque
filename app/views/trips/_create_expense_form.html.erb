@@ -15,11 +15,23 @@
   <div class="field">
     <%= hidden_field_tag "trip_id", @trip.id %>
     <%= form.label :user_id %>
-    <% %>
     <%= form.select(:user_id) do %>
       <%= options_from_collection_for_select(@trip_attendees, :id, :name) %>
     <% end %>
   </div>
+
+  <div class="field">
+  <%= form.fields_for :payee do |payee_form| %>
+    <%= payee_form.label "Split evenly between:" %>
+    <%= payee_form.collection_check_boxes :user_id, @trip_attendees, :id, :name do |b| %>
+      <div class="collection-check-box">
+        <%= hidden_field_tag "expense_id", @expense.id %>
+        <%= b.label %>
+        <%= b.check_box %>
+      </div>
+     <% end %>
+  <% end %>
+ </div>
 
   <div class="field">
     <%= form.label :amount %>
@@ -32,6 +44,6 @@
   </div>
 
   <div class="actions">
-    <%= form.submit "Add expense"%>
+    <%= form.submit "Add expense" 'data-toggle' => "modal", 'data-target' => '#modal-window' %>
   </div>
 <% end %>
