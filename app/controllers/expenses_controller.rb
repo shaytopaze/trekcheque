@@ -25,13 +25,14 @@ class ExpensesController < ApplicationController
   # POST /expenses.json
   def create
     @expense = Expense.new(expense_params)
+    @trip = Trip.where(user_id)
 
     respond_to do |format|
       if @expense.save
         format.html { redirect_to @trip, notice: 'Expense was successfully created.' }
         format.json { render :show, status: :created, location: @expense }
       else
-        format.html { render :back }
+        format.html { redirect_to @trip }
         format.json { render json: @expense.errors, status: :unprocessable_entity }
       end
     end
