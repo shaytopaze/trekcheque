@@ -37,7 +37,7 @@ class ExpensesController < ApplicationController
     respond_to do |format|
       if @expense.save
         format.html { redirect_to @trip, notice: 'Expense was successfully created.' }
-        format.json { render :show, status: :created, location: trip_path }
+        format.json { render :show, status: :created, location: trip_expenses_path }
       else
         format.html { redirect_to @trip, notice: 'Expense not successfully created.' }
         format.json { render json: @expense.errors, status: :unprocessable_entity }
@@ -62,9 +62,10 @@ class ExpensesController < ApplicationController
   # DELETE /expenses/1
   # DELETE /expenses/1.json
   def destroy
+    @trip = Trip.find(params[:trip_id].to_i)
     @expense.destroy
     respond_to do |format|
-      format.html { redirect_to expenses_url, notice: 'Expense was successfully destroyed.' }
+      format.html { redirect_to @trip, notice: 'Expense was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

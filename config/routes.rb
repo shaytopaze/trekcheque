@@ -1,13 +1,14 @@
 Rails.application.routes.draw do
 
-  resources :expenses, except: [:index, :new] do  
-    resources :payees, only: [:create, :destroy]
-  end
+
 
   # if using update probably use patch? only changes the one field
   # have only got create and destroy attendees within the trip 
   resources :trips, except: [:index] do
     resources :attendees, only: [:create, :destroy]
+      resources :expenses, except: [:index, :new] do  
+        resources :payees, only: [:create, :destroy]
+    end
   end
 
   # resources :sessions, except: [:index, :edit, :update]
