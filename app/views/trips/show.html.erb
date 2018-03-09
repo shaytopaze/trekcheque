@@ -1,5 +1,7 @@
 <p id="notice"><%= notice %></p>
 
+<%= render :partial => './attendees/attendees_table/', trip_attendees: @trip_attendees , attendees_for_id: @attendees_for_id%>
+
 <p>
   <strong>Name:</strong>
   <%= @trip.name %>
@@ -49,5 +51,9 @@
 <%= link_to 'Back', trips_path %>
 
 
-<%= render :partial => './expenses/form', expense: @expense %>
+<%= render :partial => './expenses/expense_list', expenses: @expenses, trip: @trip %>
+
+
+<%= render :partial => 'create_expense_form', expense: @expense, trip: @trip %>
+
 

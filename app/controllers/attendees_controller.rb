@@ -1,6 +1,6 @@
 class AttendeesController < ApplicationController
   before_action :set_attendee, only: [:show, :edit, :update, :destroy]
-
+  before_action :set_trip, only: [:create, :destroy]
   # GET /attendees
   # GET /attendees.json
   def index
@@ -56,12 +56,15 @@ class AttendeesController < ApplicationController
   def destroy
     @attendee.destroy
     respond_to do |format|
-      format.html { redirect_to attendees_url, notice: 'Attendee was successfully destroyed.' }
+      format.html { redirect_to @trip, notice: 'Attendee was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
+    def set_trip
+      @trip = Trip.find(params[:trip_id])
+    end
     # Use callbacks to share common setup or constraints between actions.
     def set_attendee
       @attendee = Attendee.find(params[:id])

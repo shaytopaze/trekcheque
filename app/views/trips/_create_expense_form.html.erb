@@ -12,6 +12,7 @@
   <% end %>
 
   <div class="field">
+    <%= hidden_field_tag "trip_id", @trip.id %>
     <%= form.label :user_id %>
     <% %>
     <%= form.select(:user_id) do %>
