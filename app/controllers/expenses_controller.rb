@@ -15,6 +15,7 @@ class ExpensesController < ApplicationController
   # GET /expenses/new
   def new
     @expense = Expense.new
+
   end
 
   # GET /expenses/1/edit
@@ -24,14 +25,21 @@ class ExpensesController < ApplicationController
   # POST /expenses
   # POST /expenses.json
   def create
+    params.each do |key, value|
+      # puts "Param #{key}: #{value}"
+    end
+
     @expense = Expense.new(expense_params)
+    @expense.trip_id = params[:trip_id]
+    # @trip = Trip.where(id: @expense.trip_id)
+    @trip = Trip.find(params[:trip_id].to_i)
 
     respond_to do |format|
       if @expense.save
         format.html { redirect_to @trip, notice: 'Expense was successfully created.' }
-        format.json { render :show, status: :created, location: @expense }
+        format.json { render :show, status: :created, location: trip_path }
       else
-        format.html { render :back }
+        format.html { redirect_to @trip, notice: 'Expense not successfully created.' }
         format.json { render json: @expense.errors, status: :unprocessable_entity }
       end
     end

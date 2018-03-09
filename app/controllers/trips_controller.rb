@@ -17,8 +17,6 @@ class TripsController < ApplicationController
     @users = User.all
 
     @attendee_for_id = Attendee.where(user_id: @users.ids)
-    puts "HEY"
-    puts @attendee_for_id.ids
 
 
   end
