@@ -51,9 +51,9 @@
 <%= link_to 'Back', trips_path %>
 
 
-<%= render :partial => './expenses/expense_list', expenses: @expenses %>
+<%= render :partial => './expenses/expense_list', expenses: @expenses, trip: @trip %>
 
 
-<%= render :partial => './expenses/form', expense: @expense %>
+<%= render :partial => 'create_expense_form', expense: @expense, trip: @trip %>
 
 
