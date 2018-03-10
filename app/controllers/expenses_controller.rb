@@ -39,33 +39,19 @@ class ExpensesController < ApplicationController
       # TODO: this is kinda cavalier about the possibility of errors.  ha ha!
     end
 
-
-    puts
-    puts
-    puts
     @amount = @expense.amount
-    # puts @amount
     @payee_size = @willing_payees.size
-    # puts @payee_size
-
-    @payee_owes = (@amount / @payee_size)
-    puts @payee_owes
-
-    puts @willing_payees    
+    @payee_owes = (@amount / @payee_size)   
     
     @willing_payees.each do |payee|
       @user_id = payee
       @payee_user = User.where(id: @user_id)
       @payee_user_ids = @payee_user.ids
       @attendee_user_for_finding_expense = Attendee.where(user_id: @payee_user_ids, trip_id: params[:trip_id].to_i)
-      puts "HEY IM HERE"
-      p @attendee_user_for_finding_expense
       @attendee_user_for_finding_expense.each do |attendee_for_balance|
         attendee_for_balance.balance += @payee_owes
         @attendee_balance = attendee_for_balance.balance
         attendee_for_balance.update_attribute(:balance, @attendee_balance)
-        puts @attendee_balance
-        # puts attendee_for_balance
       end
     end
 
