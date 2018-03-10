@@ -58,11 +58,14 @@ class ExpensesController < ApplicationController
       @payee_user = User.where(id: @user_id)
       @payee_user_ids = @payee_user.ids
       @attendee_user_for_finding_expense = Attendee.where(user_id: @payee_user_ids, trip_id: params[:trip_id].to_i)
+      puts "HEY IM HERE"
       p @attendee_user_for_finding_expense
       @attendee_user_for_finding_expense.each do |attendee_for_balance|
-        @attendee_balance =  attendee_for_balance.balance.to_i
-        @attendee_balance += @payee_owes
-        p @attendee_balance.fractional
+        attendee_for_balance.balance += @payee_owes
+        @attendee_balance = attendee_for_balance.balance
+        attendee_for_balance.update_attribute(:balance, @attendee_balance)
+        puts @attendee_balance
+        # puts attendee_for_balance
       end
     end
 
