@@ -12,6 +12,21 @@ class TripsController < ApplicationController
   def show
     @expense = Expense.new
     @attendees = Attendee.where(trip_id: params[:id])
+
+
+    @attendees_ids = []
+    @attendees.each do |a|
+      @attendees_ids.push(a.user_id)
+    end
+    puts
+    puts
+    puts
+    puts
+    puts
+    puts
+    puts
+    p @attendees_ids
+
     @trip_attendees = @attendees.collect { |a| a.user }
     @expenses = Expense.where(trip_id: params[:id])
     @users = User.all
