@@ -5,8 +5,7 @@
 <table>
   <thead>
     <tr>
-      <th>Trip</th>
-      <th>User</th>
+      <th>Paid by:</th>
       <th>Amount</th>
       <th>Description</th>
       <th colspan="3"></th>
@@ -16,7 +15,6 @@
   <tbody>
     <% @expenses.each do |expense| %>
       <tr>
-        <td><%= expense.trip.name %></td>
         <td><%= expense.user.name %></td>
         <td><%= expense.amount %></td>
         <td><%= expense.description %></td>
