@@ -15,7 +15,6 @@ class ExpensesController < ApplicationController
   # GET /expenses/new
   def new
     @expense = Expense.new
-
   end
 
   # GET /expenses/1/edit
@@ -34,6 +33,12 @@ class ExpensesController < ApplicationController
     # @trip = Trip.where(id: @expense.trip_id)
     @trip = Trip.find(params[:trip_id].to_i)
 
+    willing_payees = params[:expense][:payee][:user_id].select { |uid| uid.length > 0 }
+    willing_payees.each do |pid|
+      @expense.payees.new(user_id: pid)
+      # TODO: this is kinda cavalier about the possibility of errors.  ha ha!
+    end
+    
     respond_to do |format|
       if @expense.save
         format.html { redirect_to @trip, notice: 'Expense was successfully created.' }
@@ -78,6 +83,6 @@ class ExpensesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def expense_params
-      params.require(:expense).permit(:trip_id, :user_id, :amount, :description)
+      params.require(:expense).permit(:trip_id, :user_id, :amount, :description, payees_attributes: [:id, :user_id, :expense_id])
     end
 end

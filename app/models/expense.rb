@@ -6,6 +6,8 @@ class Expense < ApplicationRecord
   belongs_to :trip
   belongs_to :user
 
+  accepts_nested_attributes_for :payees
+
   validates :amount, presence: true
   validates :description, presence: true
 

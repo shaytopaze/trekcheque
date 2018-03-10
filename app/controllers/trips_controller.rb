@@ -15,9 +15,8 @@ class TripsController < ApplicationController
     @trip_attendees = @attendees.collect { |a| a.user }
     @expenses = Expense.where(trip_id: params[:id])
     @users = User.all
-
     @attendee_for_id = Attendee.where(user_id: @users.ids)
-
+    # @payee = Payee.new
 
   end
 
