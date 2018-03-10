@@ -19,12 +19,13 @@
           <td><button><%= link_to "I can't go :(", trip_attendee_url(@trip, attendee), method: :delete, data: { confirm: 'Are you sure?' } %></button></td>
         <% end %>
       </tr>
-    <% end %>
   </tbody>
+  <% end %>
 </table>
-
-
-<%= button_to "Confirm", action: "create" %>
+    
+<% if @attendees_ids.exclude? current_user.id %>
+  <tr><%= button_to "Join Trip!", trip_attendees_path(@trip, current_user), method: :post %></tr>
+<% end %>
 
 <br>
 
