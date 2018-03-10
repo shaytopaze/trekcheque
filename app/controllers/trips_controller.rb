@@ -18,6 +18,32 @@ class TripsController < ApplicationController
     @attendee_for_id = Attendee.where(user_id: @users.ids)
     # @payee = Payee.new
 
+    @expenses_ids = @expenses.ids
+
+    @payees = Payee.where(expense_id: @expenses_ids)
+    # puts @payees
+
+    @payees.each do |payee|
+      @user_id = payee.user_id
+      @payee_user = User.where(id: @user_id)
+      @payee_user_ids = @payee_user.ids
+      @attendee_user_for_finding_expense = Attendee.where(user_id: @payee_user_ids, trip_id: params[:id])
+      @attendee_user_for_finding_expense.each do |attendee_for_balance|
+        # p @attendee_balance =  attendee_for_balance.balance.to_i
+      end
+    end
+
+    @expenses.each do |expense|
+      @amount = expense.amount
+      @expense_payees = @payees.where(expense_id: expense.id)
+      @contributors_size = @expense_payees.size
+      @payee_owes = (@amount / @contributors_size)
+      # @attendee_balance += @payee_owes
+      # p @attendee_user_for_finding_expense
+    end
+
+    # @attendee_balance += @payee_owes
+
   end
 
   # GET /trips/new
