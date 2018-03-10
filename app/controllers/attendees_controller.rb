@@ -1,7 +1,7 @@
 class AttendeesController < ApplicationController
   before_action :set_attendee, only: [:show, :edit, :update, :destroy]
   before_action :set_trip, only: [:create, :destroy]
-  # before_action :set_user, only: [:create, :destroy]
+ 
   # GET /attendees
   # GET /attendees.json
   def index
@@ -42,16 +42,6 @@ class AttendeesController < ApplicationController
     else
       render json: @attendee.errors, status: :unprocessable_entity
     end
-
-    # respond_to do |format|
-    #   if @attendee.save
-    #     format.html { redirect_to @attendee, notice: 'Attendee was successfully created.' }
-    #     format.json { render :show, status: :created, location: @attendee }
-    #   else
-    #     format.html { render :new }
-    #     format.json { render json: @attendee.errors, status: :unprocessable_entity }
-    #   end
-    # end
   end
 
   # PATCH/PUT /attendees/1
