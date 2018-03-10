@@ -15,7 +15,6 @@ class ExpensesController < ApplicationController
   # GET /expenses/new
   def new
     @expense = Expense.new
-
   end
 
   # GET /expenses/1/edit
@@ -34,10 +33,43 @@ class ExpensesController < ApplicationController
     # @trip = Trip.where(id: @expense.trip_id)
     @trip = Trip.find(params[:trip_id].to_i)
 
+    @willing_payees = params[:expense][:payee][:user_id].select { |uid| uid.length > 0 }
+    @willing_payees.each do |pid|
+      @expense.payees.new(user_id: pid)
+      # TODO: this is kinda cavalier about the possibility of errors.  ha ha!
+    end
+
+
+    puts
+    puts
+    puts
+    @amount = @expense.amount
+    # puts @amount
+    @payee_size = @willing_payees.size
+    # puts @payee_size
+
+    @payee_owes = (@amount / @payee_size)
+    puts @payee_owes
+
+    puts @willing_payees    
+    
+    @willing_payees.each do |payee|
+      @user_id = payee
+      @payee_user = User.where(id: @user_id)
+      @payee_user_ids = @payee_user.ids
+      @attendee_user_for_finding_expense = Attendee.where(user_id: @payee_user_ids, trip_id: params[:trip_id].to_i)
+      p @attendee_user_for_finding_expense
+      @attendee_user_for_finding_expense.each do |attendee_for_balance|
+        @attendee_balance =  attendee_for_balance.balance.to_i
+        @attendee_balance += @payee_owes
+        p @attendee_balance.fractional
+      end
+    end
+
     respond_to do |format|
       if @expense.save
         format.html { redirect_to @trip, notice: 'Expense was successfully created.' }
-        format.json { render :show, status: :created, location: trip_path }
+        format.json { render :show, status: :created, location: trip_expenses_path }
       else
         format.html { redirect_to @trip, notice: 'Expense not successfully created.' }
         format.json { render json: @expense.errors, status: :unprocessable_entity }
@@ -62,6 +94,7 @@ class ExpensesController < ApplicationController
   # DELETE /expenses/1
   # DELETE /expenses/1.json
   def destroy
+    @trip = Trip.find(params[:trip_id].to_i)
     @expense.destroy
     respond_to do |format|
       format.html { redirect_to @trip, notice: 'Expense was successfully destroyed.' }
@@ -77,6 +110,6 @@ class ExpensesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def expense_params
-      params.require(:expense).permit(:trip_id, :user_id, :amount, :description)
+      params.require(:expense).permit(:trip_id, :user_id, :amount, :description, payees_attributes: [:id, :user_id, :expense_id])
     end
 end
