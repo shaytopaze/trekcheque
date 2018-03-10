@@ -15,7 +15,9 @@
       <tr>
         <td><i><%= attendee.user.name %></i></td>
         <td>Owes: <%= attendee.balance %></td>
-        <td><button><%= link_to "I can't go :(", trip_attendee_url(@trip, attendee), method: :delete, data: { confirm: 'Are you sure?' } %></button></td>
+        <% if current_user.id == attendee.user_id %>
+          <td><button><%= link_to "I can't go :(", trip_attendee_url(@trip, attendee), method: :delete, data: { confirm: 'Are you sure?' } %></button></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

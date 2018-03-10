@@ -17,7 +17,7 @@ class TripsController < ApplicationController
     @users = User.all
     @attendee_for_id = Attendee.where(user_id: @users.ids)
     # @payee = Payee.new
-
+    # @current_user ||= User.find(session[:user_id]) if session[:user_id]
     @expenses_ids = @expenses.ids
 
     @payees = Payee.where(expense_id: @expenses_ids)
