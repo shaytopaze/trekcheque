@@ -10,14 +10,6 @@ class AttendeesController < ApplicationController
     @attendees.each do |a|
       @attendees_ids.push(a.user_id)
     end
-    puts
-    puts
-    puts
-    puts
-    puts
-    puts
-    puts
-    puts @attendees_ids
   end
 
   # GET /attendees/1
@@ -37,7 +29,6 @@ class AttendeesController < ApplicationController
   # POST /attendees
   # POST /attendees.json
   def create
-    
     params.each do |key, value|
     end
 
@@ -95,10 +86,6 @@ class AttendeesController < ApplicationController
     def set_attendee
       @attendee = Attendee.find(params[:id])
     end
-
-    # def set_user
-    #   user_id = current_user.id
-    # end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def attendee_params

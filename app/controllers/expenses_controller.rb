@@ -1,5 +1,6 @@
 class ExpensesController < ApplicationController
   before_action :set_expense, only: [:show, :edit, :update, :destroy]
+  before_action :update_balance, only: [:destroy]
 
   # GET /expenses
   # GET /expenses.json
@@ -30,7 +31,6 @@ class ExpensesController < ApplicationController
 
     @expense = Expense.new(expense_params)
     @expense.trip_id = params[:trip_id]
-    # @trip = Trip.where(id: @expense.trip_id)
     @trip = Trip.find(params[:trip_id].to_i)
 
     @willing_payees = params[:expense][:payee][:user_id].select { |uid| uid.length > 0 }
@@ -39,33 +39,21 @@ class ExpensesController < ApplicationController
       # TODO: this is kinda cavalier about the possibility of errors.  ha ha!
     end
 
-
-    puts
-    puts
-    puts
     @amount = @expense.amount
-    # puts @amount
+    
     @payee_size = @willing_payees.size
-    # puts @payee_size
 
     @payee_owes = (@amount / @payee_size)
-    puts @payee_owes
-
-    puts @willing_payees    
     
     @willing_payees.each do |payee|
       @user_id = payee
       @payee_user = User.where(id: @user_id)
       @payee_user_ids = @payee_user.ids
       @attendee_user_for_finding_expense = Attendee.where(user_id: @payee_user_ids, trip_id: params[:trip_id].to_i)
-      puts "HEY IM HERE"
-      p @attendee_user_for_finding_expense
       @attendee_user_for_finding_expense.each do |attendee_for_balance|
         attendee_for_balance.balance += @payee_owes
         @attendee_balance = attendee_for_balance.balance
         attendee_for_balance.update_attribute(:balance, @attendee_balance)
-        puts @attendee_balance
-        # puts attendee_for_balance
       end
     end
 
@@ -109,6 +97,38 @@ class ExpensesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_expense
       @expense = Expense.find(params[:id])
+    end
+
+    def update_balance
+      @willing_payees = @expense.payees.all
+
+      # TODO: this is kinda cavalier about the possibility of errors.  ha ha!
+      @amount = @expense.amount
+    
+      @payee_size = @willing_payees.size
+
+      @payee_owes = (@amount / @payee_size)
+    
+      @willing_payees.each do |payee|
+        @user_id = payee.user_id
+        puts
+        puts
+        puts
+        puts
+        puts
+        puts @user_id
+        @payee_user = User.where(id: @user_id)
+
+        @payee_user_ids = @payee_user.ids
+        @attendee_user_for_finding_expense = Attendee.where(user_id: @payee_user_ids, trip_id: params[:trip_id].to_i)
+        @attendee_user_for_finding_expense.each do |attendee_for_balance|
+          puts attendee_for_balance.balance
+          attendee_for_balance.balance -= @payee_owes
+          @attendee_balance = attendee_for_balance.balance
+          puts @attendee_balance
+          attendee_for_balance.update_attribute(:balance, @attendee_balance)
+        end
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
