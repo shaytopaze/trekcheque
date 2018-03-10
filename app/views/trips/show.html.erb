@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<%= render :partial => './attendees/attendees_table/', trip_attendees: @trip_attendees , attendees_for_id: @attendees_for_id%>
+<%= render :partial => './attendees/attendees_table/', trip_attendees: @trip_attendees , attendees_for_id: @attendees_for_id, current_user: :current_user %>
 
 <p>
   <strong>Name:</strong>
