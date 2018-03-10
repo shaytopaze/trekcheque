@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<%= render :partial => './attendees/attendees_table/', trip_attendees: @trip_attendees , attendees_for_id: @attendees_for_id%>
+<%= render :partial => './attendees/attendees_table/', trip_attendees: @trip_attendees , attendees_for_id: @attendees_for_id, current_user: :current_user, attendees_ids: @attendees_ids %>
 
 <p>
   <strong>Name:</strong>
@@ -15,6 +15,11 @@
 <p>
   <strong>Price per night:</strong>
   <%= @trip.price_per_night %>
+</p>
+
+<p>
+  <strong>Trip length:</strong>
+  <%= @trip_length_night %>
 </p>
 
 <p>
@@ -33,12 +38,12 @@
 </p>
 
 <p>
-  <strong>Total possible cost:</strong>
+  <strong>Total possible cost for accomodation per person:</strong>
   <%= @trip.total_possible_cost %>
 </p>
 
 <p>
-  <strong>Total confirmed cost:</strong>
+  <strong>Total confirmed cost for accomodation per person:</strong>
   <%= @trip.total_confirmed_cost %>
 </p>
 
@@ -54,6 +59,6 @@
 <%= render :partial => './expenses/expense_list', expenses: @expenses, trip: @trip %>
 
 
-<%= render :partial => 'create_expense_form', expense: @expense, trip: @trip %>
+<%= render :partial => 'create_expense_form', expense: @expense, trip: @trip, payee: @payee %>
 
 
