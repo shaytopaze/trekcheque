@@ -12,8 +12,15 @@ class TripsController < ApplicationController
   def show
     @expense = Expense.new
     @attendees = Attendee.where(trip_id: params[:id])
-
-
+    @trip_length_night = (@trip.end_date - @trip.start_date).to_i
+    @number_of_possible_attendees = @trip.number_of_possible_attendees
+    @price_per_night = @trip.price_per_night
+    @total_cost = @price_per_night.to_i * @trip_length_night.to_i
+    @total_possible_accomodation_cost_per_person = @total_cost.to_i / @number_of_possible_attendees.to_i
+    @attendees_amount = @attendees.size
+    
+    @total_confirmed_accomodation_cost_per_person = @total_cost.to_i / @attendees_amount.to_i
+    
     @attendees_ids = []
     @attendees.each do |a|
       @attendees_ids.push(a.user_id)
