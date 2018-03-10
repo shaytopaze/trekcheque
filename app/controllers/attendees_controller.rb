@@ -1,7 +1,7 @@
 class AttendeesController < ApplicationController
   before_action :set_attendee, only: [:show, :edit, :update, :destroy]
   before_action :set_trip, only: [:create, :destroy]
-  # before_action :set_user, only: [:create, :destroy]
+ 
   # GET /attendees
   # GET /attendees.json
   def index
@@ -10,14 +10,6 @@ class AttendeesController < ApplicationController
     @attendees.each do |a|
       @attendees_ids.push(a.user_id)
     end
-    puts
-    puts
-    puts
-    puts
-    puts
-    puts
-    puts
-    puts @attendees_ids
   end
 
   # GET /attendees/1
@@ -51,16 +43,6 @@ class AttendeesController < ApplicationController
     else
       render json: @attendee.errors, status: :unprocessable_entity
     end
-
-    # respond_to do |format|
-    #   if @attendee.save
-    #     format.html { redirect_to @attendee, notice: 'Attendee was successfully created.' }
-    #     format.json { render :show, status: :created, location: @attendee }
-    #   else
-    #     format.html { render :new }
-    #     format.json { render json: @attendee.errors, status: :unprocessable_entity }
-    #   end
-    # end
   end
 
   # PATCH/PUT /attendees/1
@@ -95,10 +77,6 @@ class AttendeesController < ApplicationController
     def set_attendee
       @attendee = Attendee.find(params[:id])
     end
-
-    # def set_user
-    #   user_id = current_user.id
-    # end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def attendee_params

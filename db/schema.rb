@@ -49,8 +49,8 @@ ActiveRecord::Schema.define(version: 20180307220424) do
     t.integer "number_of_possible_attendees"
     t.date "start_date"
     t.date "end_date"
-    t.integer "total_possible_cost"
-    t.integer "total_confirmed_cost"
+    t.integer "total_possible_cost_cents"
+    t.integer "total_confirmed_cost_cents"
     t.boolean "locked"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
