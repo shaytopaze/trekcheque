@@ -56,14 +56,14 @@ user1 = User.create!([ {
   }])
 
 
-attendee1 = Attendee.create!([ { user_id: 1, trip_id: 1, balance_cents: 5 }])
-attendee2 = Attendee.create!([ { user_id: 1, trip_id: 2, balance_cents: 4 }])
-attendee3 = Attendee.create!([ { user_id: 1, trip_id: 3, balance_cents: 7 }])
-attendee4 = Attendee.create!([ { user_id: 2, trip_id: 1, balance_cents: 3 }])
-attendee5 = Attendee.create!([ { user_id: 2, trip_id: 2, balance_cents: 6 }])
-attendee5 = Attendee.create!([ { user_id: 3, trip_id: 1, balance_cents: 89 }])
-attendee5 = Attendee.create!([ { user_id: 3, trip_id: 3, balance_cents: 4 }])
-attendee5 = Attendee.create!([ { user_id: 3, trip_id: 2, balance_cents: 6 }])
+attendee1 = Attendee.create!([ { user_id: 1, trip_id: 1, balance_cents: 0 }])
+attendee2 = Attendee.create!([ { user_id: 1, trip_id: 2, balance_cents: 0 }])
+attendee3 = Attendee.create!([ { user_id: 1, trip_id: 3, balance_cents: 0 }])
+attendee4 = Attendee.create!([ { user_id: 2, trip_id: 1, balance_cents: 0 }])
+attendee5 = Attendee.create!([ { user_id: 2, trip_id: 2, balance_cents: 0 }])
+attendee5 = Attendee.create!([ { user_id: 3, trip_id: 1, balance_cents: 0 }])
+attendee5 = Attendee.create!([ { user_id: 3, trip_id: 3, balance_cents: 0 }])
+attendee5 = Attendee.create!([ { user_id: 3, trip_id: 2, balance_cents: 0 }])
 
 expense1 = Expense.create!([ {
   trip_id: '1',
