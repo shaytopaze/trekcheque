@@ -15,6 +15,7 @@ ActiveRecord::Schema.define(version: 20180307220424) do
   create_table "attendees", force: :cascade do |t|
     t.integer "trip_id"
     t.integer "user_id"
+    t.integer "balance_cents"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["trip_id"], name: "index_attendees_on_trip_id"
