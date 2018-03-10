@@ -13,9 +13,9 @@
   <tbody>
     <% @attendees.each do |attendee| %>
       <tr>
-        <td><%= attendee.user.name %></td>
-        <td><%= attendee.balance %></td>
-        <td><%= link_to "I can't go 😭", trip_attendee_url(@trip, attendee), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><i><%= attendee.user.name %></i></td>
+        <td>Owes: <%= attendee.balance %></td>
+        <td><button><%= link_to "I can't go :(", trip_attendee_url(@trip, attendee), method: :delete, data: { confirm: 'Are you sure?' } %></button></td>
       </tr>
     <% end %>
   </tbody>
