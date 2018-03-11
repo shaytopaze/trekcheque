@@ -13,7 +13,7 @@ trip1 = Trip.create!([{
   number_of_possible_attendees: 5,
   total_possible_cost_cents: 0,
   total_confirmed_cost_cents: 0,
-  start_date: '2018/11/28',
+  start_date: '2018/11/25',
   end_date: '2018/12/04',
   locked: false
   }])
@@ -24,7 +24,7 @@ trip2 = Trip.create!([{
   number_of_possible_attendees: 3,
   total_possible_cost_cents: 0,
   total_confirmed_cost_cents: 0,
-  start_date: '2018/11/28',
+  start_date: '2018/11/26',
   end_date: '2018/12/04',
   locked: false
   }])
@@ -35,7 +35,7 @@ trip3 = Trip.create!([{
   number_of_possible_attendees: 7,
   total_possible_cost_cents: 0,
   total_confirmed_cost_cents: 0,
-  start_date: '2018/11/28',
+  start_date: '2018/11/27',
   end_date: '2018/12/04',
   locked: false
   }])

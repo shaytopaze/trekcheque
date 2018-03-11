@@ -19,12 +19,20 @@ class TripsController < ApplicationController
     @total_cost = @price_per_night.to_i * @trip_length_night.to_i
     @total_possible_accomodation_cost_per_person = @total_cost.to_i / @number_of_possible_attendees.to_i
     @attendees_amount = @attendees.size
-    @total_confirmed_accomodation_cost_per_person = @total_cost.to_i / @attendees_amount.to_i
-    @trips.each do |trip|
-    trip.update_attribute(:total_possible_cost, @total_possible_accomodation_cost_per_person)
-    trip.update_attribute(:total_confirmed_cost, @total_confirmed_accomodation_cost_per_person)
+    if @attendees_amount.to_i > 0
+      @total_confirmed_accomodation_cost_per_person = @total_cost.to_i / @attendees_amount.to_i
+      @trips.each do |trip|
+        trip.update_attribute(:total_possible_cost, @total_possible_accomodation_cost_per_person)
+        trip.update_attribute(:total_confirmed_cost, @total_confirmed_accomodation_cost_per_person)
+      end
     end
-    
+    if @attendees_amount.to_i == 0
+      @trips.each do |trip|
+        trip.update_attribute(:total_possible_cost, @total_possible_accomodation_cost_per_person)
+        trip.update_attribute(:total_confirmed_cost, 0)
+      end
+    end
+
     @attendees_ids = []
     
     @attendees.each do |a|
@@ -115,4 +123,4 @@ class TripsController < ApplicationController
     def trip_params
       params.require(:trip).permit(:name, :accomodation_url, :price_per_night, :number_of_possible_attendees, :start_date, :end_date, :total_possible_cost, :total_confirmed_cost, :locked)
     end
-end
+end 
