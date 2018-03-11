@@ -1,4 +1,3 @@
-
 <%= form_for [@trip, @expense], local: true do |form| %>
   <% if @expense.errors.any? %>
     <div id="error_explanation">
@@ -13,52 +12,47 @@
   <% end %>
 
   <div class="field" id="payer">
-    <%= hidden_field_tag "trip_id", @trip.id %>
-    <%= form.label "Paid by:" %>
+  <%= hidden_field_tag "trip_id", @trip.id %>
+  <%= hidden_field_tag "split_type", "split_by_amount" %>
+
+  <%= form.label "Paid by:" %>
     <%= form.select(:user_id) do %>
       <%= options_from_collection_for_select(@trip_attendees, :id, :name) %>
     <% end %>
   </div>
 
-  <div class="field">
-  <%= form.fields_for :payee do |payee_form| %>
-    <%= payee_form.label "Split evenly between:" %>
+  <div class="field" id="split_between">
+    <%= form.fields_for :payee do |payee_form| %>
+    <%= payee_form.label "Split between:" %>
     <%= payee_form.collection_check_boxes :user_id, @trip_attendees, :id, :name do |b| %>
       <div class="collection-check-box">
         <%= hidden_field_tag "expense_id", @expense.id %>
         <%= b.label %>
         <%= b.check_box %>
       </div>
+      <%= b.label "Amount" %>
+      <%= b.number_field :amount, id: :expense_amount %>
      <% end %>
-  <% end %>
- </div>
-
-  <div class="field">
-    <%= form.label :amount %>
-    <%= form.number_field :amount, id: :expense_amount %>
+    <% end %>
   </div>
+
+  <div class="field" id="split_amount">
+  <% @trip_attendees.each do |f| %>
+  <%= form.fields_for f do |amount_form| %>
+    <%= form.label "Amount:" %>
+    <%= form.number_field :amount, id: :expense_amount %>
+    <% end %>
+    <% end %>
+    </div>
 
   <div class="field">
     <%= form.label :description %>
     <%= form.text_area :description, id: :expense_description %>
   </div>
 
+
   <div class="actions">
     <button id="submit_expense">Add expense.</button>
     <%= form.submit "Add expense" 'data-toggle' => "modal", 'data-target' => '#modal-window' %>
   </div>
 <% end %>
-
-
-<script>
-  $(function() {
-    $("#submit_expense").click(function(e){
-      e.preventDefault();
-      submit_expense();
-    })
-  })
-  function submit_expense() {
-    var payer = $("#payer > select").val();
-    console.log(payer);
-  }
-</script>
