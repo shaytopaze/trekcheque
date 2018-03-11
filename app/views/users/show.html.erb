@@ -10,10 +10,13 @@
   <%= @user.email %>
 </p>
 
-<p>
-  <strong>Password digest:</strong>
-  <%= @user.password_digest %>
-</p>
+
+  <% @trips_of_user.each do |trip| %>
+    <%= link_to trip_path(trip.id) do %>  
+    <%= trip.name %><br>
+    <%= trip.start_date %> to <%= trip.end_date %><br><br>
+    <% end %>
+  <% end %>
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>

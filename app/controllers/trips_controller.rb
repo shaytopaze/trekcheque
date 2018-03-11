@@ -10,26 +10,29 @@ class TripsController < ApplicationController
   # GET /trips/1
   # GET /trips/1.json
   def show
+    @trips = Trip.all
     @expense = Expense.new
     @attendees = Attendee.where(trip_id: params[:id])
+    @attendees_ids = []
+    
+    @attendees.each do |a|
+      @attendees_ids.push(a.user_id)
+    end
+
     @trip_attendees = @attendees.collect { |a| a.user }
     @expenses = Expense.where(trip_id: params[:id])
     @users = User.all
     @attendee_for_id = Attendee.where(user_id: @users.ids)
-    # @payee = Payee.new
-
     @expenses_ids = @expenses.ids
 
     @payees = Payee.where(expense_id: @expenses_ids)
-    # puts @payees
-
+  
     @payees.each do |payee|
       @user_id = payee.user_id
       @payee_user = User.where(id: @user_id)
       @payee_user_ids = @payee_user.ids
       @attendee_user_for_finding_expense = Attendee.where(user_id: @payee_user_ids, trip_id: params[:id])
       @attendee_user_for_finding_expense.each do |attendee_for_balance|
-        # p @attendee_balance =  attendee_for_balance.balance.to_i
       end
     end
 
@@ -38,12 +41,7 @@ class TripsController < ApplicationController
       @expense_payees = @payees.where(expense_id: expense.id)
       @contributors_size = @expense_payees.size
       @payee_owes = (@amount / @contributors_size)
-      # @attendee_balance += @payee_owes
-      # p @attendee_user_for_finding_expense
     end
-
-    # @attendee_balance += @payee_owes
-
   end
 
   # GET /trips/new
@@ -59,9 +57,18 @@ class TripsController < ApplicationController
   # POST /trips.json
   def create
     @trip = Trip.new(trip_params)
+    @attendees = Attendee.where(trip_id: params[:id])
+    @trip_length_night = (@trip.end_date - @trip.start_date).to_i
+    @number_of_possible_attendees = @trip.number_of_possible_attendees
+    @price_per_night = @trip.price_per_night
+    @total_cost = @price_per_night.to_i * @trip_length_night.to_i
+    @total_possible_accomodation_cost_per_person = @total_cost.to_i / @number_of_possible_attendees.to_i
+    @attendees_amount = @attendees.size
 
     respond_to do |format|
       if @trip.save
+        @trip.update_attribute(:total_possible_cost, @total_possible_accomodation_cost_per_person)
+        @trip.update_attribute(:total_confirmed_cost, @total_confirmed_accomodation_cost_per_person)
         format.html { redirect_to @trip, notice: 'Trip was successfully created.' }
         format.json { render :show, status: :created, location: @trip }
       else
@@ -105,4 +112,4 @@ class TripsController < ApplicationController
     def trip_params
       params.require(:trip).permit(:name, :accomodation_url, :price_per_night, :number_of_possible_attendees, :start_date, :end_date, :total_possible_cost, :total_confirmed_cost, :locked)
     end
-end
+end 

@@ -1,10 +1,15 @@
 class AttendeesController < ApplicationController
   before_action :set_attendee, only: [:show, :edit, :update, :destroy]
   before_action :set_trip, only: [:create, :destroy]
+ 
   # GET /attendees
   # GET /attendees.json
   def index
     @attendees = Attendee.all
+    @attendees_ids = []
+    @attendees.each do |a|
+      @attendees_ids.push(a.user_id)
+    end
   end
 
   # GET /attendees/1
@@ -24,16 +29,27 @@ class AttendeesController < ApplicationController
   # POST /attendees
   # POST /attendees.json
   def create
+    params.each do |key, value|
+    end
+    
+    @trips = Trip.all
     @attendee = Attendee.new(attendee_params)
+    @attendee.trip_id = params[:trip_id]
+    @attendee.user_id = current_user.id
+    @attendee.balance = 0
+    @attendees = Attendee.where(trip_id: params[:trip_id])
+    @trip_length_night = (@trip.end_date - @trip.start_date).to_i
+    @price_per_night = @trip.price_per_night
+    @total_cost = @price_per_night.to_i * @trip_length_night.to_i
 
-    respond_to do |format|
-      if @attendee.save
-        format.html { redirect_to @attendee, notice: 'Attendee was successfully created.' }
-        format.json { render :show, status: :created, location: @attendee }
-      else
-        format.html { render :new }
-        format.json { render json: @attendee.errors, status: :unprocessable_entity }
+    if @attendee.save
+      @total_confirmed_accomodation_cost_per_person = @total_cost.to_i / @attendees.size
+      @trips.each do |trip|
+        trip.update_attribute(:total_confirmed_cost, @total_confirmed_accomodation_cost_per_person)
       end
+      redirect_to @trip, notice: 'Attendee was successfully created.'
+    else
+      render json: @attendee.errors, status: :unprocessable_entity
     end
   end
 
@@ -41,11 +57,11 @@ class AttendeesController < ApplicationController
   # PATCH/PUT /attendees/1.json
   def update
     respond_to do |format|
-      if @attendee.update(attendee_params)
-        format.html { redirect_to @attendee, notice: 'Attendee was successfully updated.' }
-        format.json { render :show, status: :ok, location: @attendee }
+      if @attendee.save
+        format.html { redirect_to @trip, notice: 'Attendee was successfully created.' }
+        format.json { render :show, status: :created, location: trip_path }
       else
-        format.html { render :edit }
+        format.html { redirect_to @trip, notice: 'Attendee not successfully created.' }
         format.json { render json: @attendee.errors, status: :unprocessable_entity }
       end
     end
@@ -72,6 +88,6 @@ class AttendeesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def attendee_params
-      params.require(:attendee).permit(:trip_id, :user_id)
+      params.permit(:trip_id, :user_id, :balance)
     end
 end
