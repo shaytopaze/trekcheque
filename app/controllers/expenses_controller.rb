@@ -1,7 +1,7 @@
 class ExpensesController < ApplicationController
   before_action :set_expense, only: [:show, :edit, :update, :destroy]
   before_action :update_balance, only: [:destroy]
-  before_action :authorize
+  # before_action :authorize
   # GET /expenses
   # GET /expenses.json
   def index
