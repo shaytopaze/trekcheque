@@ -24,26 +24,23 @@
   <div class="field" id="split_between">
     <%= form.fields_for :payee do |payee_form| %>
     <%= payee_form.label "Split between:" %>
-    <%= payee_form.collection_check_boxes :user_id, @trip_attendees, :id, :name do |b| %>
-      <div class="collection-check-box">
-        <%= hidden_field_tag "expense_id", @expense.id %>
-        <%= b.label %>
-        <%= b.check_box %>
-      </div>
-      <%= b.label "Amount" %>
-      <%= b.number_field :amount, id: :expense_amount %>
-     <% end %>
+    <% @trip_attendees.each do |attendee| %>
+      <%= payee_form.fields_for :split, index: attendee.id do |b| %>
+        <div class="collection-check-box">
+          <%= hidden_field_tag "expense_id", @expense.id %>
+          <%= b.label attendee.id %>
+          <%= b.number_field :portion, id: attendee.id %>
+        </div>
+      <% end %>
+      <% end %>
     <% end %>
   </div>
 
-  <div class="field" id="split_amount">
-  <% @trip_attendees.each do |f| %>
-  <%= form.fields_for f do |amount_form| %>
-    <%= form.label "Amount:" %>
+
+  <div class="field">
+    <%= form.label :amount %>
     <%= form.number_field :amount, id: :expense_amount %>
-    <% end %>
-    <% end %>
-    </div>
+  </div>
 
   <div class="field">
     <%= form.label :description %>
