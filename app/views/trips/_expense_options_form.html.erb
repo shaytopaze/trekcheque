@@ -21,6 +21,11 @@
     <% end %>
   </div>
 
+  <div class="field">
+    <%= form.label "Total Amount" %>
+    <%= form.number_field :amount, id: :expense_amount %>
+  </div>
+
   <div class="field" id="split_between">
     <%= form.fields_for :payee do |payee_form| %>
     <%= payee_form.label "Split between:" %>
@@ -34,12 +39,6 @@
       <% end %>
       <% end %>
     <% end %>
-  </div>
-
-
-  <div class="field">
-    <%= form.label "Total Amount" %>
-    <%= form.number_field :amount, id: :expense_amount %>
   </div>
 
   <div class="field">
