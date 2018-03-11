@@ -48,17 +48,20 @@
 </p>
 
 <p>
-  <strong>Locked:</strong>
-  <%= @trip.locked %>
+  <strong>Started:</strong>
+  <%= @trip.started %>
 </p>
 
 <%= link_to 'Edit', edit_trip_path(@trip) %> |
 <%= link_to 'Back', trips_path %>
 
+<%= render :partial => 'trip_boolean_form', trip: @trip %>
 
-<%= render :partial => './expenses/expense_list', expenses: @expenses, trip: @trip %>
+<% if @trip.started %>
+  <%= render :partial => './expenses/expense_list', expenses: @expenses, trip: @trip %>
 
-
-<%= render :partial => 'create_expense_form', expense: @expense, trip: @trip, payee: @payee %>
-
+  <% if !@trip.ended %>
+    <%= render :partial => 'create_expense_form', expense: @expense, trip: @trip, payee: @payee %>
+  <% end %>
+<% end %>
 
