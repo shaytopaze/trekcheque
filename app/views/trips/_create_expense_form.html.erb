@@ -14,7 +14,7 @@
 
   <div class="field">
     <%= hidden_field_tag "trip_id", @trip.id %>
-    <%= form.label :user_id %>
+    <%= form.label "Paid by:" %>
     <%= form.select(:user_id) do %>
       <%= options_from_collection_for_select(@trip_attendees, :id, :name) %>
     <% end %>

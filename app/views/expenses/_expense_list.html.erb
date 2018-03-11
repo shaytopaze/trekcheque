@@ -14,6 +14,7 @@
 
   <tbody>
     <% @expenses.each do |expense| %>
+      <div class="expense-container">
       <tr>
         <td><%= expense.user.name %></td>
         <td><%= expense.amount %></td>
@@ -21,6 +22,7 @@
         <td><%= link_to 'Edit', edit_trip_expense_path(@trip, expense) %></td>
         <td><%= link_to 'Destroy', trip_expense_url(@trip, expense), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
+      </div>
     <% end %>
   </tbody>
 </table>

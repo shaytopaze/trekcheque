@@ -47,6 +47,11 @@ class ExpensesController < ApplicationController
         attendee_for_balance.update_attribute(:balance, @attendee_balance)
       end
     end
+    @attendee_payer_of_expense = Attendee.where(user_id: @expense.user_id, trip_id: params[:trip_id].to_i).first
+    @payer_balance = @attendee_payer_of_expense.balance - @expense.amount
+    @attendee_payer_of_expense.update_attribute(:balance, @payer_balance)
+    
+
     respond_to do |format|
       if @expense.save
         format.html { redirect_to @trip, notice: 'Expense was successfully created.' }
