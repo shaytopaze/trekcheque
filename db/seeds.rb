@@ -15,7 +15,8 @@ trip1 = Trip.create!([{
   total_confirmed_cost_cents: 0,
   start_date: '2018/11/25',
   end_date: '2018/12/04',
-  locked: false
+  started: false,
+  ended: false
   }])
 
 trip2 = Trip.create!([{
@@ -26,7 +27,8 @@ trip2 = Trip.create!([{
   total_confirmed_cost_cents: 0,
   start_date: '2018/11/26',
   end_date: '2018/12/04',
-  locked: false
+  started: false,
+  ended: false
   }])
 
 trip3 = Trip.create!([{
@@ -37,7 +39,8 @@ trip3 = Trip.create!([{
   total_confirmed_cost_cents: 0,
   start_date: '2018/11/27',
   end_date: '2018/12/04',
-  locked: false
+  started: false,
+  ended: false
   }])
 
 user1 = User.create!([ {
