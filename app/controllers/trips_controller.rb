@@ -14,6 +14,7 @@ class TripsController < ApplicationController
     @expense = Expense.new
     @attendees = Attendee.where(trip_id: params[:id])
     @attendees_ids = []
+    @trip_length_night = (@trip.end_date - @trip.start_date).to_i
     
     @attendees.each do |a|
       @attendees_ids.push(a.user_id)
