@@ -2,6 +2,10 @@
 
 <h1>Attendees</h1>
 
+<% if @attendees_ids.exclude? current_user.id %>
+  <tr><%= button_to "Join Trip!", trip_attendees_path(@trip, current_user), method: :post %></tr>
+<% end %>
+
 <table>
   <thead>
     <tr>
@@ -22,10 +26,7 @@
   </tbody>
   <% end %>
 </table>
-    
-<% if @attendees_ids.exclude? current_user.id %>
-  <tr><%= button_to "Join Trip!", trip_attendees_path(@trip, current_user), method: :post %></tr>
-<% end %>
+
 <br>
 
 
