@@ -1,5 +1,6 @@
 class TripsController < ApplicationController
   before_action :set_trip, only: [:show, :edit, :update, :destroy]
+  before_action :authorize
 
   # GET /trips
   # GET /trips.json
@@ -59,7 +60,6 @@ class TripsController < ApplicationController
   def create
     @trip = Trip.new(trip_params)
     @attendees = Attendee.where(trip_id: params[:id])
-    @trip_length_night = (@trip.end_date - @trip.start_date).to_i
     @number_of_possible_attendees = @trip.number_of_possible_attendees
     @price_per_night = @trip.price_per_night
     @total_cost = @price_per_night.to_i * @trip_length_night.to_i
