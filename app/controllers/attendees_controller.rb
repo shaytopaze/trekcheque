@@ -32,7 +32,7 @@ class AttendeesController < ApplicationController
   def create
     params.each do |key, value|
     end
-    
+   
     @trips = Trip.all
     @attendee = Attendee.new(attendee_params)
     @attendee.trip_id = params[:trip_id]
@@ -42,12 +42,10 @@ class AttendeesController < ApplicationController
     @trip_length_night = (@trip.end_date - @trip.start_date).to_i
     @price_per_night = @trip.price_per_night
     @total_cost = @price_per_night.to_i * @trip_length_night.to_i
-
+  
     if @attendee.save
       @total_confirmed_accomodation_cost_per_person = @total_cost.to_i / @attendees.size
-      @trips.each do |trip|
-        trip.update_attribute(:total_confirmed_cost, @total_confirmed_accomodation_cost_per_person)
-      end
+      @trip.update_attribute(:total_confirmed_cost, @total_confirmed_accomodation_cost_per_person)
       redirect_to @trip, notice: 'Attendee was successfully created.'
     else
       render json: @attendee.errors, status: :unprocessable_entity
@@ -71,7 +69,23 @@ class AttendeesController < ApplicationController
   # DELETE /attendees/1
   # DELETE /attendees/1.json
   def destroy
+    @attendees = Attendee.where(trip_id: params[:trip_id])
+    @trip_length_night = (@trip.end_date - @trip.start_date).to_i
+    @price_per_night = @trip.price_per_night
+    @total_cost = @price_per_night.to_i * @trip_length_night.to_i
     @attendee.destroy
+    if @attendee.destroy
+      @attendees = Attendee.where(trip_id: params[:trip_id])
+      @trip_length_night = (@trip.end_date - @trip.start_date).to_i
+      @price_per_night = @trip.price_per_night
+      @total_cost = @price_per_night.to_i * @trip_length_night.to_i
+      if @attendees.size > 0
+      @total_confirmed_accomodation_cost_per_person = @total_cost.to_i / @attendees.size
+      @trip.update_attribute(:total_confirmed_cost, @total_confirmed_accomodation_cost_per_person)
+      else 
+       @trip.update_attribute(:total_confirmed_cost, 0) 
+      end
+    end
     respond_to do |format|
       format.html { redirect_to @trip, notice: 'Attendee was successfully destroyed.' }
       format.json { head :no_content }
