@@ -64,9 +64,9 @@ class TripsController < ApplicationController
     @price_per_night = @trip.price_per_night
     @total_cost = @price_per_night.to_i * @trip_length_night.to_i
     @total_possible_accomodation_cost_per_person = @total_cost.to_i / @number_of_possible_attendees.to_i
-    @attendees_amount = @attendees.size
-
+    
     respond_to do |format|
+      @attendees_amount = @attendees.size
       if @trip.save
         @trip.update_attribute(:total_possible_cost, @total_possible_accomodation_cost_per_person)
         @trip.update_attribute(:total_confirmed_cost, @total_confirmed_accomodation_cost_per_person)
