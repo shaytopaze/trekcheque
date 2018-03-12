@@ -26,22 +26,31 @@ class ExpensesController < ApplicationController
     @expense = Expense.new(expense_params)
     @expense.trip_id = params[:trip_id]
     @trip = Trip.find(params[:trip_id].to_i)
+    @amount = @expense.amount
     # create hash to store split portions for each user
     split_hash = Hash.new()
     if params[:split_type] == "split_by_amount"
       passed_split = params[:expense][:payee][:split]
+      portions = []
+      passed_split.each do |id, obj|
+        portions.push(obj[:portion].to_f)
+      end
+      portion_sum = 0
+      portions.each { |a| portion_sum += a }
+      if portion_sum != @amount.to_f
+        redirect_to @trip, notice: 'Error: expense amount does not equal sum of portions entered.' 
+        return
+      end
       passed_split.each do |id, obj|
         @expense.payees.new(user_id: id)
-        split_hash[id] = Money.new(obj[:portion].to_i * 100, 'USD')
+        split_hash[id] = Money.new(obj[:portion].to_f * 100, 'USD')
       end
     else
       @willing_payees = params[:expense][:payee][:user_id].select { |uid| uid.length > 0 }
-      @amount = @expense.amount
       @payee_size = @willing_payees.size
       @willing_payees.each do |pid|
         @expense.payees.new(user_id: pid)
         split_hash[pid] = (@amount / @payee_size) #/
-
         # TODO: this is kinda cavalier about the possibility of errors.  ha ha!
       end
     end

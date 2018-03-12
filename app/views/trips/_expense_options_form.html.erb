@@ -23,7 +23,7 @@
 
   <div class="field">
     <%= form.label "Total Amount" %>
-    <%= form.number_field :amount, id: :expense_amount %>
+    <%= form.number_field :amount, :step => 0.01, id: :expense_amount %>
   </div>
 
   <div class="field" id="split_between">
@@ -34,7 +34,7 @@
         <div class="collection-check-box">
           <%= hidden_field_tag "expense_id", @expense.id %>
           <%= b.label attendee.name %>
-          <%= b.number_field :portion, id: attendee.id %>
+          <%= b.number_field :portion, :step => 0.01, id: attendee.id %>
         </div>
       <% end %>
       <% end %>
