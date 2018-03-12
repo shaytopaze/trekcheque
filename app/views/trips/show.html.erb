@@ -60,12 +60,15 @@
 
 <% if @trip.started %>
   <%= render :partial => './expenses/expense_list', expenses: @expenses, trip: @trip %>
-
-  <% if !@trip.ended %>
-    <%= render :partial => 'expense_options_form', expense: @expense, trip: @trip, payee: @payee, trip_attendees: @trip_attendees %>
-    <%= render :partial => 'create_expense_form', expense: @expense, trip: @trip, payee: @payee %>
+  
+  <% if @attendees_ids.include? current_user.id %>
+    <% if !@trip.ended %>
+      <%= render :partial => 'expense_options_form', expense: @expense, trip: @trip, payee: @payee, trip_attendees: @trip_attendees %>
+      <%= render :partial => 'create_expense_form', expense: @expense, trip: @trip, payee: @payee %>
+    <% end %>
   <% end %>
-<% end %>
+  <% end %>
+
 
 
 

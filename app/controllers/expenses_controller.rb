@@ -54,6 +54,7 @@ class ExpensesController < ApplicationController
         # TODO: this is kinda cavalier about the possibility of errors.  ha ha!
       end
     end
+
     respond_to do |format|
       if @expense.save
         # go through hash and calculate user's owed balance
@@ -108,6 +109,7 @@ class ExpensesController < ApplicationController
     def set_expense
       @expense = Expense.find(params[:id])
     end
+
     def update_balance
       @willing_payees = @expense.payees.all
       # TODO: this is kinda cavalier about the possibility of errors.  ha ha!
@@ -125,6 +127,9 @@ class ExpensesController < ApplicationController
           attendee_for_balance.update_attribute(:balance, @attendee_balance)
         end
       end
+        @attendee_payer_of_expense = Attendee.where(user_id: @expense.user_id, trip_id: params[:trip_id].to_i).first
+        @payer_balance = @attendee_payer_of_expense.balance + @expense.amount
+        @attendee_payer_of_expense.update_attribute(:balance, @payer_balance)
     end
     # Never trust parameters from the scary internet, only allow the white list through.
     def expense_params
