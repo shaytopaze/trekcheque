@@ -26,29 +26,52 @@ class ExpensesController < ApplicationController
     @expense = Expense.new(expense_params)
     @expense.trip_id = params[:trip_id]
     @trip = Trip.find(params[:trip_id].to_i)
-    @willing_payees = params[:expense][:payee][:user_id].select { |uid| uid.length > 0 }
-    @willing_payees.each do |pid|
-      @expense.payees.new(user_id: pid)
-      # TODO: this is kinda cavalier about the possibility of errors.  ha ha!
-    end
     @amount = @expense.amount
-    
-    @payee_size = @willing_payees.size
-    @payee_owes = (@amount / @payee_size)
-    
-    @willing_payees.each do |payee|
-      @user_id = payee
-      @payee_user = User.where(id: @user_id)
-      @payee_user_ids = @payee_user.ids
-      @attendee_user_for_finding_expense = Attendee.where(user_id: @payee_user_ids, trip_id: params[:trip_id].to_i)
-      @attendee_user_for_finding_expense.each do |attendee_for_balance|
-        attendee_for_balance.balance += @payee_owes
-        @attendee_balance = attendee_for_balance.balance
-        attendee_for_balance.update_attribute(:balance, @attendee_balance)
+    # create hash to store split portions for each user
+    split_hash = Hash.new()
+    if params[:split_type] == "split_by_amount"
+      passed_split = params[:expense][:payee][:split]
+      portions = []
+      passed_split.each do |id, obj|
+        portions.push(obj[:portion].to_f)
+      end
+      portion_sum = 0
+      portions.each { |a| portion_sum += a }
+      if portion_sum != @amount.to_f
+        redirect_to @trip, notice: 'Error: expense amount does not equal sum of portions entered.' 
+        return
+      end
+      passed_split.each do |id, obj|
+        @expense.payees.new(user_id: id)
+        split_hash[id] = Money.new(obj[:portion].to_f * 100, 'USD')
+      end
+    else
+      @willing_payees = params[:expense][:payee][:user_id].select { |uid| uid.length > 0 }
+      @payee_size = @willing_payees.size
+      @willing_payees.each do |pid|
+        @expense.payees.new(user_id: pid)
+        split_hash[pid] = (@amount / @payee_size) #/
+        # TODO: this is kinda cavalier about the possibility of errors.  ha ha!
       end
     end
     respond_to do |format|
       if @expense.save
+        # go through hash and calculate user's owed balance
+        split_hash.each do |key, value|
+          @user_id = key
+          @payee_user = User.where(id: @user_id)
+          @payee_user_ids = @payee_user.ids
+          @attendee_user_for_finding_expense = Attendee.where(user_id: @payee_user_ids, trip_id: params[:trip_id].to_i)
+          @attendee_user_for_finding_expense.each do |attendee_for_balance|
+            attendee_for_balance.balance += value
+            @attendee_balance = attendee_for_balance.balance
+            attendee_for_balance.update_attribute(:balance, @attendee_balance)
+          end
+        end
+        # deduct amount paid by expense user
+        @attendee_payer_of_expense = Attendee.where(user_id: @expense.user_id, trip_id: params[:trip_id].to_i).first
+        @payer_balance = @attendee_payer_of_expense.balance - @expense.amount
+        @attendee_payer_of_expense.update_attribute(:balance, @payer_balance)
         format.html { redirect_to @trip, notice: 'Expense was successfully created.' }
         format.json { render :show, status: :created, location: trip_expenses_path }
       else
@@ -89,10 +112,8 @@ class ExpensesController < ApplicationController
       @willing_payees = @expense.payees.all
       # TODO: this is kinda cavalier about the possibility of errors.  ha ha!
       @amount = @expense.amount
-    
       @payee_size = @willing_payees.size
-      @payee_owes = (@amount / @payee_size)
-    
+      @payee_owes = (@amount / @payee_size) #/
       @willing_payees.each do |payee|
         @user_id = payee.user_id
         @payee_user = User.where(id: @user_id)
@@ -110,3 +131,4 @@ class ExpensesController < ApplicationController
       params.require(:expense).permit(:trip_id, :user_id, :amount, :description, payees_attributes: [:id, :user_id, :expense_id])
     end
 end
+        

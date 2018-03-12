@@ -1,5 +1,6 @@
 class PayeesController < ApplicationController
   before_action :set_payee, only: [:show, :edit, :update, :destroy]
+  before_action :authorize
 
   # GET /payees
   # GET /payees.json

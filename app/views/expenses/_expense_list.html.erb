@@ -5,8 +5,7 @@
 <table>
   <thead>
     <tr>
-      <th>Trip</th>
-      <th>User</th>
+      <th>Paid by:</th>
       <th>Amount</th>
       <th>Description</th>
       <th colspan="3"></th>
@@ -15,14 +14,17 @@
 
   <tbody>
     <% @expenses.each do |expense| %>
+      <div class="expense-container">
       <tr>
-        <td><%= expense.trip.name %></td>
         <td><%= expense.user.name %></td>
         <td><%= expense.amount %></td>
         <td><%= expense.description %></td>
-        <td><%= link_to 'Edit', edit_trip_expense_path(expense) %></td>
-        <td><%= link_to 'Destroy', trip_expense_url(@trip, expense), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% if !@trip.ended %>
+          <td><%= link_to 'Edit', edit_trip_expense_path(expense) %></td>
+          <td><%= link_to 'Destroy', trip_expense_url(@trip, expense), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
       </tr>
+      </div>
     <% end %>
   </tbody>
 </table>

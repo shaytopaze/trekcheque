@@ -12,9 +12,9 @@
     </div>
   <% end %>
 
-  <div class="field">
+  <div class="field" id="payer">
     <%= hidden_field_tag "trip_id", @trip.id %>
-    <%= form.label :user_id %>
+    <%= form.label "Paid by:" %>
     <%= form.select(:user_id) do %>
       <%= options_from_collection_for_select(@trip_attendees, :id, :name) %>
     <% end %>
@@ -35,7 +35,7 @@
 
   <div class="field">
     <%= form.label :amount %>
-    <%= form.number_field :amount, id: :expense_amount %>
+    <%= form.number_field :amount, :step => 0.01, id: :expense_amount %>
   </div>
 
   <div class="field">
@@ -47,3 +47,17 @@
     <%= form.submit "Add expense" 'data-toggle' => "modal", 'data-target' => '#modal-window' %>
   </div>
 <% end %>
+
+
+<script>
+  $(function() {
+    $("#submit_expense").click(function(e){
+      e.preventDefault();
+      submit_expense();
+    })
+  })
+  function submit_expense() {
+    var payer = $("#payer > select").val();
+    console.log(payer);
+  }
+</script>

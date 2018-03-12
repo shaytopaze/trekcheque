@@ -1,6 +1,11 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Attendees</h1>
+<% if !@trip.started %>
+<% if @attendees_ids.exclude? current_user.id %>
+  <tr><%= button_to "Join Trip!", trip_attendees_path(@trip, current_user), method: :post %></tr>
+<% end %>
+<% end %>
 
 <table>
   <thead>
@@ -14,18 +19,16 @@
     <% @attendees.each do |attendee| %>
       <tr>
         <td><i><%= attendee.user.name %></i></td>
-        <td>Owes: <%= attendee.balance %></td>
+        <td>Balance: <%= attendee.balance %></td>
+        <% if !@trip.started %>
         <% if current_user.id == attendee.user_id %>
           <td><button><%= link_to "I can't go :(", trip_attendee_url(@trip, attendee), method: :delete, data: { confirm: 'Are you sure?' } %></button></td>
+        <% end %>
         <% end %>
       </tr>
   </tbody>
   <% end %>
 </table>
-    
-<% if @attendees_ids.exclude? current_user.id %>
-  <tr><%= button_to "Join Trip!", trip_attendees_path(@trip, current_user), method: :post %></tr>
-<% end %>
 
 <br>
 
