@@ -87,6 +87,45 @@ class TripsController < ApplicationController
   def update
     respond_to do |format|
       if @trip.update(trip_params)
+        #if trip is started total cost gets added as expense
+        if @trip.started 
+          @trip_length_night = (@trip.end_date - @trip.start_date).to_i
+          @price_per_night = @trip.price_per_night
+          @total_cost = @price_per_night.to_i * @trip_length_night.to_i
+          @attendees = Attendee.where(trip_id: params[:id])
+          @total_confirmed_accomodation_cost_per_person = @total_cost.to_i / @attendees.count
+          @accomodation_cost = Expense.create({
+            trip_id: params[:id],
+            user_id: current_user.id,
+            amount: @total_cost,
+            description: "Accomodation bitches!!"
+          })
+          #each attendee gets added as a payee
+          # @attendees.each do |attendee|
+          #   Payee.create({
+          #     user_id: attendee.user_id,
+          #     expense_id: @accomodation_cost.id
+          #   })
+          # end
+          #add amount to balance
+            if @accomodation_cost.save
+              @attendees.each do |attendee|
+                if attendee.user_id != current_user.id
+                  puts @total_confirmed_accomodation_cost_per_person
+                  attendee.balance = attendee.balance.to_i + @total_confirmed_accomodation_cost_per_person
+                  @attendee_balance = attendee.balance
+                  attendee.update_attribute(:balance, @attendee_balance)
+                else
+                  @payee_owed = @total_cost - @total_confirmed_accomodation_cost_per_person
+                  attendee.balance = attendee.balance.to_i - @payee_owed
+                  @attendee_balance = attendee.balance
+                  attendee.update_attribute(:balance, @attendee_balance)
+                end
+              end
+            end
+
+
+        end
         format.html { redirect_to @trip, notice: 'Trip was successfully updated.' }
         format.json { render :show, status: :ok, location: @trip }
       else
