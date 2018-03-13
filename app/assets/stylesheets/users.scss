@@ -144,3 +144,25 @@ div.trekcheque {
 	background-color: #53A3CD;
 	border-color: #53A3CD;
 }
+
+//user-page
+
+#user-header {
+		text-decoration: underline;
+    color: #00415d;
+    grid-area: header;
+    padding-top: 60px;
+		text-align: center;
+		font-size: 3em;
+}
+.user-email {
+    color: #00415d;
+		text-align: center;
+		padding-bottom: 3em;
+		font-size: 1.5em;
+}
+.trip-link {
+	padding-bottom: 20px;
+	font-size: 1.5em;
+	text-align: center
+}
