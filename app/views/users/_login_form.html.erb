@@ -1,12 +1,27 @@
+
+<head>
+<script type="text/javascript">
+function scrollto(div) {
+	document.getElementById(div).scrollIntoView(true);
+}
+</script>
+</head>
+<body>
+
 <div id="top-half">
-<div id="background-video">
+<div id="background-video" style="opacity: .8;">
   <%= video_tag("The-Truck.mp4", autoplay: :autoplay, loop: :loop) %>
 </div>
-<h1 class="trekcheque">TREK CHEQUE <div class="trekcheque"> A road trip expense app, keeping friendships friendly</div></h1>
+<h1 class="trekcheque">
+<div id="login-header" onclick="scrollto('login-container');">Login | Register</div>
+TREK CHEQUE<br>
+<div class="trekcheque"> A road trip expense app, keeping friendships friendly
+</div>
+</h1>
 </div>
 
-<div class="container">
-    	<div class="row">
+<div class="container" id="login-container">
+    	<div class="row" id="login-row">
 			<div class="col-md-6 col-md-offset-3">
 				<div class="panel panel-login">
 					<div class="panel-heading">
@@ -76,6 +91,4 @@
 		</div>
 	</div>
 </div>
-<style> 
-
-</style>
+</body>

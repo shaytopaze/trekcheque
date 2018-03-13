@@ -1,13 +1,34 @@
 <%= render 'layouts/nav_bar' %>
 <p id="notice"><%= notice %></p>
+<body>
+<h1 id="trip-header">
+<strong>
+<%= @trip.name %>
+</strong>
+</h1>
 
+<div class="container-fluid">
+<div class="dashboard">
+<div class="attendee-column">
 <%= render :partial => './attendees/attendees_table/', trip_attendees: @trip_attendees , attendees_for_id: @attendees_for_id, current_user: :current_user, attendees_ids: @attendees_ids %>
+</div>
 
-<p>
-  <strong>Name:</strong>
-  <%= @trip.name %>
-</p>
+<div class="expenses-column">
+<% if @trip.started %>
+  <%= render :partial => './expenses/expense_list', expenses: @expenses, trip: @trip %>
+  <% if @attendees_ids.include? current_user.id %>
+    <% if !@trip.ended %>
+      <%= render :partial => 'expense_options_form', expense: @expense, trip: @trip, payee: @payee, trip_attendees: @trip_attendees %>
+      <%= render :partial => 'create_expense_form', expense: @expense, trip: @trip, payee: @payee %>
+      <% else %>
+      <%= render :partial => 'show_expense_tallies', owe_statemets: @owe_statements %>
+    <% end %>
+  <% end %>
+  <% end %>
+  
+</div>
 
+<div class="trip-info-column">
 <p>
   <strong>Accomodation url:</strong>
   <%= @trip.accomodation_url %>
@@ -57,18 +78,11 @@
 <%= link_to 'Back', trips_path %>
 
 <%= render :partial => 'trip_boolean_form', trip: @trip %>
+</div>
+</div>
+</div>
+</body>
 
-<% if @trip.started %>
-  <%= render :partial => './expenses/expense_list', expenses: @expenses, trip: @trip %>
-  
-  <% if @attendees_ids.include? current_user.id %>
-    <% if !@trip.ended %>
-      <%= render :partial => 'expense_options_form', expense: @expense, trip: @trip, payee: @payee, trip_attendees: @trip_attendees %>
-      <%= render :partial => 'create_expense_form', expense: @expense, trip: @trip, payee: @payee %>
-      <%= render :partial => 'update_expense_form', expense: @expense, trip: @trip, payee: @payee %>
-    <% end %>
-  <% end %>
-  <% end %>
 
 
 

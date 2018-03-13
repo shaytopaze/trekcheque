@@ -1,0 +1,3 @@
+$( document ).ready(function() {
+  $('#expense-edit-partial').html("<%= escape_javascript(render :partial => '/trips/update_expense_form', expenses: @expenses, trip: @trip, payee: @payee, trip_attendees: @trip_attendees) %>")
+});
