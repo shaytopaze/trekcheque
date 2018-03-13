@@ -13,7 +13,10 @@ function scrollto(div) {
   <%= video_tag("The-Truck.mp4", autoplay: :autoplay, loop: :loop) %>
 </div>
 <h1 class="trekcheque">
-<div id="login-header" onclick="scrollto('login-container');">Login | Register</div>
+<div id="login-header">
+<span onclick="scrollto('login-container');">Login | Register</span>
+<span onclick="scrollto('about');"> | About</span>
+</div>
 TREK CHEQUE<br>
 <div class="trekcheque"> A road trip expense app, keeping friendships friendly
 </div>
@@ -40,7 +43,7 @@ TREK CHEQUE<br>
 							<div class="col-lg-12 tab-pane active" role="tabpanel" id="login">
 							<%= form_tag "/login", id: 'login-form', role: 'form', style: "display:block;" do %>
 								<div class="form-group">
-									<%= email_field_tag :email, '', class: 'form-control', placeholder: 'Email', id: 'login-email'%>
+									<input type="email" name="email" tabindex="1" class='form-control' placeholder='Email' id='login-email' %>
 								</div>
 								<div class="form-group">
 									<input type="password" name="password" tabindex="2" class="form-control" placeholder="Password">
@@ -90,5 +93,9 @@ TREK CHEQUE<br>
 			</div>
 		</div>
 	</div>
+</div>
+
+<div class="container" id="about">
+  <h2>INFORMATION ABOUT OUR APP</h2>
 </div>
 </body>
