@@ -44,7 +44,35 @@ class TripsController < ApplicationController
       @contributors_size = @expense_payees.size
       @payee_owes = (@amount / @contributors_size)
     end
-  end
+
+        if @trip.ended 
+          @attendees_in_negative = Hash.new
+          @attendees_in_positive = Hash.new
+
+          @attendees.each do |attendee|
+            if attendee[:balance_cents] > 0
+              @attendees_in_positive[attendee[:user_id]] = attendee[:balance_cents] 
+            else
+              @attendees_in_negative[attendee[:user_id]] = attendee[:balance_cents]             
+            end
+          end
+
+          @owe_statements = Array.new
+
+          @attendees_in_positive.each do |positive|
+            @attendees_in_negative.each do |negative|
+              if positive[1] <= negative[1].abs
+                @temp = positive[1]/100
+                negative[1] = negative[1] - @temp
+                @user_who_owes = User.find(positive[0])
+                @user_getting_paid = User.find(negative[0])
+                @owe_statements.push("#{@user_who_owes.name} owes #{@user_getting_paid.name} #{@temp}")
+              end
+            end
+          end
+
+        end
+      end
 
   # GET /trips/new
   def new
@@ -87,7 +115,6 @@ class TripsController < ApplicationController
   def update
     respond_to do |format|
       if @trip.update(trip_params)
-        #if trip is started total cost gets added as expense
         if @trip.started 
           @trip_length_night = (@trip.end_date - @trip.start_date).to_i
           @price_per_night = @trip.price_per_night
@@ -100,13 +127,7 @@ class TripsController < ApplicationController
             amount: @total_cost,
             description: "Accomodation bitches!!"
           })
-          #each attendee gets added as a payee
-          # @attendees.each do |attendee|
-          #   Payee.create({
-          #     user_id: attendee.user_id,
-          #     expense_id: @accomodation_cost.id
-          #   })
-          # end
+
           #add amount to balance
           @accomodation_cost.save
             if @accomodation_cost.save
@@ -123,9 +144,33 @@ class TripsController < ApplicationController
                 end
               end
             end
+          end
+        # if @trip.ended 
+        #   @attendees_in_negative = Hash.new
+        #   @attendees_in_positive = Hash.new
 
+        #   @attendees.each do |attendee|
+        #     if attendee[:balance_cents] > 0
+        #       @attendees_in_positive[attendee[:user_id]] = attendee[:balance_cents] 
+        #     else
+        #       @attendees_in_negative[attendee[:user_id]] = attendee[:balance_cents]             
+        #     end
+        #   end
 
-        end
+        #   @owe_statements = Array.new
+
+        #   @attendees_in_positive.each do |positive|
+        #     @attendees_in_negative.each do |negative|
+        #       if positive[1] <= negative[1].abs
+        #         @temp = positive[1]/100
+        #         negative[1] = negative[1] - @temp
+        #         @user_who_owes = User.find(positive[0])
+        #         @user_getting_paid = User.find(negative[0])
+        #         @owe_statements.push("#{@user_who_owes.name} owes #{@user_getting_paid.name} #{@temp}")
+        #       end
+        #     end
+        #   end
+        # end   
         format.html { redirect_to @trip, notice: 'Trip was successfully updated.' }
         format.json { render :show, status: :ok, location: @trip }
       else
@@ -134,6 +179,7 @@ class TripsController < ApplicationController
       end
     end
   end
+
 
   # DELETE /trips/1
   # DELETE /trips/1.json
