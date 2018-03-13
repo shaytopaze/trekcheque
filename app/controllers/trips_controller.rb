@@ -94,7 +94,7 @@ class TripsController < ApplicationController
           @total_cost = @price_per_night.to_i * @trip_length_night.to_i
           @attendees = Attendee.where(trip_id: params[:id])
           @total_confirmed_accomodation_cost_per_person = @total_cost.to_i / @attendees.count
-          @accomodation_cost = Expense.create({
+          @accomodation_cost = Expense.new({
             trip_id: params[:id],
             user_id: current_user.id,
             amount: @total_cost,
@@ -108,10 +108,10 @@ class TripsController < ApplicationController
           #   })
           # end
           #add amount to balance
+          @accomodation_cost.save
             if @accomodation_cost.save
               @attendees.each do |attendee|
                 if attendee.user_id != current_user.id
-                  puts @total_confirmed_accomodation_cost_per_person
                   attendee.balance = attendee.balance.to_i + @total_confirmed_accomodation_cost_per_person
                   @attendee_balance = attendee.balance
                   attendee.update_attribute(:balance, @attendee_balance)
