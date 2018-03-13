@@ -9,7 +9,7 @@ class Expense < ApplicationRecord
   accepts_nested_attributes_for :payees
 
   validates :amount, presence: true
-  validates :description, presence: true
+  validates :description, presence: true, uniqueness: { case_sensitive: false }
 
 end
 
