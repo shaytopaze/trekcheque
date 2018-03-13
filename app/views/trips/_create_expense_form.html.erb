@@ -35,7 +35,7 @@
 
   <div class="field">
     <%= form.label :amount %>
-    <%= form.number_field :amount, :step => 0.01, id: :expense_amount %>
+    <%= form.number_field :amount, :step => 0.01, :min => 0, id: :expense_amount %>
   </div>
 
   <div class="field">
