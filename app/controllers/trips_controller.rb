@@ -98,15 +98,8 @@ class TripsController < ApplicationController
             trip_id: params[:id],
             user_id: current_user.id,
             amount: @total_cost,
-            description: "Accomodation bitches!!"
+            description: "Accomodation Cost"
           })
-          #each attendee gets added as a payee
-          # @attendees.each do |attendee|
-          #   Payee.create({
-          #     user_id: attendee.user_id,
-          #     expense_id: @accomodation_cost.id
-          #   })
-          # end
           #add amount to balance
             if @accomodation_cost.save
               @attendees.each do |attendee|
@@ -123,36 +116,35 @@ class TripsController < ApplicationController
                 end
               end
             end
-
-
+          end
+          format.html { redirect_to @trip, notice: 'Trip was successfully updated.' }
+          format.json { render :show, status: :ok, location: @trip }
+        else
+          format.html { render :edit }
+          format.json { render json: @trip.errors, status: :unprocessable_entity }
         end
-        format.html { redirect_to @trip, notice: 'Trip was successfully updated.' }
-        format.json { render :show, status: :ok, location: @trip }
-      else
-        format.html { render :edit }
-        format.json { render json: @trip.errors, status: :unprocessable_entity }
       end
     end
-  end
-
-  # DELETE /trips/1
-  # DELETE /trips/1.json
-  def destroy
-    @trip.destroy
-    respond_to do |format|
-      format.html { redirect_to trips_url, notice: 'Trip was successfully destroyed.' }
-      format.json { head :no_content }
+  
+    # DELETE /trips/1
+    # DELETE /trips/1.json
+    def destroy
+      @trip.destroy
+      respond_to do |format|
+        format.html { redirect_to trips_url, notice: 'Trip was successfully destroyed.' }
+        format.json { head :no_content }
+      end
     end
-  end
+  
+    private
+      # Use callbacks to share common setup or constraints between actions.
+      def set_trip
+        @trip = Trip.find(params[:id])
+      end
+  
+      # Never trust parameters from the scary internet, only allow the white list through.
+      def trip_params
+        params.require(:trip).permit(:name, :accomodation_url, :price_per_night, :number_of_possible_attendees, :start_date, :end_date, :total_possible_cost, :total_confirmed_cost, :started, :ended)
+      end
+  end 
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_trip
-      @trip = Trip.find(params[:id])
-    end
-
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def trip_params
-      params.require(:trip).permit(:name, :accomodation_url, :price_per_night, :number_of_possible_attendees, :start_date, :end_date, :total_possible_cost, :total_confirmed_cost, :started, :ended)
-    end
-end 

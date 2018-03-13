@@ -1,7 +1,4 @@
 Rails.application.routes.draw do
-
-
-
   # if using update probably use patch? only changes the one field
   # have only got create and destroy attendees within the trip 
   resources :trips, except: [:index] do
@@ -24,3 +21,6 @@ Rails.application.routes.draw do
  get '/logout' => 'sessions#destroy'
 
 end
+
+
+

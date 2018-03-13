@@ -65,9 +65,11 @@
     <% if !@trip.ended %>
       <%= render :partial => 'expense_options_form', expense: @expense, trip: @trip, payee: @payee, trip_attendees: @trip_attendees %>
       <%= render :partial => 'create_expense_form', expense: @expense, trip: @trip, payee: @payee %>
+      <%= render :partial => 'update_expense_form', expense: @expense, trip: @trip, payee: @payee %>
     <% end %>
   <% end %>
   <% end %>
+
 
 
 
