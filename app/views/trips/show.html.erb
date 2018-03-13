@@ -1,87 +1,81 @@
 <%= render 'layouts/nav_bar' %>
-<p id="notice"><%= notice %></p>
 <body>
 <h1 id="trip-header">
 <strong>
 <%= @trip.name %>
 </strong>
 </h1>
+<p id="notice"><%= notice %></p>
 
 <div class="container-fluid">
-<div class="dashboard">
-<div class="attendee-column">
-<%= render :partial => './attendees/attendees_table/', trip_attendees: @trip_attendees , attendees_for_id: @attendees_for_id, current_user: :current_user, attendees_ids: @attendees_ids %>
-</div>
+  <div class="dashboard">
+    <div class="attendee-column">
+      <h1>Attendees</h1>
 
-<div class="expenses-column">
-<% if @trip.started %>
-<% if @attendees_ids.include? current_user.id %>
-  <% if !@trip.ended %>
-    <%= render :partial => 'expense_options_form', expense: @expense, trip: @trip, payee: @payee, trip_attendees: @trip_attendees %>
-    <%= render :partial => 'create_expense_form', expense: @expense, trip: @trip, payee: @payee %>
-    <% else %>
-    <%= render :partial => 'show_expense_tallies', owe_statemets: @owe_statements %>
-  <% end %>
-<% end %>
-  <%= render :partial => './expenses/expense_list', expenses: @expenses, trip: @trip %>
-  
-  <% end %>
-  
-</div>
+      <%= render :partial => './attendees/attendees_table/', trip_attendees: @trip_attendees , attendees_for_id: @attendees_for_id, current_user: :current_user, attendees_ids: @attendees_ids %>
+      </div>
 
-<div class="trip-info-column">
-<p>
-  <strong>Accomodation url:</strong>
-  <%= @trip.accomodation_url %>
-</p>
+      <div class="expenses-column">
+        <h1>Expenses</h1>
+          <% if @trip.started %>
+            <% if @attendees_ids.include? current_user.id %>
+              <% if !@trip.ended %>
+                <%= render :partial => 'expense_options_form', expense: @expense, trip: @trip, payee: @payee, trip_attendees: @trip_attendees %>
+                <%= render :partial => 'create_expense_form', expense: @expense, trip: @trip, payee: @payee %>
+              <% else %>
+                <%= render :partial => 'show_expense_tallies', owe_statemets: @owe_statements %>
+              <% end %>
+            <% end %>
+            <%= render :partial => './expenses/expense_list', expenses: @expenses, trip: @trip %>
+          <% end %>
+      </div>
 
-<p>
-  <strong>Price per night:</strong>
-  <%= @trip.price_per_night %>
-</p>
+      <div class="trip-info-column">
+        <h1>Trip Info</h1>
 
-<p>
-  <strong>Trip length:</strong>
-  <%= @trip_length_night %>
-</p>
+        <p>
+          <strong>Accomodation url:</strong></br>
+            <%= @trip.accomodation_url %>
+        </p>
 
-<p>
-  <strong>Number of possible attendees:</strong>
-  <%= @trip.number_of_possible_attendees %>
-</p>
+        <p>
+          <strong>Price per night:</strong></br>
+          $<%= @trip.price_per_night %>
+        </p>
 
-<p>
-  <strong>Start date:</strong>
-  <%= @trip.start_date %>
-</p>
+        <p>
+          <strong>Trip length:</strong></br>
+          <%= @trip_length_night %> night(s)
+        </p>
 
-<p>
-  <strong>End date:</strong>
-  <%= @trip.end_date %>
-</p>
+        <p>
+          <strong>Dates:</strong></br>
+          <%= @trip.start_date.strftime("%B %d, %Y") %> to <%= @trip.end_date.strftime("%B %d, %Y") %>
+        </p>
 
-<p>
-  <strong>Total possible cost for accomodation per person:</strong>
-  <%= @trip.total_possible_cost %>
-</p>
+        <p>
+          <strong>Number of possible attendees:</strong></br>
+            <%= @trip.number_of_possible_attendees %>
+        </p>
 
-<p>
-  <strong>Total confirmed cost for accomodation per person:</strong>
-  <%= @trip.total_confirmed_cost  %>
-</p>
+        <p>
+          <strong>Accomodation per person (maximum people):</strong></br>
+          $<%= @trip.total_possible_cost %>
+        </p>
 
-<p>
-  <strong>Started:</strong>
-  <%= @trip.started %>
-</p>
+        <p>
+          <strong>Accomodation per person (confirmed numbers):</strong></br>
+          $<%= @trip.total_confirmed_cost  %>
+        </p>
 
-<%= link_to 'Edit', edit_trip_path(@trip) %> |
-<%= link_to 'Back', trips_path %>
+        <%= link_to 'Edit', edit_trip_path(@trip) %> |
+        <%= link_to 'Back', trips_path %>
 
-<%= render :partial => 'trip_boolean_form', trip: @trip %>
-</div>
-</div>
-</div>
+        <%= render :partial => 'trip_boolean_form', trip: @trip %>
+
+      </div>
+    </div>
+  </div>
 </body>
 
 
