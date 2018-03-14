@@ -143,33 +143,7 @@ class TripsController < ApplicationController
                 end
               end
             end
-          end
-        # if @trip.ended 
-        #   @attendees_in_negative = Hash.new
-        #   @attendees_in_positive = Hash.new
-
-        #   @attendees.each do |attendee|
-        #     if attendee[:balance_cents] > 0
-        #       @attendees_in_positive[attendee[:user_id]] = attendee[:balance_cents] 
-        #     else
-        #       @attendees_in_negative[attendee[:user_id]] = attendee[:balance_cents]             
-        #     end
-        #   end
-
-        #   @owe_statements = Array.new
-
-        #   @attendees_in_positive.each do |positive|
-        #     @attendees_in_negative.each do |negative|
-        #       if positive[1] <= negative[1].abs
-        #         @temp = positive[1]/100
-        #         negative[1] = negative[1] - @temp
-        #         @user_who_owes = User.find(positive[0])
-        #         @user_getting_paid = User.find(negative[0])
-        #         @owe_statements.push("#{@user_who_owes.name} owes #{@user_getting_paid.name} #{@temp}")
-        #       end
-        #     end
-        #   end
-        # end   
+          end  
         format.html { redirect_to @trip, notice: 'Trip was successfully updated.' }
         format.json { render :show, status: :ok, location: @trip }
       else

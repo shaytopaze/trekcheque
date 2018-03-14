@@ -2,7 +2,7 @@ class ExpensesController < ApplicationController
   before_action :set_expense, only: [:show, :edit, :update, :destroy, :inline_edit]
   before_action :update_balance, only: [:destroy]
   # need to create a proper update balance function on update
-  # after_action :update_balance, only: [:inline_edit]
+  after_action :update_balance, only: [:inline_edit]
 
   # GET /expenses
   # GET /expenses.json
