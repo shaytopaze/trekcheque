@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-
+  root to: 'users#new'
 
   # if using update probably use patch? only changes the one field
   # have only got create and destroy attendees within the trip 

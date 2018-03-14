@@ -11,7 +11,7 @@
       </ul>
     </div>
   <% end %>
-
+<div class="create_trip_form">
   <div class="field">
     <%= form.label :name %>
     <%= form.text_field :name, id: :trip_name %>
@@ -35,6 +35,7 @@
   <div class="field">
     <%= form.label :start_date %>
     <%= form.date_select :start_date, id: :trip_start_date %>
+  </div>
 
   <div class="field">
     <%= form.label :end_date %>
@@ -53,4 +54,5 @@
     <%= form.submit %>
   </div>
 <% end %>
+</div>
 </body>

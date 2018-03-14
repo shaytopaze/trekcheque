@@ -7,9 +7,8 @@ function scrollto(div) {
 </script>
 </head>
 <body>
-
 <div id="top-half">
-<div id="background-video" style="opacity: .8;">
+<div id="background-video" style="opacity: .8; position: absolute; top: 0; left: 0; width: 100%;">
   <%= video_tag("The-Truck.mp4", autoplay: :autoplay, loop: :loop) %>
 </div>
 <h1 class="trekcheque">
@@ -22,8 +21,11 @@ TREK CHEQUE<br>
 </div>
 </h1>
 </div>
-
-<div class="container" id="login-container">
+<div style="padding-top: 1100px;" id="middle">
+<div class="container" id="login-container" >
+<div id="login-header-two" style="padding-top:20px;">
+<span onclick="scrollto('about');"> About Trek Cheque </span>
+</div>
     	<div class="row" id="login-row">
 			<div class="col-md-6 col-md-offset-3">
 				<div class="panel panel-login">
@@ -94,8 +96,12 @@ TREK CHEQUE<br>
 		</div>
 	</div>
 </div>
+</div>
 
-<div class="container" id="about">
+<div style="padding-top: 1000px;">
+<div class="container" id="about" style="height: 600px;">
   <h2>INFORMATION ABOUT OUR APP</h2>
+	<p>I videotape every customer that comes in here, so that I may blackmail them later. I usually try to keep my sadness pent up inside where it can fester quietly as a mental illness. Why am I sticky and naked? Did I miss something fun? Large bet on myself in round one. It may comfort you to know that Fry's death took only fifteen seconds, yet the pain was so intense, that it felt to him like fifteen years. And it goes without saying, it caused him to empty his bowels. Morbo can't understand his teleprompter because he forgot how you say that letter that's shaped like a man wearing a hat. </p>
+</div>
 </div>
 </body>
