@@ -2,7 +2,7 @@ class ExpensesController < ApplicationController
   before_action :set_expense, only: [:show, :edit, :update, :destroy, :inline_edit]
   before_action :update_balance, only: [:destroy]
   # need to create a proper update balance function on update
-  after_action :update_balance, only: [:inline_edit]
+  # after_action :update_balance, only: [:inline_edit]
 
   # GET /expenses
   # GET /expenses.json
@@ -127,7 +127,7 @@ class ExpensesController < ApplicationController
       @expense = Expense.find(params[:id])
       @trip = Trip.find(params[:trip_id].to_i)
     end
-
+   
     def update_balance
       @willing_payees = @expense.payees.all
       # TODO: this is kinda cavalier about the possibility of errors.  ha ha!

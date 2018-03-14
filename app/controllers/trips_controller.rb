@@ -128,36 +128,33 @@ class TripsController < ApplicationController
               amount: @total_cost,
               description: "Accomodation Cost"
             })
-          
-
-          #add amount to balance
-          @accomodation_cost.save
-            if @accomodation_cost.save
-              @attendees.each do |attendee|
-                if attendee.user_id != current_user.id
-                  attendee.balance = attendee.balance.to_i + @total_confirmed_accomodation_cost_per_person
-                  @attendee_balance = attendee.balance
-                  attendee.update_attribute(:balance, @attendee_balance)
-                else
-                  @payee_owed = @total_cost - @total_confirmed_accomodation_cost_per_person
-                  attendee.balance = attendee.balance.to_i - @payee_owed
-                  @attendee_balance = attendee.balance
-                  attendee.update_attribute(:balance, @attendee_balance)
+            #add amount to balance
+            @accomodation_cost.save
+              if @accomodation_cost.save 
+                @attendees.each do |attendee|
+                  if attendee.user_id != current_user.id
+                    attendee.balance = attendee.balance.to_i + @total_confirmed_accomodation_cost_per_person
+                    @attendee_balance = attendee.balance
+                    attendee.update_attribute(:balance, @attendee_balance)
+                  else
+                    @payee_owed = @total_cost - @total_confirmed_accomodation_cost_per_person
+                    attendee.balance = attendee.balance.to_i - @payee_owed
+                    @attendee_balance = attendee.balance
+                    attendee.update_attribute(:balance, @attendee_balance)
+                  end
                 end
               end
             end
-          end
-        format.html { redirect_to @trip, notice: 'Trip was successfully updated.' }
-        format.json { render :show, status: :ok, location: @trip }
-      else
-        format.html { render :edit }
-        format.json { render json: @trip.errors, status: :unprocessable_entity }
+          format.html { redirect_to @trip, notice: 'Trip was successfully updated.' }
+          format.json { render :show, status: :ok, location: @trip }
+        else
+          format.html { render :edit }
+          format.json { render json: @trip.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
-end
-
-
+  
   # DELETE /trips/1
   # DELETE /trips/1.json
   def destroy
@@ -179,4 +176,7 @@ end
     end
 
 end 
+  
+          
+
   
