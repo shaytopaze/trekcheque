@@ -1,9 +1,10 @@
 <script>
 $(document).ready(function() {
   $("#addexpensebtn").on("click", function(event) {
-    $("#addexpenseform").toggle("blind", 200);
+    $("#addexpenseform").toggle("blind", 1000);
   });
 });
+
 </script>
 
 
@@ -30,7 +31,7 @@ $(document).ready(function() {
             <% if @attendees_ids.include? current_user.id %>
               <% if !@trip.ended %>
               <button type="button" id="addexpensebtn" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Add Expense</button>
-              <div class="container-fluid" id="addexpenseform">
+              <div class="container-fluid" id="addexpenseform" style="display:none;">
               <br>
     <div class="row-fluid">
         <div class="span8 well">
