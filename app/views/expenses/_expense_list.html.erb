@@ -16,8 +16,8 @@
       <div class="expense-container">
       <tr>
         <td><%= expense.user.name %></td>
-        <td><%= expense.amount %></td>
-        <td><%= expense.description %></td>
+        <td>$<%= expense.amount %></td>
+        <td class="description-table"><%= expense.description %></td>
         <% if @attendees_ids.include? current_user.id %>
           <% if !@trip.ended %>
             <td><%= link_to 'Edit', [:inline_edit, @trip, expense], remote: true %></td>
