@@ -1,6 +1,4 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Attendees</h1>
+<h3> Attendees Balance </h3>
 
 <% if @attendees_ids.exclude? current_user.id %>
   <tr><%= button_to "Join Trip!", trip_attendees_path(@trip, current_user), method: :post %></tr>
