@@ -10,8 +10,9 @@
       </ul>
     </div>
   <% end %>
-  
+
 <% if !@trip.started %>
+
   <div class="field">
     <%= form.label :started %>
     <%= form.check_box :started, id: :started_id %>

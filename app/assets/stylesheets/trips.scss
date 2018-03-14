@@ -15,11 +15,28 @@
 .dashboard {
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
-    grid-gap: 16px;
     padding: 24px;
+    text-align: center;
+}
+
+.column:not(:last-child) {
+    border-right: 1px #0173a3 solid;
+}
+
+.column {
+    padding: 12px;
 }
 
 .col {
     display: grid;
     grid-gap: 24px;
+}
+
+.field {
+  padding: 8px !important;
+  font-size: 20px;
+}
+
+.create_trip_form {
+    text-align: center
 }

@@ -1,3 +1,4 @@
+<body>
 <%= form_with(model: trip, local: true) do |form| %>
   <% if trip.errors.any? %>
     <div id="error_explanation">
@@ -10,25 +11,25 @@
       </ul>
     </div>
   <% end %>
-
+<div class="create_trip_form">
   <div class="field">
     <%= form.label :name %>
     <%= form.text_field :name, id: :trip_name %>
   </div>
 
   <div class="field">
-    <%= form.label :accomodation_url %>
+    <%= form.label :accommodation_url %>
     <%= form.text_field :accomodation_url, id: :trip_accomodation_url %>
   </div>
 
   <div class="field">
     <%= form.label :price_per_night %>
-    <%= form.number_field :price_per_night, :step => 0.01, id: :trip_price_per_night %>
+    <%= form.number_field :price_per_night, :step => 0.01, :min => 0, id: :trip_price_per_night %>
   </div>
 
   <div class="field">
     <%= form.label :number_of_possible_attendees %>
-    <%= form.number_field :number_of_possible_attendees,  id: :trip_number_of_possible_attendees %>
+    <%= form.number_field :number_of_possible_attendees, :min => 0, id: :trip_number_of_possible_attendees %>
   </div>
 
   <div class="field">
@@ -53,3 +54,5 @@
     <%= form.submit %>
   </div>
 <% end %>
+</div>
+</body>

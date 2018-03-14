@@ -1,12 +1,14 @@
 // Place all the styles related to the users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-#top-half#background-video {
-  position: fixed;
+#top-half {
+	width:100%;
+}
+#background-video {
+	position: fixed;
   top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+	right: 0;
+	width: 100%;
   overflow: hidden;
   z-index: -999;
 }
@@ -17,6 +19,7 @@ body {
   // padding-top: 90px;
 }
 h1.trekcheque {
+	width: 100%;
   position: absolute;
   top: 0;
   left: 50px;
@@ -43,9 +46,21 @@ div.trekcheque {
 	font-family: 'Montserrat', sans-serif;
 }
 
+#login-header-two {
+	position: relative;
+	float: right;
+	font-size: 30px;
+	font-family: 'Montserrat', sans-serif;
+}
+
 #login-container {
 	height: -webkit-fill-available;
 	font-family: 'Montserrat', sans-serif;
+}
+
+#about {
+	height: -webkit-fill-available;
+	text-align: center;
 }
 
 #login-row {
@@ -143,4 +158,26 @@ div.trekcheque {
 	color: #fff;
 	background-color: #53A3CD;
 	border-color: #53A3CD;
+}
+
+//user-page
+
+#user-header {
+		text-decoration: underline;
+    color: #00415d;
+    grid-area: header;
+    padding-top: 60px;
+		text-align: center;
+		font-size: 3em;
+}
+.user-email {
+    color: #00415d;
+		text-align: center;
+		padding-bottom: 2em;
+		font-size: 1.5em;
+}
+.trip-link {
+	padding-bottom: 20px;
+	font-size: 1em;
+	text-align: center
 }

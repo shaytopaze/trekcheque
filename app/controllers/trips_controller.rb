@@ -121,12 +121,15 @@ class TripsController < ApplicationController
           @total_cost = @price_per_night.to_i * @trip_length_night.to_i
           @attendees = Attendee.where(trip_id: params[:id])
           @total_confirmed_accomodation_cost_per_person = @total_cost.to_i / @attendees.count
-          @accomodation_cost = Expense.new({
-            trip_id: params[:id],
-            user_id: current_user.id,
-            amount: @total_cost,
-            description: "Accomodation Cost"
-          })
+          if Expense.exists?(trip_id: params[:id], description: "Accomodation Cost") == false
+            @accomodation_cost = Expense.new({
+              trip_id: params[:id],
+              user_id: current_user.id,
+              amount: @total_cost,
+              description: "Accomodation Cost"
+            })
+          
+
           #add amount to balance
           @accomodation_cost.save
             if @accomodation_cost.save
@@ -143,7 +146,7 @@ class TripsController < ApplicationController
                 end
               end
             end
-          end  
+          end
         format.html { redirect_to @trip, notice: 'Trip was successfully updated.' }
         format.json { render :show, status: :ok, location: @trip }
       else
@@ -152,6 +155,7 @@ class TripsController < ApplicationController
       end
     end
   end
+end
 
 
   # DELETE /trips/1
@@ -180,5 +184,5 @@ class TripsController < ApplicationController
       def trip_params
         params.require(:trip).permit(:name, :accomodation_url, :price_per_night, :number_of_possible_attendees, :start_date, :end_date, :total_possible_cost, :total_confirmed_cost, :started, :ended)
       end
-  end 
 
+end 

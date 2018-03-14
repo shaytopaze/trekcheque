@@ -1,22 +1,30 @@
 <%= render 'layouts/nav_bar' %>
 <p id="notice"><%= notice %></p>
+<body>
+<h1 id="user-header">
+<strong>
+<%= @user.name %>
+</strong>
+</h1>
 
-<p>
-  <strong>Name:</strong>
-  <%= @user.name %>
-</p>
 
-<p>
+<div class="user-email">
   <strong>Email:</strong>
   <%= @user.email %>
-</p>
+</div>
 
-
-  <% @trips_of_user.each do |trip| %>
-    <%= link_to trip_path(trip.id) do %>  
-    <%= trip.name %><br>
-    <%= trip.start_date %> to <%= trip.end_date %><br><br>
-    <% end %>
-  <% end %>
-
-<%= link_to 'Edit', edit_user_path(@user) %>
+<div class="container-fluid">
+  <div class="row">
+      <% @trips_of_user.each do |trip| %>
+      <div class="col-lg-4">
+      <div class="trip-link">
+        <%= link_to trip_path(trip.id) do %>  
+        | <strong><%= trip.name %></strong> |
+        <%= trip.start_date %> to <%= trip.end_date %> |
+        <% end %>
+      </div>
+      </div>
+      <% end %>
+  </div>
+</div>
+</body>

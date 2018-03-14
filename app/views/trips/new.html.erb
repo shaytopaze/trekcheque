@@ -1,7 +1,20 @@
 <%= render 'layouts/nav_bar' %>
+<body>
+<div id="trip-header">
+<h1>Create Trip:</h1>
+</div>
 
-<h1>New Trip</h1>
+<div class="container-fluid">
+<div class="dashboard">
+<div class="menu-column">
 
+</div>
+
+<div class="main-column">
 <%= render 'create_trip_form', trip: @trip %>
+</div>
 
-<%= link_to 'Back', trips_path %>
+
+</div>
+</div>
+</body>
