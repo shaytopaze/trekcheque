@@ -128,11 +128,15 @@ class TripsController < ApplicationController
               amount: @total_cost,
               description: "Accomodation Cost"
             })
-          
-
           #add amount to balance
           @accomodation_cost.save
             if @accomodation_cost.save
+              @attendees.each do |attendee|
+                Payee.create!({
+                  user_id: attendee.user_id,
+                  expense_id: @accomodation_cost.id
+                })
+              end
               @attendees.each do |attendee|
                 if attendee.user_id != current_user.id
                   attendee.balance = attendee.balance.to_i + @total_confirmed_accomodation_cost_per_person
