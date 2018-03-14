@@ -128,7 +128,7 @@ class TripsController < ApplicationController
               amount: @total_cost,
               description: "Accomodation Cost"
             })
-
+          
 
           #add amount to balance
           @accomodation_cost.save
@@ -147,7 +147,6 @@ class TripsController < ApplicationController
               end
             end
           end
-         end
         format.html { redirect_to @trip, notice: 'Trip was successfully updated.' }
         format.json { render :show, status: :ok, location: @trip }
       else
@@ -156,6 +155,7 @@ class TripsController < ApplicationController
       end
     end
   end
+end
 
 
   # DELETE /trips/1
@@ -173,6 +173,18 @@ class TripsController < ApplicationController
     def set_trip
       @trip = Trip.find(params[:id])
     end
+  
+    private
+      # Use callbacks to share common setup or constraints between actions.
+      def set_trip
+        @trip = Trip.find(params[:id])
+      end
+  
+      # Never trust parameters from the scary internet, only allow the white list through.
+      def trip_params
+        params.require(:trip).permit(:name, :accomodation_url, :price_per_night, :number_of_possible_attendees, :start_date, :end_date, :total_possible_cost, :total_confirmed_cost, :started, :ended)
+      end
+
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def trip_params

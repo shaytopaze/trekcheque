@@ -1,4 +1,5 @@
-<%= form_for [@trip, @expense], local: true do |form| %>
+<h4> EDIT ME!!!! </h4>
+<%= form_for [@trip, @expense], local: true, method: "patch" do |form| %>
   <% if @expense.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@expense.errors.count, "error") %> prohibited this @expense from being saved:</h2>
@@ -10,7 +11,7 @@
       </ul>
     </div>
   <% end %>
-
+  
   <div class="field" id="payer">
     <%= hidden_field_tag "trip_id", @trip.id %>
     <%= form.label "Paid by:" %>
@@ -34,29 +35,17 @@
 
   <div class="field">
     <%= form.label :amount %>
-    <%= form.number_field :amount, :step => 0.01, :min => 0, id: :expense_amount %>
+    <%= form.number_field :amount, :step => 0.01, id: :expense_amount %>
   </div>
 
   <div class="field">
     <%= form.label :description %>
     <%= form.text_area :description, id: :expense_description %>
   </div>
-
+  
   <div class="actions">
-    <%= form.submit "Add expense" 'data-toggle' => "modal", 'data-target' => '#modal-window' %>
+    <%= form.submit "Edit Expense" 'data-toggle' => "modal", 'data-target' => '#modal-window' %>
   </div>
 <% end %>
 
 
-<script>
-  $(function() {
-    $("#submit_expense").click(function(e){
-      e.preventDefault();
-      submit_expense();
-    })
-  })
-  function submit_expense() {
-    var payer = $("#payer > select").val();
-    console.log(payer);
-  }
-</script>

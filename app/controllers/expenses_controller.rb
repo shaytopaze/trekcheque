@@ -1,6 +1,9 @@
 class ExpensesController < ApplicationController
-  before_action :set_expense, only: [:show, :edit, :update, :destroy]
+  before_action :set_expense, only: [:show, :edit, :update, :destroy, :inline_edit]
   before_action :update_balance, only: [:destroy]
+  # need to create a proper update balance function on update
+  after_action :update_balance, only: [:inline_edit]
+
   # GET /expenses
   # GET /expenses.json
   def index
@@ -16,6 +19,12 @@ class ExpensesController < ApplicationController
   end
   # GET /expenses/1/edit
   def edit
+    @attendees = Attendee.where(trip_id: params[:id])
+    @trip_attendees = @attendees.collect { |a| a.user }
+    respond_to do |format|
+        format.html {redirect_to @trip }
+        format.json { render :show, status: :created, location: trip_expenses_path }
+     end
   end
   # POST /expenses
   # POST /expenses.json
@@ -86,7 +95,7 @@ class ExpensesController < ApplicationController
   def update
     respond_to do |format|
       if @expense.update(expense_params)
-        format.html { redirect_to @expense, notice: 'Expense was successfully updated.' }
+        format.html { redirect_to @trip, notice: 'Expense was successfully updated.' }
         format.json { render :show, status: :ok, location: @expense }
       else
         format.html { render :edit }
@@ -104,10 +113,19 @@ class ExpensesController < ApplicationController
       format.json { head :no_content }
     end
   end
+  def inline_edit
+    # @attendees = Attendee.where(trip_id: params[:id])
+    @attendees = @expense.payees.all
+    @trip_attendees = @attendees.collect { |a| a.user }
+    respond_to do |format|
+      format.js { render :file => "trips/inline_edit.js.erb" } # create a file named inline_edit.js.erb
+    end
+  end
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_expense
       @expense = Expense.find(params[:id])
+      @trip = Trip.find(params[:trip_id].to_i)
     end
 
     def update_balance
@@ -115,7 +133,7 @@ class ExpensesController < ApplicationController
       # TODO: this is kinda cavalier about the possibility of errors.  ha ha!
       @amount = @expense.amount
       @payee_size = @willing_payees.size
-      @payee_owes = (@amount / @payee_size) #/
+      @payee_owes = (@amount / @payee_size) 
       @willing_payees.each do |payee|
         @user_id = payee.user_id
         @payee_user = User.where(id: @user_id)
