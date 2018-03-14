@@ -1,12 +1,14 @@
 // Place all the styles related to the users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-#top-half#background-video {
-  position: fixed;
+#top-half {
+	width:100%;
+}
+#background-video {
+	position: fixed;
   top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+	right: 0;
+	width: 100%;
   overflow: hidden;
   z-index: -999;
 }
@@ -17,6 +19,7 @@ body {
   // padding-top: 90px;
 }
 h1.trekcheque {
+	width: 100%;
   position: absolute;
   top: 0;
   left: 50px;
@@ -40,6 +43,13 @@ div.trekcheque {
 	float: right;
 	font-size: 30px;
 	padding-right: 75px;
+	font-family: 'Montserrat', sans-serif;
+}
+
+#login-header-two {
+	position: relative;
+	float: right;
+	font-size: 30px;
 	font-family: 'Montserrat', sans-serif;
 }
 
