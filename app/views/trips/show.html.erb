@@ -20,8 +20,29 @@
           <% if @trip.started %>
             <% if @attendees_ids.include? current_user.id %>
               <% if !@trip.ended %>
-                <%= render :partial => 'expense_options_form', expense: @expense, trip: @trip, payee: @payee, trip_attendees: @trip_attendees %>
+              Add Expense
+              <div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span8 well">
+            <ul class="nav nav-tabs">
+                <li class="active"> <a href="#even" data-target="#even" data-toggle="tab">Split evenly</a>
+
+                </li>
+                <li><a href="#portion" data-target="#portion" data-toggle="tab">By Amount</a>
+
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active fade in" id="even">
                 <%= render :partial => 'create_expense_form', expense: @expense, trip: @trip, payee: @payee %>
+                </div>
+                <div class="tab-pane" id="portion">
+                <%= render :partial => 'expense_options_form', expense: @expense, trip: @trip, payee: @payee, trip_attendees: @trip_attendees %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
               <% else %>
                 <%= render :partial => 'show_expense_tallies', owe_statemets: @owe_statements %>
               <% end %>
