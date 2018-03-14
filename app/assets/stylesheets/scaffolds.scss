@@ -106,3 +106,21 @@ label {
   padding-right: 2em;
   float: right;
 }
+
+#navbarSupportedContent a{
+  color: white
+}
+#navbarSupportedContent a:hover{
+  color: #00415d;
+}
+#navbarSupportedContent a:hover{
+  color: #00415d;
+}
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+  background-color: rgb(91, 160, 154);
+  border-radius: 4px solid #00415d;
+}
+
+.dropdown-menu  {
+  background-color: #00415d;
+}
