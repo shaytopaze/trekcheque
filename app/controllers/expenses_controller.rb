@@ -1,6 +1,8 @@
 class ExpensesController < ApplicationController
   before_action :set_expense, only: [:show, :edit, :update, :destroy, :inline_edit]
   before_action :update_balance, only: [:destroy]
+  # need to create a proper update balance function on update
+  # after_action :update_balance, only: [:inline_edit]
 
   # GET /expenses
   # GET /expenses.json
@@ -112,7 +114,8 @@ class ExpensesController < ApplicationController
     end
   end
   def inline_edit
-    @attendees = Attendee.where(trip_id: params[:id])
+    # @attendees = Attendee.where(trip_id: params[:id])
+    @attendees = @expense.payees.all
     @trip_attendees = @attendees.collect { |a| a.user }
     respond_to do |format|
       format.js { render :file => "trips/inline_edit.js.erb" } # create a file named inline_edit.js.erb
@@ -130,7 +133,7 @@ class ExpensesController < ApplicationController
       # TODO: this is kinda cavalier about the possibility of errors.  ha ha!
       @amount = @expense.amount
       @payee_size = @willing_payees.size
-      @payee_owes = (@amount / @payee_size) #/
+      @payee_owes = (@amount / @payee_size) 
       @willing_payees.each do |payee|
         @user_id = payee.user_id
         @payee_user = User.where(id: @user_id)
