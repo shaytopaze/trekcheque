@@ -64,10 +64,16 @@ $(document).ready(function() {
       <div class="trip-info column">
         <h1>Trip Info</h1>
 
-        <p>
+        <div class="accomodation-url">
           <strong>Accomodation url:</strong></br>
             <%= @trip.accomodation_url %>
-        </p>
+        </div>
+
+        <% if @trip.accomodation_url %>
+          <div class="accomodation-image">
+            <%= image_tag(@best_image) %>
+          </div>
+        <% end %>
 
         <p>
           <strong>Price per night:</strong></br>

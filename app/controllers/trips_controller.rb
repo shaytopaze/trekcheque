@@ -16,6 +16,15 @@ class TripsController < ApplicationController
     @attendees = Attendee.where(trip_id: params[:id])
     @attendees_ids = []
     @trip_length_night = (@trip.end_date - @trip.start_date).to_i
+
+    image_selector = BestImage::ImageSelector.new(@trip[:accomodation_url])
+
+    if image_selector.best_image   
+      @best_image = image_selector.best_image   
+    else   
+      # do defalut action in case network is down etc.   
+      image_selector.errors   
+    end
     
     @attendees.each do |a|
       @attendees_ids.push(a.user_id)
