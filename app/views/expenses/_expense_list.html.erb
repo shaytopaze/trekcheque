@@ -24,6 +24,7 @@
             <td><%= link_to 'Edit', [:inline_edit, @trip, expense], remote: true %></td>
             <td><%= link_to 'Destroy', trip_expense_url(@trip, expense), method: :delete, data: { confirm: 'Are you sure?' } %></td>
             <div id="expense-edit-partial"></div>
+            <div id="expense-edit-options-partial"></div>
           <% end %>
         <% end %>
       </tr>

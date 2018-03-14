@@ -1,3 +1,4 @@
 $( document ).ready(function() {
   $('#expense-edit-partial').html("<%= escape_javascript(render :partial => '/trips/update_expense_form', expenses: @expenses, trip: @trip, payee: @payee, trip_attendees: @trip_attendees) %>")
+  $('#expense-edit-options-partial').html("<%= escape_javascript(render :partial => '/trips/update_expense_options_form', expenses: @expenses, trip: @trip, payee: @payee, trip_attendees: @trip_attendees) %>")
 });
