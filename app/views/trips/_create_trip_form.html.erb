@@ -33,7 +33,11 @@
   </div>
 
   <div class="field">
-      <%= select_tag :type_of_trip, options_for_select(trip_types) %>
+      <%= form.select(:type_of_trip) do %>
+        <% trip_types.each do |c| %>
+          <%= content_tag(:option, c.first, value: c.first) %>
+        <% end %>
+      <% end %>
   </div> 
 
   <div class="field">

@@ -20,6 +20,9 @@ class UsersController < ApplicationController
   # GET /users/new
   def new
     @user = User.new
+    if session[:user_id]
+      redirect_to user_path(session[:user_id])
+    end
   end
 
   # GET /users/1/edit
@@ -39,7 +42,6 @@ class UsersController < ApplicationController
       else
         format.html { render :new }
         format.json { render json: @user.errors, status: :unprocessable_entity }
-        flash[:alert] = "There was something wrong with your register credentials. Please try again."
       end
     end
   end
@@ -71,7 +73,11 @@ class UsersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
-      @user = User.find(params[:id])
+      if User.exists?(params[:id])
+        @user = User.find(params[:id])
+      else
+        redirect_to '/login'
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
