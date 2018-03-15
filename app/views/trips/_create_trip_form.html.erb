@@ -23,6 +23,16 @@
   </div>
 
   <div class="field">
+    <%= form.label :start_location %>
+    <%= form.text_field :start_location, id: :trip_start_location %>
+  </div>
+
+    <div class="field">
+    <%= form.label :end_location %>
+    <%= form.text_field :end_location, id: :trip_end_location %>
+  </div>
+
+  <div class="field">
     <%= form.label :price_per_night %>
     <%= form.number_field :price_per_night, :step => 0.01, :min => 0, id: :trip_price_per_night %>
   </div>
