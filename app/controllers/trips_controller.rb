@@ -157,17 +157,16 @@ class TripsController < ApplicationController
               end
             end
           end
-        format.html { redirect_to @trip, notice: 'Trip was successfully updated.' }
-        format.json { render :show, status: :ok, location: @trip }
-      else
-        format.html { render :edit }
-        format.json { render json: @trip.errors, status: :unprocessable_entity }
+          format.html { redirect_to @trip, notice: 'Trip was successfully updated.' }
+          format.json { render :show, status: :ok, location: @trip }
+        else
+          format.html { render :edit }
+          format.json { render json: @trip.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
-end
-
-
+  
   # DELETE /trips/1
   # DELETE /trips/1.json
   def destroy
@@ -189,4 +188,7 @@ end
     end
 
 end 
+  
+          
+
   

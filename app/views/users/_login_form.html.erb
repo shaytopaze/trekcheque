@@ -5,28 +5,29 @@ function scrollto(div) {
 	document.getElementById(div).scrollIntoView(true);
 }
 </script>
+<script src="https://use.fontawesome.com/ac442f7ad2.js"></script>
 </head>
 <body>
 <div id="top-half">
-<div id="background-video" style="opacity: .8; position: absolute; top: 0; left: 0; width: 100%;">
-  <%= video_tag("The-Truck.mp4", autoplay: :autoplay, loop: :loop) %>
+	<div id="background-video" style="position: absolute; top: 0; left: 0; width: 100%;">
+	<%= video_tag("The-Truck.mp4", autoplay: :autoplay, loop: :loop) %>
 </div>
 <h1 class="trekcheque">
 <div id="login-header">
-<span onclick="scrollto('login-container');">Login | Register</span>
-<span onclick="scrollto('about');"> | About</span>
+	<span onclick="scrollto('login-register');">Login | Register</span>
+	<span onclick="scrollto('about');"> | About</span>
 </div>
-TREK CHEQUE<br>
-<div class="trekcheque"> A road trip expense app, keeping friendships friendly
-</div>
+<i class="fa fa-car"></i>
+TREK <br> CHEQUE<br>
+<div class="trekcheque" style="font-style: italic; text-align: center; padding-top: 10px;" > A road trip expense app, keeping friendships friendly! </div>
 </h1>
 </div>
-<div style="padding-top: 1100px;" id="middle">
+<div style="padding-top: 900px;" id="middle">
 <div class="container" id="login-container" >
 <div id="login-header-two" style="padding-top:20px;">
-<span onclick="scrollto('about');"> About Trek Cheque </span>
 </div>
     	<div class="row" id="login-row">
+<div id="login-register" class="login-register" style="height: 500px;">
 			<div class="col-md-6 col-md-offset-3">
 				<div class="panel panel-login">
 					<div class="panel-heading">
@@ -44,6 +45,9 @@ TREK CHEQUE<br>
 						<div class="row tab-content">
 							<div class="col-lg-12 tab-pane active" role="tabpanel" id="login">
 							<%= form_tag "/login", id: 'login-form', role: 'form', style: "display:block;" do %>
+							  <% flash.each do |value| %>
+								<div class="alert alert-warning"><%= value %></div>
+							  <% end %>
 								<div class="form-group">
 									<input type="email" name="email" tabindex="1" class='form-control' placeholder='Email' id='login-email' %>
 								</div>
@@ -67,7 +71,10 @@ TREK CHEQUE<br>
 							<% end %>
 							</div>
 							<div class="col-lg-12 tab-pane" role="tabpanel" id="register">
-                  <%= form_for user, {id: 'register-form', role: 'form', style: 'display:block;'} do |form| %>
+                            <%= form_for user, {id: 'register-form', role: 'form', style: 'display:block;'} do |form| %>
+								<% flash.each do |value| %>
+								<div class="alert alert-warning"><%= value %></div>
+							  <% end %>
 								<div class="form-group">
 								  <%= form.text_field :name, {id: :user_name, class: 'form-control', placeholder: 'Name'} %>
 								</div>
@@ -97,11 +104,20 @@ TREK CHEQUE<br>
 	</div>
 </div>
 </div>
+</div>
 
-<div style="padding-top: 1000px;">
-<div class="container" id="about" style="height: 600px;">
+<div style="padding-top: 800px;">
+<div class="container" id="about" style="height: 300px;">
   <h2>INFORMATION ABOUT OUR APP</h2>
 	<p>I videotape every customer that comes in here, so that I may blackmail them later. I usually try to keep my sadness pent up inside where it can fester quietly as a mental illness. Why am I sticky and naked? Did I miss something fun? Large bet on myself in round one. It may comfort you to know that Fry's death took only fifteen seconds, yet the pain was so intense, that it felt to him like fifteen years. And it goes without saying, it caused him to empty his bowels. Morbo can't understand his teleprompter because he forgot how you say that letter that's shaped like a man wearing a hat. </p>
 </div>
+</div>
+<div style="padding-top: 200px;">
+<div class="container" id="insta" style="height: 100px;"> 
+<a href='https://www.instagram.com/trekcheque/' target="_blank"><i class="fa fa-instagram fa-3x"></i></a>
+</div>
+<!-- SnapWidget -->
+<script src="https://snapwidget.com/js/snapwidget.js"></script>
+<iframe src="https://snapwidget.com/embed/519980" class="snapwidget-widget" allowTransparency="true" frameborder="0" scrolling="no" style="border:none; overflow:hidden; width:100%; "></iframe>
 </div>
 </body>

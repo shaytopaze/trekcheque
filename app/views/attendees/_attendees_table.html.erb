@@ -8,7 +8,7 @@
 <table>
   <thead>
     <tr>
-      <th>Name</th>
+      <th>Name(s)</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -20,7 +20,7 @@
         <td>Balance: $<%= attendee.balance %></td>
         <% if !@trip.started %>
         <% if current_user.id == attendee.user_id %>
-          <td><button><%= link_to "I can't go :(", trip_attendee_url(@trip, attendee), method: :delete, data: { confirm: 'Are you sure?' } %></button></td>
+          <td><button><%= link_to "Unconfirm", trip_attendee_url(@trip, attendee), method: :delete, data: { confirm: 'Are you sure?' } %></button></td>
         <% end %>
         <% end %>
       </tr>
@@ -29,5 +29,6 @@
 </table>
 
 <br>
+
 
 
