@@ -15,10 +15,33 @@ class TripsController < ApplicationController
     @expense = Expense.new
     @attendees = Attendee.where(trip_id: params[:id])
     @attendees_ids = []
+    @attendees.each do |attendee|
+      @attendees_ids.push(attendee[:user_id])
+    end
+
     @trip_length_night = (@trip.end_date - @trip.start_date).to_i
-    
-    @attendees.each do |a|
-      @attendees_ids.push(a.user_id)
+
+    if @trip.start_location
+      @start_one = @trip.start_location
+      @start_one = @start_one.gsub!(' ', '+') || @start_one
+      @start_one = @start_one.gsub!('.', '') || @start_one
+    end
+
+    if @trip.end_location
+      @end_one = @trip.end_location
+      @end_one = @end_one.gsub!(', ', '+') || @end_one
+      @end_one = @end_one.gsub!('.', '') || @end_one
+    end
+
+    if @trip.start_location && @trip.end_location
+      @google_url = URI("https://maps.googleapis.com/maps/api/distancematrix/json?origins=#{@start_one}&destinations=#{@end_one}&key=#{Rails.application.secrets.SECRET_GOOGLE_KEY}")
+      response = Net::HTTP.get(@google_url)
+      @result = JSON.parse(response)
+      puts @result
+      if @result['rows'][0]['elements'][0]['status'] == "OK"
+        @distance = @result['rows'][0]['elements'][0]['distance']['text']
+        @duration = @result['rows'][0]['elements'][0]['duration']['text']
+      end
     end
 
     @trip_attendees = @attendees.collect { |a| a.user }
@@ -184,7 +207,7 @@ class TripsController < ApplicationController
     end
     # Never trust parameters from the scary internet, only allow the white list through.
     def trip_params
-      params.require(:trip).permit(:name, :accomodation_url, :price_per_night, :number_of_possible_attendees, :start_date, :end_date, :total_possible_cost, :total_confirmed_cost, :started, :ended)
+      params.require(:trip).permit(:name, :accomodation_url, :price_per_night, :number_of_possible_attendees, :start_date, :end_date, :start_location, :end_location, :total_possible_cost, :total_confirmed_cost, :started, :ended)
     end
 
 end 
