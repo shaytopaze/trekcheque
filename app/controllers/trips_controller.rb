@@ -45,7 +45,9 @@ class TripsController < ApplicationController
     end
 
     @trip_attendees = @attendees.collect { |a| a.user }
-    @moderator = @trip_attendees.first.name
+    if @trip_attendees.present?
+      @moderator = @trip_attendees.first.name
+    end
     @expenses = Expense.where(trip_id: params[:id])
     @users = User.all
     @attendee_for_id = Attendee.where(user_id: @users.ids)
