@@ -17,19 +17,20 @@
   <div class="row">
       <% @trips_of_user.each do |trip| %>
       <div class="col-lg-4">
-      <div class="trip-link">
         <%= link_to trip_path(trip.id) do %>  
-        | <strong><%= trip.name %></strong> |
-        <%= trip.start_date %> to <%= trip.end_date %> |
-        <br>
+        <div class="trip-link">
+         <strong><%= trip.name %></strong><br>
+        | <%= trip.start_date %> to <%= trip.end_date %> |
         <br>
         <% if trip.start_location && trip.end_location%>
-        <%= trip.start_location %> to <%= trip.end_location %> |       
+        | <%= trip.start_location %> to <%= trip.end_location %> |       
         <% end %>
-        <p> Friends that came on trip: </p>
-        <% trip.attendees.each do |attendee| %>
+        <br>
+        <br>
+        Friends on the trip:<br>
+        | <% trip.attendees.each do |attendee| %>
         <% friend = User.find(attendee.user_id) %>
-        <%= friend.name %>
+        <%= friend.name %> |
         <% end %>
         <% end %>
       </div>

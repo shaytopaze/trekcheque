@@ -83,6 +83,12 @@ div.trekcheque {
     border-radius: 6px;
   }
 
+.trip-link:hover {
+    padding: 6px;
+    border: 1px solid #00415d;
+    border-radius: 6px;
+}
+
 .panel-login>.panel-heading {
 	color: #00415d;
 	background-color: #fff;
@@ -201,7 +207,7 @@ div.container#about p {
 	border-bottom: solid 1px;
 }
 div.container#about {
-	padding-top: 150px;
+	padding-top: 250px;
 }
 div.login-register {
 	height: 500px;
