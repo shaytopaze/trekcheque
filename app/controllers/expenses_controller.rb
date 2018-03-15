@@ -173,7 +173,8 @@ class ExpensesController < ApplicationController
 
   def inline_edit
     # @attendees = Attendee.where(trip_id: params[:id])
-    @attendees = @expense.payees.all
+    #@attendees = @expense.payees.all
+    @attendees = Attendee.where(trip_id: params[:trip_id])
     @trip_attendees = @attendees.collect { |a| a.user }
     respond_to do |format|
       format.js { render :file => "trips/inline_edit.js.erb" } # create a file named inline_edit.js.erb
