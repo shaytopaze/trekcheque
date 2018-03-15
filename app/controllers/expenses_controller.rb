@@ -85,7 +85,7 @@ class ExpensesController < ApplicationController
         format.html { redirect_to @trip, notice: 'Expense was successfully created.' }
         format.json { render :show, status: :created, location: trip_expenses_path }
       else
-        format.html { redirect_to @trip, notice: 'Expense not successfully created.' }
+        format.html { redirect_to @trip, flash[:alert] = 'Expense not successfully created.' }
         format.json { render json: @expense.errors, status: :unprocessable_entity }
       end
     end

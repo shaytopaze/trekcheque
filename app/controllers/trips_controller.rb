@@ -150,6 +150,7 @@ class TripsController < ApplicationController
                 end
               end
             end
+          end
           format.html { redirect_to @trip, notice: 'Trip was successfully updated.' }
           format.json { render :show, status: :ok, location: @trip }
         else
