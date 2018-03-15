@@ -16,12 +16,12 @@
       <div class="expense-container">
       <tr>
         <td><%= expense.user.name %></td>
-        <td><%= expense.amount %></td>
+        <td>$ <%= expense.amount %></td>
         <td><%= expense.description %></td>
         <% if @attendees_ids.include? current_user.id %>
           <% if !@trip.ended %>
-            <td><%= link_to 'Edit', [:inline_edit, @trip, expense], remote: true %></td>
-            <td><%= link_to 'Destroy', trip_expense_url(@trip, expense), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            <td><button><%= link_to 'Edit', [:inline_edit, @trip, expense], remote: true %></button></td>
+            <td><button><%= link_to 'Destroy', trip_expense_url(@trip, expense), method: :delete, data: { confirm: 'Are you sure?' } %></button></td>
           <% end %>
         <% end %>
       </tr>

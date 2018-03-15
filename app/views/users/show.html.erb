@@ -21,6 +21,13 @@
         <%= link_to trip_path(trip.id) do %>  
         | <strong><%= trip.name %></strong> |
         <%= trip.start_date %> to <%= trip.end_date %> |
+        <br>
+        <br>
+        <p> Friends that came on trip: </p>
+        <% trip.attendees.each do |attendee| %>
+        <% friend = User.find(attendee.user_id) %>
+        <%= friend.name %>
+        <% end %>
         <% end %>
       </div>
       </div>
@@ -28,3 +35,4 @@
   </div>
 </div>
 </body>
+      
