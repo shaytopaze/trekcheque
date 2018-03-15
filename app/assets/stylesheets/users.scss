@@ -76,6 +76,13 @@ div.trekcheque {
 	-moz-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2);
 	box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2);
 }
+
+.panel-login a:hover {
+    padding: 6px;
+    border: 1px solid #00415d;
+    border-radius: 6px;
+  }
+
 .panel-login>.panel-heading {
 	color: #00415d;
 	background-color: #fff;
