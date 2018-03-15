@@ -39,6 +39,7 @@ class UsersController < ApplicationController
       else
         format.html { render :new }
         format.json { render json: @user.errors, status: :unprocessable_entity }
+        flash[:alert] = "There was something wrong with your register credentials. Please try again."
       end
     end
   end

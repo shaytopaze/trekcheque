@@ -24,7 +24,7 @@ class ExpensesController < ApplicationController
     respond_to do |format|
         format.html {redirect_to @trip }
         format.json { render :show, status: :created, location: trip_expenses_path }
-     end
+    end
   end
   # POST /expenses
   # POST /expenses.json
@@ -173,19 +173,22 @@ class ExpensesController < ApplicationController
 
   def inline_edit
     # @attendees = Attendee.where(trip_id: params[:id])
-    @attendees = @expense.payees.all
+    #@attendees = @expense.payees.all
+    @attendees = Attendee.where(trip_id: params[:trip_id])
     @trip_attendees = @attendees.collect { |a| a.user }
+    puts @trip_attendees
     respond_to do |format|
-      format.js { render :file => "trips/inline_edit.js.erb" } # create a file named inline_edit.js.erb
+      format.js { render :file => "trips/inline_edit.js.erb" }
     end
   end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_expense
       @expense = Expense.find(params[:id])
       @trip = Trip.find(params[:trip_id].to_i)
     end
-
+   
     def update_balance
       @willing_payees = @expense.payees.all
       # TODO: this is kinda cavalier about the possibility of errors.  ha ha!

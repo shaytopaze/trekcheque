@@ -137,6 +137,12 @@ class TripsController < ApplicationController
   # PATCH/PUT /trips/1.json
   def update
     respond_to do |format|
+      puts
+      puts
+      puts
+      puts
+      puts '=====tripparams===='
+      puts trip_params
       if @trip.update(trip_params)
         if @trip.started 
           @trip_length_night = (@trip.end_date - @trip.start_date).to_i
@@ -174,17 +180,16 @@ class TripsController < ApplicationController
               end
             end
           end
-        format.html { redirect_to @trip, notice: 'Trip was successfully updated.' }
-        format.json { render :show, status: :ok, location: @trip }
-      else
-        format.html { render :edit }
-        format.json { render json: @trip.errors, status: :unprocessable_entity }
+          format.html { redirect_to @trip, notice: 'Trip was successfully updated.' }
+          format.json { render :show, status: :ok, location: @trip }
+        else
+          format.html { render :edit }
+          format.json { render json: @trip.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
-end
-
-
+  
   # DELETE /trips/1
   # DELETE /trips/1.json
   def destroy
@@ -206,4 +211,7 @@ end
     end
 
 end 
+  
+          
+
   

@@ -9,36 +9,36 @@
 
 trip1 = Trip.create!([{
   name: 'Vegas',
-  price_per_night: 7000,
-  number_of_possible_attendees: 5,
+  price_per_night: 10,
+  number_of_possible_attendees: 2,
   total_possible_cost_cents: 0,
   total_confirmed_cost_cents: 0,
   start_date: '2018/11/25',
-  end_date: '2018/12/04',
+  end_date: '2018/11/26',
   started: false,
   ended: false
   }])
 
 trip2 = Trip.create!([{
   name: 'Hawaii',
-  price_per_night: 9000,
+  price_per_night: 30,
   number_of_possible_attendees: 3,
   total_possible_cost_cents: 0,
   total_confirmed_cost_cents: 0,
   start_date: '2018/11/26',
-  end_date: '2018/12/04',
+  end_date: '2018/11/27',
   started: false,
   ended: false
   }])
 
 trip3 = Trip.create!([{
   name: 'Azerbaijan',
-  price_per_night: 5,
-  number_of_possible_attendees: 7,
+  price_per_night: 60,
+  number_of_possible_attendees: 3,
   total_possible_cost_cents: 0,
   total_confirmed_cost_cents: 0,
   start_date: '2018/11/27',
-  end_date: '2018/12/04',
+  end_date: '2018/11/28',
   started: false,
   ended: false
   }])

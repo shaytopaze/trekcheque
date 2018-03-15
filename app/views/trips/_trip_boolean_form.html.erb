@@ -12,19 +12,10 @@
   <% end %>
 
 <% if !@trip.started %>
-
-  <div class="field">
-    <%= form.label :started %>
-    <%= form.check_box :started, id: :started_id %>
-  </div>
-<% end %>
-
-  <div class="field">
-    <%= form.label :ended %>
-    <%= form.check_box :ended, id: :ended_id %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
+    <%= form.hidden_field :started, value: true %>
+    <%= form.submit 'Start Trip' %>
+  <% else %>
+    <%= form.hidden_field :ended, value: true %>
+    <%= form.submit 'Trip Ended' %>
+    <% end %>
 <% end %>

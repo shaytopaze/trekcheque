@@ -1,67 +1,28 @@
 <script>
 $(document).ready(function() {
   $("#addexpensebtn").on("click", function(event) {
-    $("#addexpenseform").toggle("blind", 200);
+    $("#addexpenseform").toggle("blind", 1000);
   });
 });
 </script>
 
-
 <%= render 'layouts/nav_bar' %>
 <body>
   <h1 id="trip-header">
-    <strong>
-      <%= @trip.name %>
-    </strong>
+  <strong>
+    <%= @trip.name %>
+  </strong>
   </h1>
   <p id="notice"><%= notice %></p>
 
-<div class="container-fluid">
-  <div class="dashboard">
-
-    <div class="attendee column">
-      <h1>Attendees</h1>
-
-      <%= render :partial => './attendees/attendees_table/', trip_attendees: @trip_attendees , attendees_for_id: @attendees_for_id, current_user: :current_user, attendees_ids: @attendees_ids %>
-    
-    </div>
-    <div class="expenses column">
-        <h1>Expenses</h1>
-          <% if @trip.started %>
-
-            <% if @attendees_ids.include? current_user.id %>
-              <% if !@trip.ended %>
-              <button type="button" id="addexpensebtn" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Add Expense</button>
-              <div class="container-fluid" id="addexpenseform">
-              <br>
-              <div class="row-fluid">
-                <div class="span8 well">
-                  <ul class="nav nav-tabs">
-                    <li class="active"> <a href="#even" data-target="#even" data-toggle="tab">Split evenly</a></li>
-                    <li><a href="#portion" data-target="#portion" data-toggle="tab">By Amount</a></li>
-                  </ul>
-                  <div class="tab-content">
-                    <div class="tab-pane active fade in" id="even">
-                      <%= render :partial => 'create_expense_form', expense: @expense, trip: @trip, payee: @payee %>
-                    </div>
-                    <div class="tab-pane" id="portion">
-                      <%= render :partial => 'expense_options_form', expense: @expense, trip: @trip, payee: @payee, trip_attendees: @trip_attendees %>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              </div>
-              <% else %>
-                <%= render :partial => 'show_expense_tallies', owe_statemets: @owe_statements %>
-              <% end %>
-            <% end %>
-            <%= render :partial => './expenses/expense_list', expenses: @expenses, trip: @trip %>
-          <% end %>
-    </div>
-
+  <div class="container-fluid">
+    <div class="dashboard">
       <div class="trip-info column">
         <h1>Trip Info</h1>
-        <h3><%= @trip.start_location %> to <%= @trip.end_location %> </h3>
+        <h3>
+            <%= @trip.start_location %> to
+                <%= @trip.end_location %>
+        </h3>
 
         <p>
           <strong>Price per night:</strong></br>
@@ -74,19 +35,20 @@ $(document).ready(function() {
         </p>
 
         <% if @trip.start_location && @trip.end_location %>
-          <% if (@result['rows'][0]['elements'][0]['status'] == "OK" )%>
-            <p>
-              <strong>Driving distance:</strong></br>
-              <%= @distance %> 
-            </p>
-
-            <p>
-              <strong>Driving time (hopefully):</strong></br>
-              <%= @duration %> 
-            </p>
-          <% end %>
+            <% if (@result['rows'][0]['elements'][0]['status'] == "OK" )%>
+                <p>
+                    <strong>Driving distance:</strong>
+                    </br>
+                    <%= @distance %>
+                </p>
+        
+                <p>
+                    <strong>Driving time (hopefully):</strong>
+                    </br>
+                    <%= @duration %>
+                </p>
+            <% end %>
         <% end %>
-
         <p>
           <strong>Dates:</strong></br>
           <%= @trip.start_date.strftime("%B %d, %Y") %> to <%= @trip.end_date.strftime("%B %d, %Y") %>
@@ -94,7 +56,7 @@ $(document).ready(function() {
 
         <p>
           <strong>Number of possible attendees:</strong></br>
-            <%= @trip.number_of_possible_attendees %>
+          <%= @trip.number_of_possible_attendees %>
         </p>
 
         <p>
@@ -107,27 +69,60 @@ $(document).ready(function() {
           $<%= @trip.total_confirmed_cost  %>
         </p>
 
-        <% if @trip.accomodation_url != "" %>
-          <p>
-            <strong><%= link_to 'Accommodation Link', @trip.accomodation_url %><strong>
-          </p>
-        <% end %>
-
-        <%= link_to 'Edit', edit_trip_path(@trip) %> |
-        <%= link_to 'Back', trips_path %>
+                <% if @trip.accomodation_url != "" %>
+                    <p>
+                        <strong>
+                            <%= link_to 'Accommodation Link', @trip.accomodation_url %>
+                                <strong>
+                    </p>
+                    <% end %>
 
         <% if @attendees.count > 0 %>
           <%= render :partial => 'trip_boolean_form', trip: @trip %>
         <% end %>
 
       </div>
+
+      <div class="expenses column">
+        <h1>Expenses</h1>
+          <% if @trip.started %>
+            <% if @attendees_ids.include? current_user.id %>
+              <% if !@trip.ended %>
+              <button type="button" id="addexpensebtn" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Add Expense</button>
+              <div class="container-fluid" id="addexpenseform" style="display:none;">
+              <br>
+                <div class="row-fluid">
+                  <div class="span8 well">
+                    <ul class="nav nav-tabs">
+                      <li class="active"> <a href="#even" data-target="#even" data-toggle="tab">Split evenly</a></li>
+                      <li><a href="#portion" data-target="#portion" data-toggle="tab">By Amount</a></li>
+                    </ul>
+                    <div class="tab-content">
+                      <div class="tab-pane active fade in" id="even">
+                        <%= render :partial => 'create_expense_form', expense: @expense, trip: @trip, payee: @payee %>
+                      </div>
+                      <div class="tab-pane" id="portion">
+                      <%= render :partial => 'expense_options_form', expense: @expense, trip: @trip, payee: @payee, trip_attendees: @trip_attendees %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <% else %>
+                <%= render :partial => 'show_expense_tallies', owe_statemets: @owe_statements %>
+              <% end %>
+            <% end %>
+            <%= render :partial => './expenses/expense_list', expenses: @expenses, trip: @trip %>
+          <% end %>
+      </div>
+      <div class="attendee column">
+        <h1>Attendees</h1>
+        <%= render :partial => './attendees/attendees_table/', trip_attendees: @trip_attendees , attendees_for_id: @attendees_for_id, current_user: :current_user, attendees_ids: @attendees_ids %>
+      </div>
+
     </div>
   </div>
 </body>
-
-
-
-
 
 
 
