@@ -127,7 +127,7 @@ class TripsController < ApplicationController
         puts @total_possible_accomodation_cost_per_person
         @trip.update_attribute(:total_possible_cost, @total_possible_accomodation_cost_per_person)
         @trip.update_attribute(:total_confirmed_cost, @total_confirmed_accomodation_cost_per_person)
-        format.html { redirect_to @trip, notice: 'Trip was successfully created.' }
+        format.html { redirect_to @trip, notice: "Welcome to your trip's page!" }
         format.json { render :show, status: :created, location: @trip }
       else
         format.html { render :new }
@@ -183,7 +183,7 @@ class TripsController < ApplicationController
               end
             end
           end
-          format.html { redirect_to @trip, notice: 'Trip was successfully updated.' }
+          format.html { redirect_to @trip, notice: 'Trip status has been updated.' }
           format.json { render :show, status: :ok, location: @trip }
         else
           format.html { render :edit }

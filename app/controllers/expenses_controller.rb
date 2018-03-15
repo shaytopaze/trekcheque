@@ -82,10 +82,10 @@ class ExpensesController < ApplicationController
         @attendee_payer_of_expense = Attendee.where(user_id: @expense.user_id, trip_id: params[:trip_id].to_i).first
         @payer_balance = @attendee_payer_of_expense.balance - @expense.amount
         @attendee_payer_of_expense.update_attribute(:balance, @payer_balance)
-        format.html { redirect_to @trip, notice: 'Expense was successfully created.' }
+        format.html { redirect_to @trip, notice: 'An expense has been added.' }
         format.json { render :show, status: :created, location: trip_expenses_path }
       else
-        format.html { redirect_to @trip, notice: 'Expense not successfully created.' }
+        format.html { redirect_to @trip, notice: 'Expense not successfully added, please check that form is complete.' }
         format.json { render json: @expense.errors, status: :unprocessable_entity }
       end
     end
@@ -152,10 +152,10 @@ class ExpensesController < ApplicationController
         @attendee_payer_of_expense = Attendee.where(user_id: @updated_expense.user_id, trip_id: params[:trip_id].to_i).first
         @payer_balance = @attendee_payer_of_expense.balance - @updated_expense.amount
         @attendee_payer_of_expense.update_attribute(:balance, @payer_balance)
-        format.html { redirect_to @trip, notice: 'Expense was successfully created.' }
+        format.html { redirect_to @trip, notice: 'Expense has been updated.' }
         format.json { render :show, status: :created, location: trip_expenses_path }
       else
-        format.html { redirect_to @trip, notice: 'Expense not successfully created.' }
+        format.html { redirect_to @trip, notice: 'Expense not successfully updated, please check that form is complete.' }
         format.json { render json: @updated_expense.errors, status: :unprocessable_entity }
       end
     end
@@ -166,7 +166,7 @@ class ExpensesController < ApplicationController
     @trip = Trip.find(params[:trip_id].to_i)
     @expense.destroy
     respond_to do |format|
-      format.html { redirect_to @trip, notice: 'Expense was successfully destroyed.' }
+      format.html { redirect_to @trip, notice: 'An expense has been deleted.' }
       format.json { head :no_content }
     end
   end
