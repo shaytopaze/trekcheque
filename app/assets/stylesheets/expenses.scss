@@ -11,6 +11,12 @@
     grid-gap: 16px;
     padding: 20px;
 }
+
+.description-table {
+    max-width: 20%;
+    word-break: break-all;
+}
+
 .col {
     display: grid;
     grid-gap: 24px;

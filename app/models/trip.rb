@@ -5,7 +5,7 @@ class Trip < ApplicationRecord
   has_many :expenses
   has_many :users, :through => :attendees
 
-  validates :name, presence: true
+  validates :name, presence: true, length: { minimum: 1, maximum: 30 }
   validates :number_of_possible_attendees, presence: true
 
   validate :validate_date
