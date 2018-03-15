@@ -84,8 +84,27 @@ $(document).ready(function() {
       </div>
 
       <div class="expenses column">
-        <h1>Expenses</h1>
+      <% if !@trip.started%>
+          <% if @trip.type_of_trip %>
+          <% if @trip.type_of_trip == "Weekend Getaway" %>
+            <%= image_tag("Weekend-Getaway.jpg", width: "500", style: "border: 1px solid #00415d; border-radius: 5px;")%>
+          <% end %>
+          <% if @trip.type_of_trip == "Bachelorette" %>
+            <%= image_tag("Bachelorette-party.jpg", width: "500", style: "border: 1px solid #00415d; border-radius: 5px;")%>
+          <% end %>
+          <% if @trip.type_of_trip == "Adventure" %>
+            <%= image_tag("Adventure.jpg", width: "500", style: "border: 1px solid #00415d; border-radius: 5px;")%>
+          <% end %>
+          <% if @trip.type_of_trip == "Road Trip" %>
+            <%= image_tag("road-Trip.jpg", width: "500", style: "border: 1px solid #00415d; border-radius: 5px;")%>
+          <% end %>
+          <% if @trip.type_of_trip == "Boys Trip" %>
+            <%= image_tag("boys-trip.jpg", width: "500", style: "border: 1px solid #00415d; border-radius: 5px;")%>
+          <% end %>
+        <% end %>
+        <% end %>
           <% if @trip.started %>
+          <h1>Expenses</h1>
             <% if @attendees_ids.include? current_user.id %>
               <% if !@trip.ended %>
               <button type="button" id="addexpensebtn" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Add Expense</button>

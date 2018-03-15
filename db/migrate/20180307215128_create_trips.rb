@@ -11,6 +11,7 @@ class CreateTrips < ActiveRecord::Migration[5.1]
       t.date :end_date
       t.integer :total_possible_cost_cents
       t.integer :total_confirmed_cost_cents
+      t.string :type_of_trip
       t.boolean :started
       t.boolean :ended
 
