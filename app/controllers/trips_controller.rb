@@ -66,7 +66,7 @@ class TripsController < ApplicationController
                 negative[1] = negative[1] - @temp
                 @user_who_owes = User.find(positive[0])
                 @user_getting_paid = User.find(negative[0])
-                @owe_statements.push("#{@user_who_owes.name} owes #{@user_getting_paid.name} #{@temp}")
+                @owe_statements.push("#{@user_who_owes.name} owes #{@user_getting_paid.name} $#{@temp}")
               end
             end
           end
@@ -114,6 +114,12 @@ class TripsController < ApplicationController
   # PATCH/PUT /trips/1.json
   def update
     respond_to do |format|
+      puts
+      puts
+      puts
+      puts
+      puts '=====tripparams===='
+      puts trip_params
       if @trip.update(trip_params)
         if @trip.started 
           @trip_length_night = (@trip.end_date - @trip.start_date).to_i

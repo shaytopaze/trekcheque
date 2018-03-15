@@ -172,9 +172,9 @@ class ExpensesController < ApplicationController
   end
 
   def inline_edit
-    @attendees = @expense.payees.all
-    # @attendeees = Attendee.where(trip_id: params[:trip_id])
-    puts @attendees
+    # @attendees = Attendee.where(trip_id: params[:id])
+    #@attendees = @expense.payees.all
+    @attendees = Attendee.where(trip_id: params[:trip_id])
     @trip_attendees = @attendees.collect { |a| a.user }
     puts @trip_attendees
     respond_to do |format|
