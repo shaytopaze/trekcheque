@@ -9,7 +9,7 @@ function scrollto(div) {
 </head>
 <body>
 <div id="top-half">
-	<div id="background-video" style="opacity: .8; position: absolute; top: 0; left: 0; width: 100%;">
+	<div id="background-video" style="position: absolute; top: 0; left: 0; width: 100%;">
 	<%= video_tag("The-Truck.mp4", autoplay: :autoplay, loop: :loop) %>
 </div>
 <h1 class="trekcheque">
@@ -17,8 +17,9 @@ function scrollto(div) {
 	<span onclick="scrollto('login-register');">Login | Register</span>
 	<span onclick="scrollto('about');"> | About</span>
 </div>
-TREK CHEQUE<br>
-<div class="trekcheque"> A road trip expense app, keeping friendships friendly </div>
+<i class="fa fa-car"></i>
+TREK <br> CHEQUE<br>
+<div class="trekcheque" style="font-style: italic; text-align: center; padding-top: 10px;" > A road trip expense app, keeping friendships friendly! </div>
 </h1>
 </div>
 <div style="padding-top: 900px;" id="middle">
