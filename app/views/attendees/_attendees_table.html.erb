@@ -1,5 +1,8 @@
+<h3> Attendees Balance </h3>
+<% if @attendees.count < @trip.number_of_possible_attendees%>
 <% if @attendees_ids.exclude? current_user.id %>
   <tr><%= button_to "Join Trip!", trip_attendees_path(@trip, current_user), method: :post %></tr>
+<% end %>
 <% end %>
 
 <table>
@@ -14,7 +17,7 @@
     <% @attendees.each do |attendee| %>
       <tr>
         <td><i><%= attendee.user.name %></i></td>
-        <td>Balance: $ <%= attendee.balance %></td>
+        <td>Balance: $<%= attendee.balance %></td>
         <% if !@trip.started %>
         <% if current_user.id == attendee.user_id %>
           <td><button><%= link_to "Unconfirm", trip_attendee_url(@trip, attendee), method: :delete, data: { confirm: 'Are you sure?' } %></button></td>
