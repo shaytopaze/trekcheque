@@ -18,7 +18,7 @@ function toggleUpdateForm() {
 
   <% @expenses.each do |expense| %>
   <tbody>
-      <div class="expense-container">
+    <div class="expense-container">
       <tr>
         <td><%= expense.user.name %></td>
         <td>$ <%= expense.amount %></td>
@@ -27,35 +27,35 @@ function toggleUpdateForm() {
           <% if !@trip.ended %>
             <td><button><%= link_to 'Edit', [:inline_edit, @trip, expense], onclick: "toggleUpdateForm()", datatarget: expense.id, remote: true %></button></td>
             <td><button><%= link_to 'Destroy', trip_expense_url(@trip, expense), method: :delete, data: { confirm: 'Are you sure?' } %></button></td>
-            <% end %>
-            <% end %>
-            </tr>
-            </div>
-            </tbody>
-            <% end %>
-            </table>
-            <div class="container-fluid" id="editexpenseform">
-              <br>
-    <div class="row-fluid" id="expense-form-container" style="display: none;">
-        <div class="span8 well">
-            <ul class="nav nav-tabs">
-                <li class="active"> <a href="#editeven" data-target="#editeven" data-toggle="tab">Split evenly</a>
-
-                </li>
-                <li><a href="#editportion" data-target="#editportion" data-toggle="tab">By Amount</a>
-
-                </li>
-            </ul>
-            <div class="tab-content">
-                <div class="tab-pane active fade in" id="editeven">
-                <div id="expense-edit-partial"></div>
-                </div>
-                <div class="tab-pane" id="editportion">
-                <div id="expense-edit-options-partial"></div>
-                </div>
-            </div>
-        </div>
+          <% end %>
+        <% end %>
+      </tr>
     </div>
+  </tbody>
+  <% end %>
+</table>
+
+<div class="container-fluid" id="editexpenseform">
+<br>
+  <div class="row-fluid" id="expense-form-container" style="display: none;">
+    <div class="span8 well">
+      <ul class="nav nav-tabs">
+        <li class="active"> <a href="#editeven" data-target="#editeven" data-toggle="tab">Split evenly</a></li>
+        <li><a href="#editportion" data-target="#editportion" data-toggle="tab">By Amount</a></li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane active fade in" id="editeven">
+          <div id="expense-edit-partial">
+          </div>
+        </div>
+                  
+        <div class="tab-pane" id="editportion">
+          <div id="expense-edit-options-partial">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 </div>
