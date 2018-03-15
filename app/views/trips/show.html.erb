@@ -19,10 +19,10 @@ $(document).ready(function() {
     <div class="dashboard">
       <div class="trip-info column">
         <h1>Trip Info</h1>
-        <p>
-          <strong>Accomodation url:</strong></br>
-          <%= @trip.accomodation_url %>
-        </p>
+        <h3>
+            <%= @trip.start_location %> to
+                <%= @trip.end_location %>
+        </h3>
 
         <p>
           <strong>Price per night:</strong></br>
@@ -34,6 +34,21 @@ $(document).ready(function() {
           <%= @trip_length_night %> night(s)
         </p>
 
+        <% if @trip.start_location && @trip.end_location %>
+            <% if (@result['rows'][0]['elements'][0]['status'] == "OK" )%>
+                <p>
+                    <strong>Driving distance:</strong>
+                    </br>
+                    <%= @distance %>
+                </p>
+        
+                <p>
+                    <strong>Driving time (hopefully):</strong>
+                    </br>
+                    <%= @duration %>
+                </p>
+                <% end %>
+                    <% end %>
         <p>
           <strong>Dates:</strong></br>
           <%= @trip.start_date.strftime("%B %d, %Y") %> to <%= @trip.end_date.strftime("%B %d, %Y") %>
@@ -53,6 +68,14 @@ $(document).ready(function() {
           <strong>Accomodation per person (confirmed numbers):</strong></br>
           $<%= @trip.total_confirmed_cost  %>
         </p>
+
+                <% if @trip.accomodation_url != "" %>
+                    <p>
+                        <strong>
+                            <%= link_to 'Accommodation Link', @trip.accomodation_url %>
+                                <strong>
+                    </p>
+                    <% end %>
 
         <% if @attendees.count > 0 %>
           <%= render :partial => 'trip_boolean_form', trip: @trip %>
@@ -100,10 +123,6 @@ $(document).ready(function() {
     </div>
   </div>
 </body>
-
-
-
-
 
 
 

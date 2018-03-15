@@ -208,11 +208,10 @@ class ExpensesController < ApplicationController
           attendee_for_balance.update_attribute(:balance, @attendee_balance)
         end
       end
-      
-      @attendee_payer_of_expense = Attendee.where(user_id: @expense.user_id, trip_id: params[:trip_id].to_i).first
-      @gets_back = (@payee_owes * @payee_size)
-      @payer_balance = @attendee_payer_of_expense.balance + @gets_back
-      @attendee_payer_of_expense.update_attribute(:balance, @payer_balance)
+        @attendee_payer_of_expense = Attendee.where(user_id: @expense.user_id, trip_id: params[:trip_id].to_i).first
+        @gets_back = (@payee_owes * @payee_size)
+        @payer_balance = @attendee_payer_of_expense.balance + @gets_back
+        @attendee_payer_of_expense.update_attribute(:balance, @payer_balance)
     end
     # Never trust parameters from the scary internet, only allow the white list through.
     def expense_params
