@@ -19,50 +19,7 @@ $(document).ready(function() {
 
 <div class="container-fluid">
   <div class="dashboard">
-    <div class="attendee column">
-      <h1>Attendees</h1>
-
-      <%= render :partial => './attendees/attendees_table/', trip_attendees: @trip_attendees , attendees_for_id: @attendees_for_id, current_user: :current_user, attendees_ids: @attendees_ids %>
-      </div>
-
-      <div class="expenses column">
-        <h1>Expenses</h1>
-          <% if @trip.started %>
-            <% if @attendees_ids.include? current_user.id %>
-              <% if !@trip.ended %>
-              <button type="button" id="addexpensebtn" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Add Expense</button>
-              <div class="container-fluid" id="addexpenseform" style="display:none;">
-              <br>
-    <div class="row-fluid">
-        <div class="span8 well">
-            <ul class="nav nav-tabs">
-                <li class="active"> <a href="#even" data-target="#even" data-toggle="tab">Split evenly</a>
-
-                </li>
-                <li><a href="#portion" data-target="#portion" data-toggle="tab">By Amount</a>
-
-                </li>
-            </ul>
-            <div class="tab-content">
-                <div class="tab-pane active fade in" id="even">
-                <%= render :partial => 'create_expense_form', expense: @expense, trip: @trip, payee: @payee %>
-                </div>
-                <div class="tab-pane" id="portion">
-                <%= render :partial => 'expense_options_form', expense: @expense, trip: @trip, payee: @payee, trip_attendees: @trip_attendees %>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-              <% else %>
-                <%= render :partial => 'show_expense_tallies', owe_statemets: @owe_statements %>
-              <% end %>
-            <% end %>
-            <%= render :partial => './expenses/expense_list', expenses: @expenses, trip: @trip %>
-          <% end %>
-      </div>
-
-      <div class="trip-info column">
+    <div class="trip-info column">
         <h1>Trip Info</h1>
 
         <p>
@@ -105,6 +62,49 @@ $(document).ready(function() {
         <% end %>
 
       </div>
+
+      <div class="expenses column">
+        <h1>Expenses</h1>
+          <% if @trip.started %>
+            <% if @attendees_ids.include? current_user.id %>
+              <% if !@trip.ended %>
+              <button type="button" id="addexpensebtn" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Add Expense</button>
+              <div class="container-fluid" id="addexpenseform" style="display:none;">
+              <br>
+    <div class="row-fluid">
+        <div class="span8 well">
+            <ul class="nav nav-tabs">
+                <li class="active"> <a href="#even" data-target="#even" data-toggle="tab">Split evenly</a>
+
+                </li>
+                <li><a href="#portion" data-target="#portion" data-toggle="tab">By Amount</a>
+
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active fade in" id="even">
+                <%= render :partial => 'create_expense_form', expense: @expense, trip: @trip, payee: @payee %>
+                </div>
+                <div class="tab-pane" id="portion">
+                <%= render :partial => 'expense_options_form', expense: @expense, trip: @trip, payee: @payee, trip_attendees: @trip_attendees %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+              <% else %>
+                <%= render :partial => 'show_expense_tallies', owe_statemets: @owe_statements %>
+              <% end %>
+            <% end %>
+            <%= render :partial => './expenses/expense_list', expenses: @expenses, trip: @trip %>
+          <% end %>
+      </div>
+<div class="attendee column">
+      <h1>Attendees</h1>
+
+      <%= render :partial => './attendees/attendees_table/', trip_attendees: @trip_attendees , attendees_for_id: @attendees_for_id, current_user: :current_user, attendees_ids: @attendees_ids %>
+      </div>
+      
     </div>
   </div>
 </body>
