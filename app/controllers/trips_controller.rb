@@ -15,23 +15,33 @@ class TripsController < ApplicationController
     @expense = Expense.new
     @attendees = Attendee.where(trip_id: params[:id])
     @attendees_ids = []
+    @attendees.each do |attendee|
+      @attendees_ids.push(attendee[:user_id])
+    end
+
     @trip_length_night = (@trip.end_date - @trip.start_date).to_i
 
-    @start_one = @trip.start_location
-    @start_one = @start_one.gsub!(' ', '+') || @start_one
-    @start_one = @start_one.gsub!('.', '') || @start_one
+    if @trip.start_location
+      @start_one = @trip.start_location
+      @start_one = @start_one.gsub!(' ', '+') || @start_one
+      @start_one = @start_one.gsub!('.', '') || @start_one
+    end
 
-    @end_one = @trip.end_location
-    @end_one = @end_one.gsub!(', ', '+') || @end_one
-    @end_one = @end_one.gsub!('.', '') || @end_one
+    if @trip.end_location
+      @end_one = @trip.end_location
+      @end_one = @end_one.gsub!(', ', '+') || @end_one
+      @end_one = @end_one.gsub!('.', '') || @end_one
+    end
 
-    @google_url = URI("https://maps.googleapis.com/maps/api/distancematrix/json?origins=#{@start_one}&destinations=#{@end_one}&key=#{Rails.application.secrets.SECRET_GOOGLE_KEY}")
-    response = Net::HTTP.get(@google_url)
-    @result = JSON.parse(response)
-    puts @result
-    if @result['rows'][0]['elements'][0]['status'] == "OK"
-      @distance = @result['rows'][0]['elements'][0]['distance']['text']
-      @duration = @result['rows'][0]['elements'][0]['duration']['text']
+    if @trip.start_location && @trip.end_location
+      @google_url = URI("https://maps.googleapis.com/maps/api/distancematrix/json?origins=#{@start_one}&destinations=#{@end_one}&key=#{Rails.application.secrets.SECRET_GOOGLE_KEY}")
+      response = Net::HTTP.get(@google_url)
+      @result = JSON.parse(response)
+      puts @result
+      if @result['rows'][0]['elements'][0]['status'] == "OK"
+        @distance = @result['rows'][0]['elements'][0]['distance']['text']
+        @duration = @result['rows'][0]['elements'][0]['duration']['text']
+      end
     end
 
     @trip_attendees = @attendees.collect { |a| a.user }

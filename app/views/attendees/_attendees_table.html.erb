@@ -1,8 +1,8 @@
 <h3> Attendees Balance </h3>
 <% if @attendees.count < @trip.number_of_possible_attendees%>
-<% if @attendees_ids.exclude? current_user.id %>
-  <tr><%= button_to "Join Trip!", trip_attendees_path(@trip, current_user), method: :post %></tr>
-<% end %>
+  <% if @attendees_ids.exclude? current_user.id %>
+    <tr><%= button_to "Join Trip!", trip_attendees_path(@trip, current_user), method: :post %></tr>
+  <% end %>
 <% end %>
 
 
