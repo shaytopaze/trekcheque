@@ -117,6 +117,7 @@ $(document).ready(function() {
       </div>
       <div class="attendee column">
         <h1>Attendees</h1>
+        <h4>Moderator: <%= @trip_attendees.first.name %></h4>
         <%= render :partial => './attendees/attendees_table/', trip_attendees: @trip_attendees , attendees_for_id: @attendees_for_id, current_user: :current_user, attendees_ids: @attendees_ids %>
       </div>
 
