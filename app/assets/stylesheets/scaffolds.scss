@@ -29,12 +29,6 @@ a {
   &:visited {
     color: #666;
   }
-
-  &:hover {
-    padding: 10px;
-    border: 1px solid #00415d;
-    border-radius: 6px;
-  }
 }
 
 th {
@@ -92,6 +86,11 @@ label {
 .navbar-default {
   background-color: rgb(45, 185, 174)
 }
+
+.navbar a:hover {
+    border: 1px solid #00415d;
+    border-radius: 6px;
+  }
 
 .navbar-brand-name {
   font-family: 'Montserrat', sans-serif;
