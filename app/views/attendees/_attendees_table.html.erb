@@ -1,15 +1,14 @@
-<h3> Attendees Balance </h3>
+<h3>Balance</h3>
 <% if @attendees.count < @trip.number_of_possible_attendees%>
-<% if @attendees_ids.exclude? current_user.id %>
-  <tr><%= button_to "Join Trip!", trip_attendees_path(@trip, current_user), method: :post %></tr>
+  <% if @attendees_ids.exclude? current_user.id %>
+    <tr><%= button_to "Join Trip!", trip_attendees_path(@trip, current_user), method: :post %></tr>
+  <% end %>
 <% end %>
-<% end %>
-
 
 <table>
   <thead>
     <tr>
-      <th>Name</th>
+      <th>Name(s)</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -18,10 +17,10 @@
     <% @attendees.each do |attendee| %>
       <tr>
         <td><i><%= attendee.user.name %></i></td>
-        <td>Balance: $<%= attendee.balance %></td>
+        <td>$<%= attendee.balance %></td>
         <% if !@trip.started %>
         <% if current_user.id == attendee.user_id %>
-          <td><button><%= link_to "I can't go :(", trip_attendee_url(@trip, attendee), method: :delete, data: { confirm: 'Are you sure?' } %></button></td>
+          <td><button><%= link_to "Unconfirm", trip_attendee_url(@trip, attendee), method: :delete, data: { confirm: 'Are you sure?' } %></button></td>
         <% end %>
         <% end %>
       </tr>
@@ -30,5 +29,6 @@
 </table>
 
 <br>
+
 
 

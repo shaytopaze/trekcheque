@@ -16,25 +16,22 @@
 <div class="container-fluid">
   <div class="row">
       <% @trips_of_user.each do |trip| %>
-        <% if trip.accomodation_url %>
-        <% image_selector = BestImage::ImageSelector.new(trip[:accomodation_url]) %>
-
-        <% if image_selector.best_image %>
-          <% @best_image = image_selector.best_image %>
-        <% else %>
-          <% image_selector.errors %>
-        <% end %>
-        <% end %>
       <div class="col-lg-4">
-      <div class="trip-link">
         <%= link_to trip_path(trip.id) do %>  
-        | <strong><%= trip.name %></strong> |
-        <%= trip.start_date %> to <%= trip.end_date %> |
+        <div class="trip-link">
+         <strong><%= trip.name %></strong><br>
+        | <%= trip.start_date %> to <%= trip.end_date %> |
+        <br>
+        <% if trip.start_location && trip.end_location%>
+        | <%= trip.start_location %> to <%= trip.end_location %> |       
         <% end %>
-        <% if  trip.accomodation_url %>
-        <div class="accomodation-image">
-          <%= image_tag(@best_image) %>
-        </div>
+        <br>
+        <br>
+        Friends on the trip:<br>
+        | <% trip.attendees.each do |attendee| %>
+        <% friend = User.find(attendee.user_id) %>
+        <%= friend.name %> |
+        <% end %>
         <% end %>
       </div>
       </div>
@@ -42,3 +39,4 @@
   </div>
 </div>
 </body>
+      
