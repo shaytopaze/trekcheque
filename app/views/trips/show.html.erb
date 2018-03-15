@@ -20,8 +20,8 @@ $(document).ready(function() {
       <div class="trip-info column">
         <h1>Trip Info</h1>
         <h3>
-            <%= @trip.start_location %> to
-                <%= @trip.end_location %>
+            <%= @trip.start_location || "Point A"%> to
+                <%= @trip.end_location || "Point B"%>
         </h3>
 
         <p>
