@@ -62,6 +62,10 @@ div.trekcheque {
 	height: -webkit-fill-available;
 	text-align: center;
 }
+#insta {
+	height: -webkit-fill-available;
+	text-align: center;
+}
 
 #login-row {
 	padding-top: 30%;
@@ -180,4 +184,22 @@ div.trekcheque {
 	padding-bottom: 20px;
 	font-size: 1em;
 	text-align: center
+}
+div.container h2 {
+	padding-top: 50px;
+	border-top: solid 1px;
+}
+div.container#about p {
+	padding-bottom: 50px;
+	border-bottom: solid 1px;
+}
+div.container#about {
+	padding-top: 150px;
+}
+div.login-register {
+	height: 500px;
+	background-image: url("login.jpeg")
+}
+.login-register .col-md-6 {
+	padding-top: 100px;
 }
