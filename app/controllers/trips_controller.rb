@@ -114,6 +114,12 @@ class TripsController < ApplicationController
   # PATCH/PUT /trips/1.json
   def update
     respond_to do |format|
+      puts
+      puts
+      puts
+      puts
+      puts '=====tripparams===='
+      puts trip_params
       if @trip.update(trip_params)
         if @trip.started 
           @trip_length_night = (@trip.end_date - @trip.start_date).to_i
