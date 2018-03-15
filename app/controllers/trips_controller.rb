@@ -101,6 +101,7 @@ class TripsController < ApplicationController
   # GET /trips/new
   def new
     @trip = Trip.new
+    @trip_types = [["Weekend Getaway", 1], ["Boys Trip", 2], ["Bachelorette", 3], ["Road Trip", 4], ["Adventure", 5]]
   end
 
   # GET /trips/1/edit
@@ -116,6 +117,7 @@ class TripsController < ApplicationController
     @price_per_night = @trip.price_per_night
     @trip_length_night = (@trip.end_date - @trip.start_date).to_i
     @total_cost = @price_per_night.to_i * @trip_length_night.to_i
+    @trip_types = [["Weekend Getaway", 1], ["Boys Trip", 2], ["Bachelorette", 3], ["Road Trip", 4], ["Adventure", 5]]
     
     respond_to do |format|
       @attendees_amount = @attendees.size

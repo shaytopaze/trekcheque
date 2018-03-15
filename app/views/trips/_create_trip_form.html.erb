@@ -33,6 +33,10 @@
   </div>
 
   <div class="field">
+      <%= select_tag :type_of_trip, options_for_select(trip_types) %>
+  </div> 
+
+  <div class="field">
     <%= form.label :price_per_night %>
     <%= form.number_field :price_per_night, :step => 0.01, :min => 0, id: :trip_price_per_night %>
   </div>
