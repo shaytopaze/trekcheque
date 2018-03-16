@@ -15,6 +15,7 @@ class TripsController < ApplicationController
     puts @trip
     @trips = Trip.all
     @expense = Expense.new
+    @new_trip = Trip.new
     @attendees = Attendee.where(trip_id: params[:id])
     @attendees_ids = []
     @attendees.each do |attendee|
@@ -101,6 +102,7 @@ class TripsController < ApplicationController
 
   # GET /trips/new
   def new
+    puts "IM IN TRIPS NEW"
     @new_trip = Trip.new
   end
 
@@ -125,7 +127,6 @@ class TripsController < ApplicationController
   def create
     puts "HEY IM IN TRIPS CREATE"
     @new_trip = Trip.create(trip_params)
-    # @new_trip = Trip.new(trip_params)
     @attendees = Attendee.where(trip_id: params[:id])
     @number_of_possible_attendees = @new_trip.number_of_possible_attendees
     @price_per_night = @new_trip.price_per_night
@@ -140,14 +141,14 @@ class TripsController < ApplicationController
         @total_possible_accomodation_cost_per_person = @total_cost.to_i / @number_of_possible_attendees.to_i
         puts "TOTAL POSSIBLE COST"
         puts @total_possible_accomodation_cost_per_person
-        @trip.update_attribute(:total_possible_cost, @total_possible_accomodation_cost_per_person)
-        @trip.update_attribute(:total_confirmed_cost, @total_confirmed_accomodation_cost_per_person)
+        @new_trip.update_attribute(:total_possible_cost, @total_possible_accomodation_cost_per_person)
+        @new_trip.update_attribute(:total_confirmed_cost, @total_confirmed_accomodation_cost_per_person)
         format.html { redirect_to "/trips/#{@new_trip.id}", notice: 'Trip was successfully created.' }
         format.json { render :show, status: :created, location: @trip }
       else
         format.html { redirect_to @new_trip }
         # format.html { render :new }
-        format.json { render json: @trip.errors, status: :unprocessable_entity }
+        format.json { render json: @new_trip.errors, status: :unprocessable_entity }
       end
     end
   end
