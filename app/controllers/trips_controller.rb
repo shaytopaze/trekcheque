@@ -22,12 +22,16 @@ class TripsController < ApplicationController
     @trip_length_night = (@trip.end_date - @trip.start_date).to_i
 
     if @trip.start_location
+      @start_trip = @trip.start_location.to_s
+      @start_trip_loc = @start_trip + ""
       @start_one = @trip.start_location
-      @start_one = @start_one.gsub!(' ', '+') || @start_one
+      @start_one = @start_one.gsub!(', ', '+') || @start_one
       @start_one = @start_one.gsub!('.', '') || @start_one
     end
 
     if @trip.end_location
+      @end_trip = @trip.end_location.to_s
+      @end_trip_loc = @end_trip + ""
       @end_one = @trip.end_location
       @end_one = @end_one.gsub!(', ', '+') || @end_one
       @end_one = @end_one.gsub!('.', '') || @end_one
