@@ -11,8 +11,6 @@ class TripsController < ApplicationController
   # GET /trips/1
   # GET /trips/1.json
   def show
-    puts "HEY IM IN TRIPS SHOW"
-    puts @trip.name
     @trip_types = [["Weekend Getaway", 1], ["Boys Trip", 2], ["Bachelorette", 3], ["Road Trip", 4], ["Adventure", 5]]
     @trips = Trip.all
     @expense = Expense.new
@@ -109,7 +107,6 @@ class TripsController < ApplicationController
 
   # GET /trips/new
   def new
-    puts "IM IN TRIPS NEW"
     @new_trip = Trip.new
     @trip = Trip.new
     @trip_types = [["Weekend Getaway", 1], ["Boys Trip", 2], ["Bachelorette", 3], ["Road Trip", 4], ["Adventure", 5]]
@@ -121,11 +118,8 @@ class TripsController < ApplicationController
 
 
   def inline_edit
-    # @attendees = Attendee.where(trip_id: params[:id])
-    #@attendees = @expense.payees.all
     @attendees = Attendee.where(trip_id: params[:trip_id])
     @trip_attendees = @attendees.collect { |a| a.user }
-    puts @trip_attendees
     respond_to do |format|
       format.js { render :file => "trips/inline_edit.js.erb" }
     end
@@ -134,7 +128,6 @@ class TripsController < ApplicationController
     # POST /trips
     # POST /trips.json
   def create
-    puts "HEY IM IN TRIPS CREATE"
     @new_trip = Trip.create(trip_params)
     @trip = Trip.new(trip_params)
     @trip_types = [["Weekend Getaway", 1], ["Boys Trip", 2], ["Bachelorette", 3], ["Road Trip", 4], ["Adventure", 5]]
@@ -146,11 +139,8 @@ class TripsController < ApplicationController
     respond_to do |format|
       @attendees_amount = @attendees.size
       if @new_trip.save
-        puts "IM IN TRIP SAVE OF CREATE"
-        puts @new_trip
+        @first_attendee = Attendee.create!([{trip_id: @new_trip.id, user_id: current_user.id, balance: 0}])
         @total_possible_accomodation_cost_per_person = @total_cost.to_i / @number_of_possible_attendees.to_i
-        puts "TOTAL POSSIBLE COST"
-        puts @total_possible_accomodation_cost_per_person
         @new_trip.update_attribute(:total_possible_cost, @total_possible_accomodation_cost_per_person)
         @new_trip.update_attribute(:total_confirmed_cost, @total_confirmed_accomodation_cost_per_person)
         format.html { redirect_to "/trips/#{@new_trip.id}", notice: "Welcome to your trip's page!" }
@@ -166,10 +156,8 @@ class TripsController < ApplicationController
   # PATCH/PUT /trips/1
   # PATCH/PUT /trips/1.json
   def update
-    puts "HEY IM IN TRIPS UPDATE"
     respond_to do |format|
       if @trip.update(trip_params)
-        puts @trip
         if @trip.started 
           @trip_length_night = (@trip.end_date - @trip.start_date).to_i
           @price_per_night = @trip.price_per_night
@@ -235,5 +223,5 @@ class TripsController < ApplicationController
     def trip_params
       params.require(:trip).permit(:name, :accomodation_url, :price_per_night, :number_of_possible_attendees, :start_date, :end_date, :start_location, :end_location, :type_of_trip, :total_possible_cost, :total_confirmed_cost, :started, :ended)
     end
+  end 
 
-end 
