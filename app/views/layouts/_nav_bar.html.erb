@@ -14,7 +14,8 @@
         <ul class="nav navbar-nav navbar-left">
           <li class="nav-item">
             <% if current_user %>
-              <a class-"nav-link" href="/trips/new">Create Trip</a>
+            <%= render 'create_trip_form', trip: @trip %>
+              <li class="nav-link"><%= link_to 'Create Trip', new_trip_path %></li>
             <% end %>
           </li>
         </ul>

@@ -7,6 +7,7 @@ $(document).ready(function() {
 </script>
 
 <%= render 'layouts/nav_bar' %>
+
 <body>
   <h1 id="trip-header">
   <strong>
@@ -19,6 +20,7 @@ $(document).ready(function() {
     <div class="dashboard">
       <div class="trip-info column">
         <h1>Trip Info</h1>
+        <%= render 'edit_trip_form', trip: @trip %>
         <h3>
             <%= @trip.start_location || "Point A"%> to
                 <%= @trip.end_location || "Point B"%>

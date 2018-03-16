@@ -1,7 +1,7 @@
 class TripsController < ApplicationController
   before_action :set_trip, only: [:show, :edit, :update, :destroy]
   before_action :authorize
-
+ 
   # GET /trips
   # GET /trips.json
   def index
@@ -106,10 +106,23 @@ class TripsController < ApplicationController
   def edit
   end
 
+
+  def inline_edit
+    # @attendees = Attendee.where(trip_id: params[:id])
+    #@attendees = @expense.payees.all
+    @attendees = Attendee.where(trip_id: params[:trip_id])
+    @trip_attendees = @attendees.collect { |a| a.user }
+    puts @trip_attendees
+    respond_to do |format|
+      format.js { render :file => "trips/inline_edit.js.erb" }
+    end
+  end
+
   # POST /trips
   # POST /trips.json
   def create
     @trip = Trip.new(trip_params)
+    @create_trip = Trip.new(trip_params)
     @attendees = Attendee.where(trip_id: params[:id])
     @number_of_possible_attendees = @trip.number_of_possible_attendees
     @price_per_night = @trip.price_per_night
@@ -127,7 +140,8 @@ class TripsController < ApplicationController
         format.html { redirect_to @trip, notice: 'Trip was successfully created.' }
         format.json { render :show, status: :created, location: @trip }
       else
-        format.html { render :new }
+        format.html { rendirect_to @trip }
+        # format.html { render :new }
         format.json { render json: @trip.errors, status: :unprocessable_entity }
       end
     end
@@ -137,12 +151,6 @@ class TripsController < ApplicationController
   # PATCH/PUT /trips/1.json
   def update
     respond_to do |format|
-      puts
-      puts
-      puts
-      puts
-      puts '=====tripparams===='
-      puts trip_params
       if @trip.update(trip_params)
         if @trip.started 
           @trip_length_night = (@trip.end_date - @trip.start_date).to_i

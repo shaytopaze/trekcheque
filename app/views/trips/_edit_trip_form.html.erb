@@ -1,8 +1,8 @@
-<button id="open-create-trip"  data-toggle="modal" data-target="#create-trip-modal">Create Trip</button>
-<div id="create-trip-modal" class="modal"  tabindex="-1" role="dialog">
+<button id="myBtn">Edit Trip Info</button>
+<div id="edit-trip-modal" class="modal">
 <div class="modal-content">
 <body>
-<%= form_with(model: trip, action: new_trip_path, local: true, method: 'post') do |form| %>
+<%= form_with(model: trip, local: true) do |form| %>
   <% if trip.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(trip.errors.count, "error") %> prohibited this trip from being saved:</h2>
@@ -14,7 +14,7 @@
       </ul>
     </div>
   <% end %>
-<div class="create_trip_form">
+<div class="edit_trip_form">
   <div class="field">
     <%= form.label :name %>
     <%= form.text_field :name, id: :trip_name %>
@@ -64,7 +64,7 @@
   </div>
 
   <div class="actions">
-    <%= form.submit "value" => "Create Trip" %>
+    <%= form.submit %>
   </div>
 <% end %>
 </div>
@@ -72,42 +72,34 @@
 </div>
 </div>
 
-<style>
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+
+<script>
+(function(){
+
+// Get the modal
+var modal = document.getElementById('edit-trip-modal');
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal 
+btn.onclick = function() {
+    modal.style.display = "block";
 }
 
-/* Modal Content/Box */
-.modal-content {
-    background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
 }
 
-/* The Close Button */
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
 }
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-</style>
-
+})();
+</script>
