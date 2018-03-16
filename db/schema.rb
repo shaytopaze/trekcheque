@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(version: 20180307220424) do
     t.date "end_date"
     t.integer "total_possible_cost_cents"
     t.integer "total_confirmed_cost_cents"
+    t.string "type_of_trip"
     t.boolean "started"
     t.boolean "ended"
     t.datetime "created_at", null: false

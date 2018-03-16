@@ -32,6 +32,24 @@
         <% friend = User.find(attendee.user_id) %>
         <%= friend.name %> |
         <% end %>
+        <br>
+        <% if trip.type_of_trip %>
+          <% if trip.type_of_trip == "Weekend Getaway" %>
+            <%= image_tag("Weekend-Getaway.jpg", width: "200", style: "border: 1px solid #00415d; border-radius: 5px;")%>
+          <% end %>
+          <% if trip.type_of_trip == "Bachelorette" %>
+            <%= image_tag("Bachelorette-party.jpg", width: "200", style: "border: 1px solid #00415d; border-radius: 5px;")%>
+          <% end %>
+          <% if trip.type_of_trip == "Adventure" %>
+            <%= image_tag("Adventure.jpg", width: "200", style: "border: 1px solid #00415d; border-radius: 5px;")%>
+          <% end %>
+          <% if trip.type_of_trip == "Road Trip" %>
+            <%= image_tag("road-Trip.jpg", width: "200", style: "border: 1px solid #00415d; border-radius: 5px;")%>
+          <% end %>
+          <% if trip.type_of_trip == "Boys Trip" %>
+            <%= image_tag("boys-trip.jpg", width: "200", style: "border: 1px solid #00415d; border-radius: 5px;")%>
+          <% end %>
+        <% end %>
         <% end %>
       </div>
       </div>

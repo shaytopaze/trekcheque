@@ -46,7 +46,7 @@ class AttendeesController < ApplicationController
     if @attendee.save
       @total_confirmed_accomodation_cost_per_person = @total_cost.to_i / @attendees.size
       @trip.update_attribute(:total_confirmed_cost, @total_confirmed_accomodation_cost_per_person)
-      redirect_to @trip, notice: 'Attendee was successfully created.'
+      redirect_to @trip, notice: 'A new guest has joined your trip!'
     else
       render json: @attendee.errors, status: :unprocessable_entity
     end
@@ -87,7 +87,7 @@ class AttendeesController < ApplicationController
       end
     end
     respond_to do |format|
-      format.html { redirect_to @trip, notice: 'Attendee was successfully destroyed.' }
+      format.html { redirect_to @trip, notice: 'An attendee can no longer make the trip.' }
       format.json { head :no_content }
     end
   end
