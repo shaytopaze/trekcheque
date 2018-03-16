@@ -131,6 +131,7 @@ class TripsController < ApplicationController
     @new_trip = Trip.create(trip_params)
     @trip = Trip.new(trip_params)
     @trip_types = [["Weekend Getaway", 1], ["Boys Trip", 2], ["Bachelorette", 3], ["Road Trip", 4], ["Adventure", 5]]
+    @first_attendee = Attendee.create!([{trip_id: @new_trip.id, user_id: current_user.id, balance: 0}])
     @attendees = Attendee.where(trip_id: params[:id])
     @number_of_possible_attendees = @new_trip.number_of_possible_attendees
     @price_per_night = @new_trip.price_per_night
@@ -139,7 +140,6 @@ class TripsController < ApplicationController
     respond_to do |format|
       @attendees_amount = @attendees.size
       if @new_trip.save
-        @first_attendee = Attendee.create!([{trip_id: @new_trip.id, user_id: current_user.id, balance: 0}])
         @total_possible_accomodation_cost_per_person = @total_cost.to_i / @number_of_possible_attendees.to_i
         @new_trip.update_attribute(:total_possible_cost, @total_possible_accomodation_cost_per_person)
         @new_trip.update_attribute(:total_confirmed_cost, @total_confirmed_accomodation_cost_per_person)
@@ -164,6 +164,7 @@ class TripsController < ApplicationController
           @total_cost = @price_per_night.to_i * @trip_length_night.to_i
           @attendees = Attendee.where(trip_id: params[:id])
           @total_confirmed_accomodation_cost_per_person = @total_cost.to_i / @attendees.count
+          @trip.update_attribute(:total_confirmed_cost, @total_confirmed_accomodation_cost_per_person)
           if Expense.exists?(trip_id: params[:id], description: "Accomodation Cost") == false
             @accomodation_cost = Expense.new({
               trip_id: params[:id],
