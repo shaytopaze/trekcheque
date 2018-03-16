@@ -68,7 +68,7 @@ div.trekcheque {
 }
 
 #login-row {
-	padding-top: 30%;
+	padding-top: 25%;
 }
 .panel-login {
 	border-color: #ccc;
@@ -78,10 +78,25 @@ div.trekcheque {
 }
 
 .panel-login a:hover {
-    padding: 6px;
     border: 1px solid #00415d;
     border-radius: 6px;
   }
+
+.trip-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(200px, 250px));
+	grid-gap: 16px;
+	justify-content: center;
+}
+
+.trip-box {
+	margin: 8px;
+}
+
+.trip-link:hover {
+    border: 1px solid #00415d;
+	border-radius: 6px;
+}
 
 .panel-login>.panel-heading {
 	color: #00415d;
@@ -201,7 +216,7 @@ div.container#about p {
 	border-bottom: solid 1px;
 }
 div.container#about {
-	padding-top: 150px;
+	padding-top: 250px;
 }
 div.login-register {
 	height: 500px;
