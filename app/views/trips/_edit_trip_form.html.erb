@@ -14,7 +14,7 @@
       </ul>
     </div>
   <% end %>
-  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <button type="button" class="close" id="closeEdit" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 <div class="edit_trip_form">
   <div class="field">
     <%= form.label :name %>
@@ -123,18 +123,18 @@ var modal = document.getElementById('edit-trip-modal');
 // Get the button that opens the modal
 var btn = document.getElementById("myBtn");
 
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
 
 // When the user clicks on the button, open the modal 
 btn.onclick = function() {
     modal.style.display = "block";
 }
 
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-    modal.style.display = "none";
-}
+$(document).ready(function() {
+  $("#closeEdit").on("click", function(event) {
+      $('#edit-trip-modal').hide();
+      $('.modal-backdrop').hide();
+  });
+});
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
