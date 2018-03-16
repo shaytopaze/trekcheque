@@ -88,10 +88,6 @@ $(document).ready(function() {
                     </p>
                     <% end %>
 
-        <% if @attendees.count > 0 %>
-          <%= render :partial => 'trip_boolean_form', trip: @trip %>
-        <% end %>
-
       </div>
 
       <div class="expenses column">
@@ -114,6 +110,7 @@ $(document).ready(function() {
           <% end %>
         <% end %>
         <% end %>
+
           <% if @trip.started %>
           <h1>Expenses</h1>
             <% if @attendees_ids.include? current_user.id %>
@@ -144,6 +141,11 @@ $(document).ready(function() {
             <% end %>
             <%= render :partial => './expenses/expense_list', expenses: @expenses, trip: @trip %>
           <% end %>
+          <div class='start-end'>
+        <% if @attendees.count > 0 %>
+          <%= render :partial => 'trip_boolean_form', trip: @trip %>
+        <% end %>
+        </div>
       </div>
       <div class="attendee column">
         <h1>Attendees</h1>
