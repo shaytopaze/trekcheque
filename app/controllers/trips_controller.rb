@@ -37,7 +37,7 @@ class TripsController < ApplicationController
       @end_one = @end_one.gsub!('.', '') || @end_one
     end
 
-    if @trip.start_location && @trip.end_location
+    if @trip.start_location != "" && @trip.end_location != ""
       @google_url = URI("https://maps.googleapis.com/maps/api/distancematrix/json?origins=#{@start_one}&destinations=#{@end_one}&key=#{Rails.application.secrets.SECRET_GOOGLE_KEY}")
       response = Net::HTTP.get(@google_url)
       @result = JSON.parse(response)

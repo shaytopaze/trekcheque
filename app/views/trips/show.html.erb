@@ -20,8 +20,17 @@ $(document).ready(function() {
       <div class="trip-info column">
         <h1>Trip Info</h1>
         <h3>
-            <%= @start_trip_loc || "Point A"%> to
-                <%= @end_trip_loc || "Point B"%>
+          <% if @start_trip_loc == "" %>
+            <%= "Point A"%>
+            <% else %>
+            <%= @start_trip_loc %>
+            <% end %>
+            to
+           <% if @end_trip_loc == "" %>
+            <%= "Point B"%>
+            <% else %>
+            <%= @end_trip_loc %>
+            <% end %>
         </h3>
 
         <p>
@@ -34,7 +43,7 @@ $(document).ready(function() {
           <%= @trip_length_night %> night(s)
         </p>
 
-        <% if @trip.start_location && @trip.end_location %>
+        <% if @trip.start_location != "" && @trip.end_location != "" %>
             <% if (@result['rows'][0]['elements'][0]['status'] == "OK" )%>
                 <p>
                     <strong>Driving distance:</strong>
