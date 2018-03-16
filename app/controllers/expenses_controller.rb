@@ -176,7 +176,6 @@ class ExpensesController < ApplicationController
     #@attendees = @expense.payees.all
     @attendees = Attendee.where(trip_id: params[:trip_id])
     @trip_attendees = @attendees.collect { |a| a.user }
-    puts @trip_attendees
     respond_to do |format|
       format.js { render :file => "trips/inline_edit.js.erb" }
     end
@@ -193,9 +192,7 @@ class ExpensesController < ApplicationController
       @willing_payees = @expense.payees.all
       # TODO: this is kinda cavalier about the possibility of errors.  ha ha!
       @amount = @expense.amount
-      p @willing_payees
       @payee_size = @willing_payees.count
-      puts @payee_size
       @payee_owes = (@amount / @payee_size) 
       @willing_payees.each do |payee|
         @user_id = payee.user_id

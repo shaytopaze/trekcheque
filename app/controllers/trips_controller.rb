@@ -41,7 +41,6 @@ class TripsController < ApplicationController
       @google_url = URI("https://maps.googleapis.com/maps/api/distancematrix/json?origins=#{@start_one}&destinations=#{@end_one}&key=#{Rails.application.secrets.SECRET_GOOGLE_KEY}")
       response = Net::HTTP.get(@google_url)
       @result = JSON.parse(response)
-      puts @result
       if @result['rows'][0]['elements'][0]['status'] == "OK"
         @distance = @result['rows'][0]['elements'][0]['distance']['text']
         @duration = @result['rows'][0]['elements'][0]['duration']['text']
@@ -128,8 +127,6 @@ class TripsController < ApplicationController
       @attendees_amount = @attendees.size
       if @trip.save
         @total_possible_accomodation_cost_per_person = @total_cost.to_i / @number_of_possible_attendees.to_i
-        puts "TOTAL POSSIBLE COST"
-        puts @total_possible_accomodation_cost_per_person
         @trip.update_attribute(:total_possible_cost, @total_possible_accomodation_cost_per_person)
         @trip.update_attribute(:total_confirmed_cost, @total_confirmed_accomodation_cost_per_person)
         format.html { redirect_to @trip, notice: "Welcome to your trip's page!" }
@@ -145,12 +142,6 @@ class TripsController < ApplicationController
   # PATCH/PUT /trips/1.json
   def update
     respond_to do |format|
-      puts
-      puts
-      puts
-      puts
-      puts '=====tripparams===='
-      puts trip_params
       if @trip.update(trip_params)
         if @trip.started 
           @trip_length_night = (@trip.end_date - @trip.start_date).to_i
@@ -219,7 +210,3 @@ class TripsController < ApplicationController
     end
 
 end 
-  
-          
-
-  
