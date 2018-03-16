@@ -25,6 +25,7 @@ pre {
 
 a {
   color: #000;
+  text-decoration: none !important;
 
   &:visited {
     color: #666;
@@ -53,7 +54,10 @@ div {
   padding: 2px;
   background-color: red;
   display: table;
+  margin: 0 auto;
+  margin-bottom: inherit;
 }
+
 
 #error_explanation {
   width: 450px;
