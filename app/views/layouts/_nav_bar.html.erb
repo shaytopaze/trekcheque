@@ -14,7 +14,7 @@
         <ul class="nav navbar-nav navbar-left">
           <li class="nav-item">
             <% if current_user %>
-              <li class="nav-link"><%= render './trips/create_trip_form', new_trip: @new_trip, trip: @trip %></li>
+              <li class="nav-link"><%= render './trips/create_trip_form', new_trip: @new_trip, trip: @trip, trip_types: @trip_types %></li>
             <% end %>
           </li>
         </ul>
