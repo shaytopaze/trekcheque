@@ -145,7 +145,7 @@ class TripsController < ApplicationController
         format.html { redirect_to "/trips/#{@new_trip.id}", notice: 'Trip was successfully created.' }
         format.json { render :show, status: :created, location: @trip }
       else
-        format.html { redirect_to @trip }
+        format.html { redirect_to @new_trip }
         # format.html { render :new }
         format.json { render json: @trip.errors, status: :unprocessable_entity }
       end

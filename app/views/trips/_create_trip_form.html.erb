@@ -2,7 +2,7 @@
 <div id="create-trip-modal" class="modal">
 <div class="modal-content">
 <body>
- <h1>Create a trip!</h1>
+ <h1>Create trip!</h1>
 <%= form_with(model: @new_trip, action: '/trips', method: 'post', local: true) do |form| %>
   <% if @trip.errors.any? %>
     <div id="error_explanation">
@@ -66,7 +66,7 @@
   </div>
 
   <div class="actions">
-    <%= form.submit "value" => "Create Trip" %>
+    <%= form.submit %>
   </div>
 <% end %>
 </div>
