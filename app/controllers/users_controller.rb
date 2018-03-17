@@ -23,9 +23,6 @@ class UsersController < ApplicationController
   # GET /users/new
   def new
     @user = User.new
-    # if session[:user_id]
-    #   redirect_to user_path(session[:user_id])
-    # end
   end
 
   # GET /users/1/edit
