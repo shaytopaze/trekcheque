@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_trip, only: [:show]
 
   # GET /users
   # GET /users.json
@@ -10,7 +11,9 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+    @new_trip = Trip.new
     @user_as_attendees = Attendee.where(user_id: params[:id])
+    @trip_types = [["Weekend Getaway", 1], ["Boys Trip", 2], ["Bachelorette", 3], ["Road Trip", 4], ["Adventure", 5]]
     @trips_of_user = @user.trips.order('start_date')
     if params[:id].to_i != current_user[:id].to_i
       redirect_to user_path(session[:user_id])
@@ -20,9 +23,6 @@ class UsersController < ApplicationController
   # GET /users/new
   def new
     @user = User.new
-    if session[:user_id]
-      redirect_to user_path(session[:user_id])
-    end
   end
 
   # GET /users/1/edit
@@ -40,6 +40,7 @@ class UsersController < ApplicationController
         format.html { redirect_to @user, notice: 'User was successfully created.' }
         format.json { render :show, status: :created, location: @user }
       else
+        redirect_to '/login#login-register' 
         format.html { render :new }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
@@ -78,6 +79,10 @@ class UsersController < ApplicationController
       else
         redirect_to '/login'
       end
+    end
+    
+    def set_trip
+      @trip = Trip.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

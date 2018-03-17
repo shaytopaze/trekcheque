@@ -7,6 +7,7 @@ $(document).ready(function() {
 </script>
 
 <%= render 'layouts/nav_bar' %>
+
 <body>
   <h1 id="trip-header">
   <strong>
@@ -19,6 +20,7 @@ $(document).ready(function() {
     <div class="dashboard">
       <div class="trip-info column">
         <h1>Trip Info</h1>
+        <%= render 'edit_trip_form', trip: @trip %>
         <h3>
           <% if @start_trip_loc == "" %>
             <%= "Point A"%>
@@ -86,13 +88,10 @@ $(document).ready(function() {
                     </p>
                     <% end %>
 
-        <% if @attendees.count > 0 %>
-          <%= render :partial => 'trip_boolean_form', trip: @trip %>
-        <% end %>
-
       </div>
 
       <div class="expenses column">
+      <div class="padding-img">
       <% if !@trip.started%>
           <% if @trip.type_of_trip %>
           <% if @trip.type_of_trip == "Weekend Getaway" %>
@@ -112,6 +111,8 @@ $(document).ready(function() {
           <% end %>
         <% end %>
         <% end %>
+        </div>
+
           <% if @trip.started %>
           <h1>Expenses</h1>
             <% if @attendees_ids.include? current_user.id %>
@@ -142,11 +143,16 @@ $(document).ready(function() {
             <% end %>
             <%= render :partial => './expenses/expense_list', expenses: @expenses, trip: @trip %>
           <% end %>
+          <div>
+        <% if @attendees.count > 0 %>
+          <%= render :partial => 'trip_boolean_form', trip: @trip %>
+        <% end %>
+        </div>
       </div>
       <div class="attendee column">
         <h1>Attendees</h1>
         <h4>Moderator: <%= @moderator %></h4>
-        <%= render :partial => './attendees/attendees_table/', trip_attendees: @trip_attendees , attendees_for_id: @attendees_for_id, current_user: :current_user, attendees_ids: @attendees_ids %>
+        <%= render :partial => './attendees/attendees_table/', trip_attendees: @trip_attendees , attendees_for_id: @attendees_for_id, current_user: :current_user, attendees_ids: @attendees_ids, moderator: @moderator %>
       </div>
 
     </div>

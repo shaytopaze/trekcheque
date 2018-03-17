@@ -1,122 +1,138 @@
-
 <head>
-<script type="text/javascript">
-function scrollto(div) {
-	document.getElementById(div).scrollIntoView(true);
-}
-</script>
-<script src="https://use.fontawesome.com/ac442f7ad2.js"></script>
-</head>
-<body>
-<div id="top-half">
-	<div id="background-video" style="position: absolute; top: 0; left: 0; width: 100%;">
-	<%= video_tag("The-Truck.mp4", autoplay: :autoplay, loop: :loop) %>
-</div>
-<h1 class="trekcheque">
-<div id="login-header">
-	<span onclick="scrollto('login-view');">Login | Register</span>
-	<span onclick="scrollto('about');"> | About</span>
-</div>
-<i class="fa fa-car"></i>
-TREK CHEQUE<br>
-<div class="trekcheque" style="font-style: italic; text-align: left; padding-top: 10px; word-wrap: break-word; width: 100%" > A road trip expense app, keeping friendships friendly! </div>
-</h1>
-</div>
-<div style="padding-top: 1050px;" id="middle">
-<div class="container" id="login-container" >
-<div id="login-header-two" style="padding-top:20px;">
-</div>
-<div class="row" id="login-row">
-<div id="login-register" class="login-register" style="height: 500px;">
-			<div class="col-md-6 col-md-offset-3">
-				<div class="panel panel-login">
-					<div class="panel-heading">
-						<div class="row" role='tablist'>
-							<div class="col-xs-6" role='presentation'>
-								<a href="#login" id="login-form-link" aria-controls="login" role="tab" data-toggle="tab">Login</a>
-							</div>
-							<div class="col-xs-6" role='presentation' >
-								<a href="#register" id="register-form-link" aria-controls="register" role="tab" data-toggle="tab">Register</a>
-							</div>
-						</div>
-						<hr>
-					</div>
-					<div class="panel-body">
-						<div class="row tab-content">
-							<div class="col-lg-12 tab-pane active" role="tabpanel" id="login">
-							<%= form_tag "/login", id: 'login-form', role: 'form', style: "display:block;" do %>
-							  <% flash.each do |value| %>
-								<div class="alert alert-warning"><%= value %></div>
-							  <% end %>
-								<div class="form-group">
-									<input type="email" name="email" tabindex="1" class='form-control' placeholder='Email' id='login-email' %>
-								</div>
-								<div class="form-group">
-									<input type="password" name="password" tabindex="2" class="form-control" placeholder="Password">
-								</div>
-								<div class="form-group">
-									<div class="row">
-										<div class="col-sm-6 col-sm-offset-3">
-											<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Log In">
-										</div>
-									</div>
-								</div>
-								<div class="form-group">
-									<div class="row">
-										<div class="col-lg-12">
-										</div>
-									</div>
-								</div>
 
-							<% end %>
+	<script type="text/javascript">
+		function scrollto(div) {
+			document.getElementById(div).scrollIntoView(true);
+		}
+	</script>
+
+	<script src="https://use.fontawesome.com/ac442f7ad2.js"></script>
+
+</head>
+
+<body style="background: linear-gradient(to bottom, rgba(0, 206, 196, 0.5) 0%,rgba(0, 206, 195, 0.5) 25%, rgba(0, 206, 195, 0.5) 33.5%,rgba(211, 191, 162, 0.25) 25%, rgba(211, 191, 162, 0.25) );">
+	<div id="top-half">
+
+			<h1 class="trekcheque">
+				<i class="fa fa-car"></i> TREK CHEQUE<br>
+			</h1>
+
+		<div id="login-header">
+			<span onclick="scrollto('login-scroll');"> | Login | Register</span>
+			<span onclick="scrollto('about');"> | About |</span>
+		</div>
+
+	</div>
+		<div class="trekcheque-brief">
+			<hr>
+			A road trip expense app, keeping friendships friendly!
+			<hr>
+		</div>	
+
+		<div class="container" id="about" >
+			<h2>ABOUT TREK CHEQUE</h2>
+			<p>Trek Cheque helps take the stress out of your adventures - from sharing with friends to splitting expenses, Trek Cheque is your one stop spot to lay important trip details out for everyone to see. Trek Cheque helps you go from planning your trip details, such as dates, accommodation and how many people to invite, to an easy to read, interactive trip page where you and your friends can save your spot, check how much accommodation would cost and split expenses. Once you have finished your trip Trek Cheque will even let you know who owes who what in the least number of transactions. </p>
+		</div>	
+
+		<div class="container" id="how-to" >
+			<h2>HOW TO USE TREK CHEQUE</h2>
+				<%=image_tag("Homepage.png") %>
+			<p>To use Trek Cheque, simply register for an account and start creating trips! Each of the trips you join will show up on your home page for quick and easy access. To invite friends have them create an account and send them a link to your trip! They can click ‘Join Trip’ and get added as an attendee until the maximum amount of people have joined. Once you have started your trip, click ‘Trip Started’ and start tracking your expenses! The details you put in for accommodation will also be automatically calculated and added as an expense, but if this changes all expenses can be edited. When you have finished the trip click ‘End Trip’ and the amounts owed between you will be displayed!</p>
+		</div>
+
+		</div>
+	<div class="container" id="login-container" >
+
+		<div class="row" id="login-row">
+
+			<div id="login-register" class="login-register" >
+				<div class="col-md-6 col-md-offset-3" id="login-scroll">
+				<% if flash[:alert] %>
+					<div class="alert alert-danger"><%= flash[:alert] %></div>
+				<% end %>
+					<div class="panel panel-login">
+					
+						<div class="panel-heading">
+							<div class="row" role='tablist'>
+								<div class="col-xs-6" role='presentation'>
+									<a href="#login" id="login-form-link" aria-controls="login" role="tab" data-toggle="tab">Login</a>
+								</div>
+								<div class="col-xs-6" role='presentation' >
+									<a href="#register" id="register-form-link" aria-controls="register" role="tab" data-toggle="tab">Register</a>
+								</div>
 							</div>
-							<div class="col-lg-12 tab-pane" role="tabpanel" id="register">
-                            <%= form_for user, {id: 'register-form', role: 'form', style: 'display:block;'} do |form| %>
-								<% flash.each do |value| %>
-								<div class="alert alert-warning"><%= value %></div>
-							  <% end %>
-								<div class="form-group">
-								  <%= form.text_field :name, {id: :user_name, class: 'form-control', placeholder: 'Name'} %>
-								</div>
-								<div class="form-group">
-								     <%= form.email_field :email, {id: :user_email, class: 'form-control', placeholder: 'Email'} %>
-								</div>
-								<div class="form-group">
-								    <%= form.password_field :password, {id: :user_password, class: 'form-control', placeholder: 'Password'} %>
-								</div>
-								<div class="form-group">
-									<%= form.password_field :password_confirmation, {id: :user_password_confirmation, class: 'form-control', placeholder: 'Password Confirmation'} %>
-								</div>
-								<div class="form-group">
-									<div class="row">
-										<div class="col-sm-6 col-sm-offset-3">
-										    <%= form.submit name: 'register-submit', id: 'register-submit', tabindex: '4', class: 'form-control btn btn-register', value: 'Register' %>
+							<hr>
+						</div>
+
+						<div class="panel-body">
+							<div class="row tab-content">
+								<div class="col-lg-12 tab-pane active" role="tabpanel" id="login">
+									<%= form_tag "/login", id: 'login-form', role: 'form', style: "display:block;" do %>
+										<div class="form-group">
+											<input type="email" name="email" tabindex="1" class='form-control' placeholder='Email' id='login-email' %>
 										</div>
-										<% end %>
-									</div>
+										<div class="form-group">
+											<input type="password" name="password" tabindex="2" class="form-control" placeholder="Password">
+										</div>
+										<div class="form-group">
+											<div class="row">
+												<div class="col-sm-6 col-sm-offset-3">
+													<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Log In">
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="row">
+												<div class="col-lg-12">
+												</div>
+											</div>
+										</div>
+									<% end %>
 								</div>
-							</form>
+								
+								<div class="col-lg-12 tab-pane" role="tabpanel" id="register">
+									<%= form_for user, {id: 'register-form', role: 'form', style: 'display:block;'} do |form| %>
+										<div class="form-group">
+											<%= form.text_field :name, {id: :user_name, class: 'form-control', placeholder: 'Name'} %>
+										</div>
+										<div class="form-group">
+											<%= form.email_field :email, {id: :user_email, class: 'form-control', placeholder: 'Email'} %>
+										</div>
+										<div class="form-group">
+											<%= form.password_field :password, {id: :user_password, class: 'form-control', placeholder: 'Password'} %>
+										</div>
+										<div class="form-group">
+											<%= form.password_field :password_confirmation, {id: :user_password_confirmation, class: 'form-control', placeholder: 'Password Confirmation'} %>
+										</div>
+										<div class="form-group">
+											<div class="row">
+												<div class="col-sm-6 col-sm-offset-3">
+													<%= form.submit name: 'register-submit', id: 'register-submit', tabindex: '4', class: 'form-control btn btn-register', value: 'Register' %>
+												</div>
+											</div>
+										</div>
+									<% end %>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
-</div>
-</div>
-<div style="padding-top: 800px;" id="login-view">
-<div class="container" id="about" style="height: 300px;">
-  <h2>INFORMATION ABOUT OUR APP</h2>
-	<p>I videotape every customer that comes in here, so that I may blackmail them later. I usually try to keep my sadness pent up inside where it can fester quietly as a mental illness. Why am I sticky and naked? Did I miss something fun? Large bet on myself in round one. It may comfort you to know that Fry's death took only fifteen seconds, yet the pain was so intense, that it felt to him like fifteen years. And it goes without saying, it caused him to empty his bowels. Morbo can't understand his teleprompter because he forgot how you say that letter that's shaped like a man wearing a hat. </p>
-</div>
-</div>
-<div style="padding-top: 300px;">
-<div class="container" id="insta" style="height: 100px;"> 
-<a href='https://www.instagram.com/trekcheque/' target="_blank"><i class="fa fa-instagram fa-3x"></i></a>
-</div>
-<!-- SnapWidget -->
-<script src="https://snapwidget.com/js/snapwidget.js"></script>
-<iframe src="https://snapwidget.com/embed/519980" class="snapwidget-widget" allowTransparency="true" frameborder="0" scrolling="no" style="border:none; overflow:hidden; width:100%; "></iframe>
-</div>
+		<div class="container" id="insta" > 
+			<a href='https://www.instagram.com/trekcheque/' target="_blank"><i class="fa fa-instagram fa-3x"></i></a>
+
+				<!-- SnapWidget -->
+			<script src="https://snapwidget.com/js/snapwidget.js"></script>
+			<iframe src="https://snapwidget.com/embed/519980" class="snapwidget-widget" allowTransparency="true" frameborder="0" scrolling="no" style="border:none; overflow:hidden; width:100%; "></iframe>
+		</div>
+
+	
 </body>
+
+<footer>
+	<div id="scroll-to-top">
+			<span onclick="scrollto('top-half');"><i class="fa fa-chevron-circle-up"></i></span>
+	</div>
+</footer>

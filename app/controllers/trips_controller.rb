@@ -1,7 +1,7 @@
 class TripsController < ApplicationController
   before_action :set_trip, only: [:show, :edit, :update, :destroy]
   before_action :authorize
-
+ 
   # GET /trips
   # GET /trips.json
   def index
@@ -11,8 +11,10 @@ class TripsController < ApplicationController
   # GET /trips/1
   # GET /trips/1.json
   def show
+    @trip_types = [["Weekend Getaway", 1], ["Boys Trip", 2], ["Bachelorette", 3], ["Road Trip", 4], ["Adventure", 5]]
     @trips = Trip.all
     @expense = Expense.new
+    @new_trip = Trip.new
     @attendees = Attendee.where(trip_id: params[:id])
     @attendees_ids = []
     @attendees.each do |attendee|
@@ -105,6 +107,7 @@ class TripsController < ApplicationController
 
   # GET /trips/new
   def new
+    @new_trip = Trip.new
     @trip = Trip.new
     @trip_types = [["Weekend Getaway", 1], ["Boys Trip", 2], ["Bachelorette", 3], ["Road Trip", 4], ["Adventure", 5]]
   end
@@ -112,28 +115,40 @@ class TripsController < ApplicationController
   # GET /trips/1/edit
   def edit
   end
-  
-  # POST /trips
-  # POST /trips.json
+
+
+  def inline_edit
+    @attendees = Attendee.where(trip_id: params[:trip_id])
+    @trip_attendees = @attendees.collect { |a| a.user }
+    respond_to do |format|
+      format.js { render :file => "trips/inline_edit.js.erb" }
+    end
+  end
+    
+    # POST /trips
+    # POST /trips.json
   def create
+    @new_trip = Trip.create(trip_params)
     @trip = Trip.new(trip_params)
     @trip_types = [["Weekend Getaway", 1], ["Boys Trip", 2], ["Bachelorette", 3], ["Road Trip", 4], ["Adventure", 5]]
+    @first_attendee = Attendee.create!([{trip_id: @new_trip.id, user_id: current_user.id, balance: 0}])
     @attendees = Attendee.where(trip_id: params[:id])
-    @number_of_possible_attendees = @trip.number_of_possible_attendees
-    @price_per_night = @trip.price_per_night
-    @trip_length_night = (@trip.end_date - @trip.start_date).to_i
+    @number_of_possible_attendees = @new_trip.number_of_possible_attendees
+    @price_per_night = @new_trip.price_per_night
+    @trip_length_night = (@new_trip.end_date - @new_trip.start_date).to_i
     @total_cost = @price_per_night.to_i * @trip_length_night.to_i
     respond_to do |format|
       @attendees_amount = @attendees.size
-      if @trip.save
+      if @new_trip.save
         @total_possible_accomodation_cost_per_person = @total_cost.to_i / @number_of_possible_attendees.to_i
-        @trip.update_attribute(:total_possible_cost, @total_possible_accomodation_cost_per_person)
-        @trip.update_attribute(:total_confirmed_cost, @total_confirmed_accomodation_cost_per_person)
-        format.html { redirect_to @trip, notice: "Welcome to your trip's page!" }
+        @new_trip.update_attribute(:total_possible_cost, @total_possible_accomodation_cost_per_person)
+        @new_trip.update_attribute(:total_confirmed_cost, @total_confirmed_accomodation_cost_per_person)
+        format.html { redirect_to "/trips/#{@new_trip.id}", notice: "Welcome to your trip's page!" }
         format.json { render :show, status: :created, location: @trip }
       else
-        format.html { render :new }
-        format.json { render json: @trip.errors, status: :unprocessable_entity }
+        # format.html { redirect_to @new_trip }
+        format.html { redirect_back(fallback_location: root_path) }
+        format.json { render json: @new_trip.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -149,6 +164,7 @@ class TripsController < ApplicationController
           @total_cost = @price_per_night.to_i * @trip_length_night.to_i
           @attendees = Attendee.where(trip_id: params[:id])
           @total_confirmed_accomodation_cost_per_person = @total_cost.to_i / @attendees.count
+          @trip.update_attribute(:total_confirmed_cost, @total_confirmed_accomodation_cost_per_person)
           if Expense.exists?(trip_id: params[:id], description: "Accomodation Cost") == false
             @accomodation_cost = Expense.new({
               trip_id: params[:id],
@@ -179,12 +195,12 @@ class TripsController < ApplicationController
               end
             end
           end
-          format.html { redirect_to @trip, notice: 'Trip status has been updated.' }
-          format.json { render :show, status: :ok, location: @trip }
-        else
-          format.html { render :edit }
-          format.json { render json: @trip.errors, status: :unprocessable_entity }
         end
+        format.html { redirect_to @trip, notice: 'Trip status has been updated.' }
+        format.json { render :show, status: :ok, location: @trip }
+      else
+        format.html { redirect_to @trip, notice: 'Unable to update trip' }
+        format.json { render json: @trip.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -208,5 +224,5 @@ class TripsController < ApplicationController
     def trip_params
       params.require(:trip).permit(:name, :accomodation_url, :price_per_night, :number_of_possible_attendees, :start_date, :end_date, :start_location, :end_location, :type_of_trip, :total_possible_cost, :total_confirmed_cost, :started, :ended)
     end
+  end 
 
-end 

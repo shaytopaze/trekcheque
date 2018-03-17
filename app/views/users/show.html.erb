@@ -14,23 +14,23 @@
 </div>
 
 <div class="container-fluid">
-  <div class="row">
+  <div class="trip-grid">
       <% @trips_of_user.each do |trip| %>
-      <div class="col-lg-4">
+      <div class="trip-box">
         <%= link_to trip_path(trip.id) do %>  
         <div class="trip-link">
-         <strong><%= trip.name %></strong><br>
-        | <%= trip.start_date %> to <%= trip.end_date %> |
+         <strong><span style="font-size: 2rem;"><%= trip.name %></span></strong><br>
+        <%= trip.start_date.strftime("%B %d, %Y") %><br>to<br><%= trip.end_date.strftime("%B %d, %Y") %>
         <br>
         <% if trip.start_location && trip.end_location%>
-        | <%= trip.start_location %> to <%= trip.end_location %> |       
+         <%= trip.start_location %> to <%= trip.end_location %>      
         <% end %>
         <br>
         <br>
         Friends on the trip:<br>
-        | <% trip.attendees.each do |attendee| %>
+         <% trip.attendees.each do |attendee| %>
         <% friend = User.find(attendee.user_id) %>
-        <%= friend.name %> |
+        <%= friend.name %>
         <% end %>
         <br>
         <% if trip.type_of_trip %>
