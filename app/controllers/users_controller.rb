@@ -20,9 +20,6 @@ class UsersController < ApplicationController
   # GET /users/new
   def new
     @user = User.new
-    if session[:user_id]
-      redirect_to user_path(session[:user_id])
-    end
   end
 
   # GET /users/1/edit
@@ -40,6 +37,7 @@ class UsersController < ApplicationController
         format.html { redirect_to @user, notice: 'User was successfully created.' }
         format.json { render :show, status: :created, location: @user }
       else
+        redirect_to '/login#login-register' 
         format.html { render :new }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
