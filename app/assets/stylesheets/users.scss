@@ -78,15 +78,24 @@ div.trekcheque {
 }
 
 .panel-login a:hover {
-    padding: 6px;
     border: 1px solid #00415d;
     border-radius: 6px;
   }
 
+.trip-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(200px, 250px));
+	grid-gap: 16px;
+	justify-content: center;
+}
+
+.trip-box {
+	margin: 8px;
+}
+
 .trip-link:hover {
-    padding: 6px;
     border: 1px solid #00415d;
-    border-radius: 6px;
+	border-radius: 6px;
 }
 
 .panel-login>.panel-heading {

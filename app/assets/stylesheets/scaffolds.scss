@@ -26,6 +26,7 @@ pre {
 
 a {
   color: #000;
+  text-decoration: none !important;
 
   &:visited {
     color: #666;
@@ -54,6 +55,8 @@ div {
   padding: 2px;
   background-color: red;
   display: table;
+  margin: 0 auto;
+  margin-bottom: inherit;
 }
 
 #error_explanation {
@@ -123,4 +126,7 @@ label {
 
 .dropdown-menu  {
   background-color: #00415d;
+}
+.padding-img {
+  padding-bottom: 20px;
 }
