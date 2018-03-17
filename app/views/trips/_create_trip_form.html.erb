@@ -3,6 +3,7 @@
 <div class="modal-content">
 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 <body>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
  <h1>Create trip!</h1>
 <%= form_with(model: @new_trip, action: '/trips', method: 'post', local: true) do |form| %>
   <% if @new_trip.errors.any? %>
