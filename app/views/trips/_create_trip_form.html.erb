@@ -1,7 +1,8 @@
-<button id="open-create-trip">Create Trip</button>
+<a id="open-create-trip">Create Trip</a>
 <div id="create-trip-modal" class="modal">
 <div class="modal-content">
 <body>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
  <h1>Create trip!</h1>
 <%= form_with(model: @new_trip, action: '/trips', method: 'post', local: true) do |form| %>
   <% if @new_trip.errors.any? %>
@@ -15,7 +16,6 @@
       </ul>
     </div>
   <% end %>
-<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 <div class="create_trip_form">
   <div class="field">
     <%= form.label :name %>

@@ -11,8 +11,6 @@ class TripsController < ApplicationController
   # GET /trips/1
   # GET /trips/1.json
   def show
-    puts "HEY IM IN TRIPS SHOW"
-    puts @trip.name
     @trip_types = [["Weekend Getaway", 1], ["Boys Trip", 2], ["Bachelorette", 3], ["Road Trip", 4], ["Adventure", 5]]
     @trips = Trip.all
     @expense = Expense.new
@@ -109,7 +107,6 @@ class TripsController < ApplicationController
 
   # GET /trips/new
   def new
-    puts "IM IN TRIPS NEW"
     @new_trip = Trip.new
     @trip = Trip.new
     @trip_types = [["Weekend Getaway", 1], ["Boys Trip", 2], ["Bachelorette", 3], ["Road Trip", 4], ["Adventure", 5]]
@@ -125,7 +122,6 @@ class TripsController < ApplicationController
     #@attendees = @expense.payees.all
     @attendees = Attendee.where(trip_id: params[:trip_id])
     @trip_attendees = @attendees.collect { |a| a.user }
-    puts @trip_attendees
     respond_to do |format|
       format.js { render :file => "trips/inline_edit.js.erb" }
     end
@@ -147,7 +143,14 @@ class TripsController < ApplicationController
       @attendees_amount = @attendees.size
       if @new_trip.save
         puts "IM IN TRIP SAVE OF CREATE"
-        puts @new_trip
+        puts
+        puts
+        puts
+        puts
+        puts
+        puts
+        puts
+        puts '==========='
         @total_possible_accomodation_cost_per_person = @total_cost.to_i / @number_of_possible_attendees.to_i
         puts "TOTAL POSSIBLE COST"
         puts @total_possible_accomodation_cost_per_person
@@ -166,7 +169,6 @@ class TripsController < ApplicationController
   # PATCH/PUT /trips/1
   # PATCH/PUT /trips/1.json
   def update
-    puts "HEY IM IN TRIPS UPDATE"
     respond_to do |format|
       if @trip.update(trip_params)
         puts @trip
@@ -209,7 +211,7 @@ class TripsController < ApplicationController
           format.html { redirect_to @trip, notice: 'Trip status has been updated.' }
           format.json { render :show, status: :ok, location: @trip }
         else
-          format.html { render :edit }
+          format.html { redirect_to @trip, notice: 'Unable to update trip.' }
           format.json { render json: @trip.errors, status: :unprocessable_entity }
         end
       end
