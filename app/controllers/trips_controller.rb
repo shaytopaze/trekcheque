@@ -195,12 +195,12 @@ class TripsController < ApplicationController
               end
             end
           end
-          format.html { redirect_to @trip, notice: 'Trip status has been updated.' }
-          format.json { render :show, status: :ok, location: @trip }
-        else
-          format.html { redirect_to @trip, notice: 'Unable to update trip' }
-          format.json { render json: @trip.errors, status: :unprocessable_entity }
         end
+        format.html { redirect_to @trip, notice: 'Trip status has been updated.' }
+        format.json { render :show, status: :ok, location: @trip }
+      else
+        format.html { redirect_to @trip, notice: 'Unable to update trip' }
+        format.json { render json: @trip.errors, status: :unprocessable_entity }
       end
     end
   end
