@@ -2,6 +2,7 @@
 <div id="edit-trip-modal" class="modal">
 <div class="modal-content">
 <body>
+  <button type="button" class="close" data-dismiss="modal" id="closeEdit" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 <h1>Edit trip!</h1>
 <%= form_with(model: trip, local: true) do |form| %>
   <% if trip.errors.any? %>
@@ -15,7 +16,6 @@
       </ul>
     </div>
   <% end %>
-  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 <% if !trip.started %>
 <div class="edit_trip_form">
 <h2>Edit Trip Info</h2>
