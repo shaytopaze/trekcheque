@@ -80,7 +80,7 @@ $(document).ready(function() {
           $<%= @trip.total_confirmed_cost  %>
         </p>
 
-                <% if @trip.accomodation_url.present? %>
+                <% if @trip.accomodation_url != "" %>
                     <p>
                         <strong>
                             <%= link_to 'Accommodation Link', @trip.accomodation_url %>
@@ -149,6 +149,7 @@ $(document).ready(function() {
         <% end %>
         </div>
       </div>
+      </div>
       <div class="attendee column">
         <h1>Attendees</h1>
         <h4>Moderator: <%= @moderator %></h4>
@@ -158,3 +159,6 @@ $(document).ready(function() {
     </div>
   </div>
 </body>
+
+
+
