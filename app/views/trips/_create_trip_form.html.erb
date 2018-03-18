@@ -67,9 +67,13 @@
     <%= form.date_select :end_date, id: :trip_end_date %>
   </div>
 
-  <%= form.hidden_field :total_possible_cost, :value => 0 %>
+  <div class="field">
+    <%= form.hidden_field :total_possible_cost, :value => 0 %>
+  </div>
   
-  <%= form.hidden_field :total_confirmed_cost, :value => 0 %>
+  <div class="field">
+    <%= form.hidden_field :total_confirmed_cost, :value => 0 %>
+  </div>
 </body>
 <div class="modal-footer">
   <div class="actions">

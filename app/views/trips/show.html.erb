@@ -118,7 +118,7 @@ function CopyLink() {
           $<%= @trip.total_confirmed_cost  %>
         </p>
 
-                <% if @trip.accomodation_url.present? %>
+                <% if @trip.accomodation_url != "" %>
                     <p>
                         <strong>
                             <%= link_to 'Accommodation Link', @trip.accomodation_url %>
@@ -188,6 +188,7 @@ function CopyLink() {
         <% end %>
         </div>
       </div>
+      </div>
       <div class="attendee column">
         <h1>Attendees</h1>
         <h4>Moderator: <%= @moderator %></h4>
@@ -199,3 +200,6 @@ function CopyLink() {
     </div>
   </div>
 </body>
+
+
+
