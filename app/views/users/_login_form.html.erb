@@ -10,7 +10,7 @@
 
 </head>
 
-<body style="background: linear-gradient(to bottom, rgba(0, 206, 196, 0.5) 0%,rgba(0, 206, 195, 0.5) 25%, rgba(0, 206, 195, 0.5) 33.5%,rgba(211, 191, 162, 0.25) 25%, rgba(211, 191, 162, 0.25) );">
+<body style="background: linear-gradient(to bottom, #004d4d 0%, #004d4d 25%, #004d4d 33.5%,rgba(211, 191, 162, 0.25) 25%, rgba(211, 191, 162, 0.25) );">
 	<div id="top-half">
 
 			<h1 class="trekcheque">
@@ -18,7 +18,11 @@
 			</h1>
 
 		<div id="login-header">
-			<span onclick="scrollto('login-scroll');"> | Login | Register</span>
+			<% if current_user %>
+				<span class="home-page-link"><%=link_to '| Profile Page', user_path(current_user.id)%></span>
+			<% else %>
+				<span onclick="scrollto('login-scroll');"> | Login | Register</span>
+			<% end %>
 			<span onclick="scrollto('about');"> | About |</span>
 		</div>
 

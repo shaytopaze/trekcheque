@@ -4,7 +4,7 @@
 
 #trip-header {
     grid-area: header;
-    padding-top: 60px;
+    padding-top: 75px;
     text-align: center;
 }
 
@@ -15,6 +15,7 @@
 .dashboard {
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
+    padding-top: 15px;
     padding: 24px;
     text-align: center;
 }
@@ -52,4 +53,59 @@
     word-break: break-all;
     justify-content: center;
     padding-left: 30px;
+}
+
+#addexpensebtn {
+	background-color: rgb(3, 165, 157);
+	outline: none;
+	color: #fff;
+	font-size: 18px;
+	height: auto;
+	font-weight: normal;
+	padding: 6px 15px;
+}
+#addexpensebtn:hover,
+#addexpensebtn:focus {
+	color: #fff;
+	background-color: rgb(0, 206, 196);
+	border-color: rgb(3, 165, 157);
+}
+
+.btn-info {
+  background-color: rgba(211, 191, 162, 0.1);
+  outline: none;
+  color: darkcyan;
+  font-size: 18px;
+  height: auto;
+  font-weight: normal;
+  padding: 6px 15px;
+  border-radius: 6px;
+  border: 2px solid darkcyan;
+}
+.btn-info:hover,
+.btn-info:focus,
+.btn-info:active {
+	color: #fff;
+	background-color: rgb(0, 206, 196);
+	border-color: rgb(3, 165, 157);
+}
+
+#myBtn {
+  background-color: rgba(211, 191, 162, 0.1);
+  outline: none;
+  color: darkcyan;
+  font-size: 18px;
+  height: auto;
+  font-weight: normal;
+  padding: 6px 15px;
+  border-radius: 6px;
+  border: 2px solid darkcyan;
+}
+#myBtn:hover,
+#myBtn:focus,
+#myBtn:active {
+	color: #fff;
+	background-color: rgb(0, 206, 196);
+    border-color: rgb(3, 165, 157);
+    border-radius: 6px;
 }
