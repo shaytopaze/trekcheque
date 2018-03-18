@@ -1,8 +1,14 @@
 <button id="myBtn">Edit Trip Info</button>
 <div id="edit-trip-modal" class="modal">
 <div class="modal-content">
+<div class="modal-header">
+  <h1>
+  <button type="button" class="close" data-dismiss="modal" id="closeEdit" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  Edit trip:
+  </h1>
+</div>
+
 <body>
-<h1>Edit trip!</h1>
 <%= form_with(model: trip, local: true) do |form| %>
   <% if trip.errors.any? %>
     <div id="error_explanation">
@@ -15,7 +21,6 @@
       </ul>
     </div>
   <% end %>
-  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 <% if !trip.started %>
 <div class="edit_trip_form">
 <h2>Edit Trip Info</h2>
@@ -89,14 +94,15 @@
     <%= form.label :number_of_possible_attendees %>
     <%= form.number_field :number_of_possible_attendees, :min => 0, id: :trip_number_of_possible_attendees %>
   </div>
-
+</body>
+<div class="modal-footer">
   <div class="actions">
     <%= form.submit %>
   </div>
 <% end %>
 <% end %>
 </div>
-</body>
+</div>
 </div>
 </div>
 
