@@ -156,15 +156,18 @@ class TripsController < ApplicationController
   # PATCH/PUT /trips/1
   # PATCH/PUT /trips/1.json
   def update
+    puts "IM IN UPDATE"
     respond_to do |format|
       if @trip.update(trip_params)
-        if @trip.started 
           @trip_length_night = (@trip.end_date - @trip.start_date).to_i
           @price_per_night = @trip.price_per_night
           @total_cost = @price_per_night.to_i * @trip_length_night.to_i
           @attendees = Attendee.where(trip_id: params[:id])
+          @number_of_possible_attendees = @trip.number_of_possible_attendees
+          @total_possible_accomodation_cost_per_person = @total_cost.to_i / @number_of_possible_attendees.to_i
           @total_confirmed_accomodation_cost_per_person = @total_cost.to_i / @attendees.count
           @trip.update_attribute(:total_confirmed_cost, @total_confirmed_accomodation_cost_per_person)
+          @trip.update_attribute(:total_possible_cost, @total_possible_accomodation_cost_per_person)
           if Expense.exists?(trip_id: params[:id], description: "Accomodation Cost") == false
             @accomodation_cost = Expense.new({
               trip_id: params[:id],
@@ -194,7 +197,6 @@ class TripsController < ApplicationController
                 end
               end
             end
-          end
         end
         format.html { redirect_to @trip, notice: 'Trip status has been updated.' }
         format.json { render :show, status: :ok, location: @trip }
@@ -202,7 +204,7 @@ class TripsController < ApplicationController
         format.html { redirect_to @trip, notice: 'Unable to update trip' }
         format.json { render json: @trip.errors, status: :unprocessable_entity }
       end
-    end
+    end 
   end
   
   # DELETE /trips/1
