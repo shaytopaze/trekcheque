@@ -4,7 +4,7 @@
 
 #trip-header {
     grid-area: header;
-    padding-top: 60px;
+    padding-top: 75px;
     text-align: center;
 }
 
@@ -15,6 +15,7 @@
 .dashboard {
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
+    padding-top: 15px;
     padding: 24px;
     text-align: center;
 }
@@ -83,4 +84,59 @@
 
 .modal-footer {
     padding-right: 5% !important;
+}
+
+#addexpensebtn {
+  background-color: rgba(211, 191, 162, 0.1);
+	outline: none;
+    color: darkcyan;
+	font-size: 18px;
+	height: auto;
+	font-weight: normal;
+	padding: 6px 15px;
+}
+#addexpensebtn:hover,
+#addexpensebtn:focus {
+	color: #fff;
+	background-color: #016868;
+	border-color: #004d4d;
+}
+
+.btn-info {
+  background-color: rgba(211, 191, 162, 0.1);
+  outline: none;
+  color: darkcyan;
+  font-size: 18px;
+  height: auto;
+  font-weight: normal;
+  padding: 6px 15px;
+  border-radius: 6px;
+  border: 2px solid darkcyan;
+}
+.btn-info:hover,
+.btn-info:focus,
+.btn-info:active {
+	color: #fff;
+    background-color: #016868;	
+    border-color: #004d4d;
+}
+
+#myBtn {
+  background-color: rgba(211, 191, 162, 0.1);
+  outline: none;
+  color: darkcyan;
+  font-size: 18px;
+  height: auto;
+  font-weight: normal;
+  padding: 6px 15px;
+  border-radius: 6px;
+  border: 2px solid darkcyan;
+}
+#myBtn:hover,
+#myBtn:focus,
+#myBtn:active {
+	color: #fff;
+	background-color: #016868;
+	border-color: #004d4d;
+    border-radius: 6px;
 }
