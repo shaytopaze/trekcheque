@@ -56,9 +56,9 @@
 }
 
 #addexpensebtn {
-	background-color: rgb(3, 165, 157);
+  background-color: rgba(211, 191, 162, 0.1);
 	outline: none;
-	color: #fff;
+    color: darkcyan;
 	font-size: 18px;
 	height: auto;
 	font-weight: normal;
@@ -67,8 +67,8 @@
 #addexpensebtn:hover,
 #addexpensebtn:focus {
 	color: #fff;
-	background-color: rgb(0, 206, 196);
-	border-color: rgb(3, 165, 157);
+	background-color: #016868;
+	border-color: #004d4d;
 }
 
 .btn-info {
@@ -86,8 +86,8 @@
 .btn-info:focus,
 .btn-info:active {
 	color: #fff;
-	background-color: rgb(0, 206, 196);
-	border-color: rgb(3, 165, 157);
+    background-color: #016868;	
+    border-color: #004d4d;
 }
 
 #myBtn {
@@ -105,7 +105,7 @@
 #myBtn:focus,
 #myBtn:active {
 	color: #fff;
-	background-color: rgb(0, 206, 196);
-    border-color: rgb(3, 165, 157);
+	background-color: #016868;
+	border-color: #004d4d;
     border-radius: 6px;
 }
