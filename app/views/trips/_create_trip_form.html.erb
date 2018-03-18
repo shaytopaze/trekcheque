@@ -1,10 +1,12 @@
 <a id="open-create-trip">Create Trip</a>
 <div id="create-trip-modal" class="modal">
 <div class="modal-content">
-<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+<div class="modal-header">
+  <h1>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  Create trip:</h1>
+</div>
 <body>
-<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
- <h1>Create trip!</h1>
 <%= form_with(model: @new_trip, action: '/trips', method: 'post', local: true) do |form| %>
   <% if @new_trip.errors.any? %>
     <div id="error_explanation">
@@ -72,13 +74,14 @@
   <div class="field">
     <%= form.hidden_field :total_confirmed_cost, :value => 0 %>
   </div>
-
+</body>
+<div class="modal-footer">
   <div class="actions">
     <%= form.submit %>
   </div>
 <% end %>
 </div>
-</body>
+</div>
 </div>
 </div>
 
