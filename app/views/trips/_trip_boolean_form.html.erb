@@ -22,7 +22,7 @@
 <% end %>
 <% if @trip.started && @trip.ended %>
   <%= form.hidden_field :ended, value: false %>
-  <%= form.submit 'Trip Ended', :class => 'end-trip btn-info btn-lg' %>
+  <%= form.submit 'Resume Trip', :class => 'end-trip btn-info btn-lg' %>
 <% end %>
 </div>
 <% end %>
