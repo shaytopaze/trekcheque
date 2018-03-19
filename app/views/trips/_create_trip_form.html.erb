@@ -1,10 +1,12 @@
 <a id="open-create-trip">Create Trip</a>
 <div id="create-trip-modal" class="modal">
 <div class="modal-content">
-<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+<div class="modal-header">
+  <h1>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  Create trip:</h1>
+</div>
 <body>
-<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
- <h1>Create trip!</h1>
 <%= form_with(model: @new_trip, action: '/trips', method: 'post', local: true) do |form| %>
   <% if @new_trip.errors.any? %>
     <div id="error_explanation">
@@ -72,13 +74,14 @@
   <div class="field">
     <%= form.hidden_field :total_confirmed_cost, :value => 0 %>
   </div>
-
+</body>
+<div class="modal-footer">
   <div class="actions">
     <%= form.submit %>
-  </div>
 <% end %>
+  </div>
 </div>
-</body>
+</div>
 </div>
 </div>
 
@@ -119,6 +122,28 @@
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+/* The update button */
+.edit-trip-form, input[type="submit"] {
+  background-color: rgba(211, 191, 162, 0.1);
+	outline: none;
+	color: darkcyan;
+	font-size: 18px;
+	height: auto;
+	font-weight: normal;
+  padding: 6px 15px;
+  border-radius: 6px;
+  border: 2px solid darkcyan;
+}
+.edit-trip-form, input[type="submit"] :hover,
+.edit-trip-form, input[type="submit"] :focus,
+.edit-trip-form, input[type="submit"] :active {
+	color: #fff;
+	background-color: rgb(0, 206, 196);
+	border-color: rgb(3, 165, 157);
+}
+
 }
 </style>
 
