@@ -118,6 +118,22 @@
 	border-color: #004d4d;
 }
 
+#owe-btn {
+  background-color: rgba(211, 191, 162, 0.1);
+	outline: none;
+    color: darkcyan;
+	font-size: 18px;
+	height: auto;
+	font-weight: normal;
+	padding: 6px 15px;
+}
+#owe-btn:hover,
+#owe-btn:focus {
+	color: #fff;
+	background-color: #016868;
+	border-color: #004d4d;
+}
+
 .btn-info {
   background-color: rgba(211, 191, 162, 0.1);
   outline: none;
