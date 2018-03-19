@@ -102,6 +102,22 @@
 	border-color: #004d4d;
 }
 
+#open-directions {
+  background-color: rgba(211, 191, 162, 0.1);
+	outline: none;
+    color: darkcyan;
+	font-size: 18px;
+	height: auto;
+	font-weight: normal;
+	padding: 6px 15px;
+}
+#open-directions:hover,
+#open-directions:focus {
+	color: #fff;
+	background-color: #016868;
+	border-color: #004d4d;
+}
+
 .btn-info {
   background-color: rgba(211, 191, 162, 0.1);
   outline: none;

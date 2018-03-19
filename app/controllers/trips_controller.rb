@@ -41,11 +41,22 @@ class TripsController < ApplicationController
 
     if @trip.start_location != "" && @trip.end_location != ""
       @google_url = URI("https://maps.googleapis.com/maps/api/distancematrix/json?origins=#{@start_one}&destinations=#{@end_one}&key=#{Rails.application.secrets.SECRET_GOOGLE_KEY}")
+      @google_directions = URI("https://maps.googleapis.com/maps/api/directions/json?origin=#{@start_one}&destination=#{@end_one}&key=#{Rails.application.secrets.SECRET_GOOGLE_KEY}")
+      @google_image = URI("https://maps.googleapis.com/maps/api/staticmap?center=#{@end_one}&zoom=13&size=600x300&maptype=roadmap&markers=color:blue%7Clabel:S%7C40.702147,-74.015794&markers=color:green%7Clabel:G%7C40.711614,-74.012318&markers=color:red%7Clabel:C%7C40.718217,-73.998284&key=#{Rails.application.secrets.SECRET_GOOGLE_KEY}")
+      @response_image = Net::HTTP.get(@google_image)
+      response_directions = Net::HTTP.get(@google_directions)
+      @google_result = JSON.parse(response_directions)
+      @directions = ""
       response = Net::HTTP.get(@google_url)
       @result = JSON.parse(response)
       if @result['rows'][0]['elements'][0]['status'] == "OK"
         @distance = @result['rows'][0]['elements'][0]['distance']['text']
         @duration = @result['rows'][0]['elements'][0]['duration']['text']
+        @google_result['routes'][0]['legs'][0]['steps'].each do |step|
+          @directions += "<li>"
+          @directions += step['html_instructions']
+          @directions += "</li>"
+        end
       end
     end
 
