@@ -1,20 +1,40 @@
-<button class="directions" id="owe-btn">Show Balances</button>
-<div id="owe-modal" class="modal">
+<button class="directions" id="open-directions">Directions</button>
+<div id="directions-modal" class="modal">
 <div class="modal-content">
-<body>
 <div class="modal-header">
- <button type="button" class="close" data-dismiss="modal" id="closeOwe" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-<h3> Attendee Payments </h3>
+  <h1>
+  <button id="closeDirections" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  Directions:
+  </h1>
+</div>
+  <% if @trip.start_location != "" && @trip.end_location != "" %>
+    <% if (@result['rows'][0]['elements'][0]['status'] == "OK" )%>
+      <p>
+        <strong>Driving distance:</strong>
+          <%= @distance %>
+      </p>
+       <p>
+         <strong>Driving time (hopefully):</strong>
+         </br>
+         <%= @duration %>
+       </p>
+<div id="directions" style="padding: 10px;"><ol><%= @directions.html_safe %></ol></div>
+    <% end %>
+  <% end %>
+<% if @google_image %>
+  <div><img class="google-image" src="<%= @google_image %>"></div>
+<% else %>
+  <strong> Sorry we couldn't find directions with the information you provided! </strong>
+<% end %>
+</div>
 </div>
 
-<p>
-<% @owe_statements.each do |statement| %>
-  <%= statement %></br>
-<% end %>
-</p>
-</div>
-</div>
 <style>
+.google-image {
+    height: 200px;
+    width: 400px;
+    padding: 10px;
+}
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
@@ -27,6 +47,7 @@
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
+
 /* Modal Content/Box */
 .modal-content {
     background-color: #fefefe;
@@ -36,6 +57,7 @@
     border-radius: 10px;
     width: 80%; /* Could be more or less, depending on screen size */
 }
+
 /* The Close Button */
 .close {
     color: #aaa;
@@ -43,12 +65,14 @@
     font-size: 28px;
     font-weight: bold;
 }
+
 .close:hover,
 .close:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
 }
+
 /* The update button */
 .directions, input[type="submit"] {
   background-color: #CCDBDB;
@@ -67,26 +91,31 @@
 	color: #fff;
 	background-color: rgb(0, 206, 196);
 }
+
 </style>
+
 <script>
 (function(){
-// Get the modal
-var owe_modal = document.getElementById('owe-modal');
-// Get the button that opens the modal
-var owe_btn = document.getElementById("owe-btn");
-// When the user clicks on the button, open the modal 
-owe_btn.onclick = function() {
-    owe_modal.style.display = "block";
-}
 
-$(document).ready(function() {
-  $("#closeOwe").on("click", function(event) {
-      $('#owe-modal').hide();
-      $('.modal-backdrop').hide();
+  var directions_modal = document.getElementById('directions-modal');
+
+
+  var directions_btn = document.getElementById("open-directions");
+
+  var span = document.getElementsByClassName("close")[0];
+
+
+
+  directions_btn.onclick = function() {
+      directions_modal.style.display = "block";
+  }
+
+  $(document).ready(function() {
+  $("#closeDirections").on("click", function(event) {
+      $('#directions-modal').hide();
   });
 });
 
 })();
+
 </script>
-
-

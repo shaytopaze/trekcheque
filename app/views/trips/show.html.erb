@@ -58,7 +58,10 @@ function CopyLink() {
     <div class="dashboard">
       <div class="trip-info column">
         <h1>Trip Info</h1>
+        <% if !@trip.ended %>
         <%= render 'edit_trip_form', trip: @trip %>
+        <% end %>
+        <%= render 'directions', directions: @directions, google_image: @google_image, duration: @duration, distance: @distance %>
         <h3>
           <% if @start_trip_loc == "" %>
             <%= "Point A"%>
@@ -83,46 +86,37 @@ function CopyLink() {
           <%= @trip_length_night %> night(s)
         </p>
 
-        <% if @trip.start_location != "" && @trip.end_location != "" %>
-            <% if (@result['rows'][0]['elements'][0]['status'] == "OK" )%>
-                <p>
-                    <strong>Driving distance:</strong>
-                    </br>
-                    <%= @distance %>
-                </p>
-        
-                <p>
-                    <strong>Driving time (hopefully):</strong>
-                    </br>
-                    <%= @duration %>
-                </p>
-            <% end %>
-        <% end %>
         <p>
           <strong>Dates:</strong></br>
           <%= @trip.start_date.strftime("%B %d, %Y") %> to <%= @trip.end_date.strftime("%B %d, %Y") %>
         </p>
 
         <p>
-          <strong>Number of possible attendees:</strong></br>
+          <strong>Number of invited attendees:</strong></br>
           <%= @trip.number_of_possible_attendees %>
         </p>
-
+        <%if @trip.started %>
         <p>
-          <strong>Accomodation per person (maximum people):</strong></br>
-          $<%= @trip.total_possible_cost %>
-        </p>
-
-        <p>
-          <strong>Accomodation per person (confirmed numbers):</strong></br>
+          <strong>Accomodation per person (confirmed):</strong></br>
           $<%= @trip.total_confirmed_cost  %>
         </p>
+        <% else %>
+         <p>
+          <strong>Accomodation per person (confirmed):</strong></br>
+          $<%= @trip.total_confirmed_cost  %>
+        </p>
+        <p>
+          <strong>Accomodation per person (estimate):</strong></br>
+          $<%= @trip.total_possible_cost %>
+        </p>
+        <% end %>
+
 
                 <% if @trip.accomodation_url != "" %>
                     <p>
                         <strong>
                             <%= link_to 'Accommodation Link', @trip.accomodation_url %>
-                                <strong>
+                                </strong>
                     </p>
                     <% end %>
 
@@ -199,7 +193,3 @@ function CopyLink() {
     </div>
   </div>
 </body>
-
-
-
-

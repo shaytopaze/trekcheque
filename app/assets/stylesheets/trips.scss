@@ -13,8 +13,8 @@
 }
 
 .dashboard {
-    display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
+    display: grid !important;
+    grid-template-columns: 1fr 2fr 1fr !important;
     padding-top: 15px;
     padding: 24px;
     text-align: center;
@@ -42,6 +42,11 @@
     text-align: center
 }
 
+.edit-trip_form {
+    text-align: center;
+}
+
+
 .accomodation-image img {
     max-width: 250px;
     float: center;
@@ -55,8 +60,34 @@
     padding-left: 30px;
 }
 
+.modal-content {
+    width: 60% !important;
+    max-width: 600px !important;
+    padding: 0 !important;
+    border: 2px solid #004d4d !important;
+    border-radius: 14px !important;
+}
+
+.modal h1 {
+    margin-top: 0;
+    text-align: left;
+    padding-left: 5%;
+}
+
+.modal-header {
+    background-color: #004d4d;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    color: white;
+    padding-bottom: 2px !important;   
+}
+
+.modal-footer {
+    padding-right: 5% !important;
+}
+
 #addexpensebtn {
-  background-color: rgba(211, 191, 162, 0.1);
+  background-color: #CCDBDB;
 	outline: none;
     color: darkcyan;
 	font-size: 18px;
@@ -71,8 +102,40 @@
 	border-color: #004d4d;
 }
 
+#open-directions {
+  background-color: #CCDBDB;
+	outline: none;
+    color: darkcyan;
+	font-size: 18px;
+	height: auto;
+	font-weight: normal;
+	padding: 6px 15px;
+}
+#open-directions:hover,
+#open-directions:focus {
+	color: #fff;
+	background-color: #016868;
+	border-color: #004d4d;
+}
+
+#owe-btn {
+  background-color: #CCDBDB;
+	outline: none;
+    color: darkcyan;
+	font-size: 18px;
+	height: auto;
+	font-weight: normal;
+	padding: 6px 15px;
+}
+#owe-btn:hover,
+#owe-btn:focus {
+	color: #fff;
+	background-color: #016868;
+	border-color: #004d4d;
+}
+
 .btn-info {
-  background-color: rgba(211, 191, 162, 0.1);
+  background-color: #CCDBDB;
   outline: none;
   color: darkcyan;
   font-size: 18px;
@@ -91,7 +154,7 @@
 }
 
 #myBtn {
-  background-color: rgba(211, 191, 162, 0.1);
+  background-color: #CCDBDB;
   outline: none;
   color: darkcyan;
   font-size: 18px;
