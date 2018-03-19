@@ -61,7 +61,7 @@ function CopyLink() {
         <% if !@trip.ended %>
         <%= render 'edit_trip_form', trip: @trip %>
         <% end %>
-        <%= render 'directions', directions: @directions, google_image: @google_image %>
+        <%= render 'directions', directions: @directions, google_image: @google_image, duration: @duration, distance: @distance %>
         <h3>
           <% if @start_trip_loc == "" %>
             <%= "Point A"%>
@@ -86,21 +86,6 @@ function CopyLink() {
           <%= @trip_length_night %> night(s)
         </p>
 
-        <% if @trip.start_location != "" && @trip.end_location != "" %>
-            <% if (@result['rows'][0]['elements'][0]['status'] == "OK" )%>
-                <p>
-                    <strong style="text-decoration: underline">Driving distance:</strong>
-                    </br>
-                    <%= @distance %>
-                </p>
-        
-                <p>
-                    <strong style="text-decoration: underline">Driving time (hopefully):</strong>
-                    </br>
-                    <%= @duration %>
-                </p>
-            <% end %>
-        <% end %>
         <p>
           <strong style="text-decoration: underline">Dates:</strong></br>
           <%= @trip.start_date.strftime("%B %d, %Y") %> to <%= @trip.end_date.strftime("%B %d, %Y") %>

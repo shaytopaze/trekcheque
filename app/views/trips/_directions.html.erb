@@ -7,7 +7,21 @@
   Directions:
   </h1>
 </div>
-
+        <% if @trip.start_location != "" && @trip.end_location != "" %>
+            <% if (@result['rows'][0]['elements'][0]['status'] == "OK" )%>
+                <p>
+                    <strong>Driving distance:</strong>
+                    
+                    <%= @distance %>
+                </p>
+        
+                <p>
+                    <strong>Driving time (hopefully):</strong>
+                    </br>
+                    <%= @duration %>
+                </p>
+            <% end %>
+        <% end %>
 <div id="directions" style="padding: 10px;"><ol><%= @directions.html_safe %></ol></div>
 <% if @google_image %>
   <div><img class="google-image" src="<%= @google_image %>"></div>
