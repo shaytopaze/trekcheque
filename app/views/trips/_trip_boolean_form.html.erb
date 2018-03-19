@@ -15,6 +15,7 @@
     <%= form.hidden_field :started, value: true %>
     <%= form.submit 'Start Trip', :class => 'btn-info btn-lg' %>
 <% end %>
+<div class="end-button">
 <% if @trip.started && !@trip.ended%>
     <%= form.hidden_field :ended, value: true %>
     <%= form.submit 'End Trip', :class => 'end-trip btn-info btn-lg' %>
@@ -23,4 +24,6 @@
   <%= form.hidden_field :ended, value: false %>
   <%= form.submit 'Trip Ended', :class => 'end-trip btn-info btn-lg' %>
 <% end %>
+</div>
 <% end %>
+
