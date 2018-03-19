@@ -102,6 +102,38 @@
 	border-color: #004d4d;
 }
 
+#open-directions {
+  background-color: rgba(211, 191, 162, 0.1);
+	outline: none;
+    color: darkcyan;
+	font-size: 18px;
+	height: auto;
+	font-weight: normal;
+	padding: 6px 15px;
+}
+#open-directions:hover,
+#open-directions:focus {
+	color: #fff;
+	background-color: #016868;
+	border-color: #004d4d;
+}
+
+#owe-btn {
+  background-color: rgba(211, 191, 162, 0.1);
+	outline: none;
+    color: darkcyan;
+	font-size: 18px;
+	height: auto;
+	font-weight: normal;
+	padding: 6px 15px;
+}
+#owe-btn:hover,
+#owe-btn:focus {
+	color: #fff;
+	background-color: #016868;
+	border-color: #004d4d;
+}
+
 .btn-info {
   background-color: rgba(211, 191, 162, 0.1);
   outline: none;
@@ -139,4 +171,16 @@
 	background-color: #016868;
 	border-color: #004d4d;
     border-radius: 6px;
+}
+.end-trip {
+    position: fixed;
+    bottom: 0px;
+    width: 300px;
+    left: 575px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.end-button {
+    position: fixed;
+    bottom: 0px;
 }
