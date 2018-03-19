@@ -1,16 +1,17 @@
 <button id="myBtn">Edit Trip Info</button>
 <div id="edit-trip-modal" class="modal">
 <div class="modal-content">
-<div class="modal-header">
 <body>
-<h1>Edit trip!</h1>
-  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+<div class="modal-header">
+  <h1>
+  <button type="button" class="close" data-dismiss="modal" id="closeEdit" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  Edit trip:
+  </h1>
 </div>
 <%= form_with(model: trip, local: true) do |form| %>
   <% if trip.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(trip.errors.count, "error") %> prohibited this trip from being saved:</h2>
-
       <ul>
       <% trip.errors.full_messages.each do |message| %>
         <li><%= message %></li>
@@ -18,90 +19,75 @@
       </ul>
     </div>
   <% end %>
-<% if !trip.started %>
 <div class="edit_trip_form">
-<h2>Edit Trip Info</h2>
-<div class="field">
+<% if !trip.started %>
+  <div class="field">
     <%= form.label :name %>
     <%= form.text_field :name, id: :trip_name %>
   </div>
-
   <div class="field">
     <%= form.label :accommodation_url %>
     <%= form.text_field :accomodation_url, id: :trip_accomodation_url %>
   </div>
-
   <div class="field">
     <%= form.label :start_location %>
     <%= form.text_field :start_location, id: :trip_start_location %>
   </div>
-
     <div class="field">
     <%= form.label :end_location %>
     <%= form.text_field :end_location, id: :trip_end_location %>
   </div>
-
   <div class="field">
     <%= form.label :price_per_night %>
     <%= form.number_field :price_per_night, :step => 0.01, :min => 0, id: :trip_price_per_night %>
   </div>
-
   <div class="field">
     <%= form.label :number_of_possible_attendees %>
     <%= form.number_field :number_of_possible_attendees, :min => 0, id: :trip_number_of_possible_attendees %>
   </div>
-
   <div class="field">
     <%= form.label :start_date %>
     <%= form.date_select :start_date, id: :trip_start_date %>
   </div>
-
   <div class="field">
     <%= form.label :end_date %>
     <%= form.date_select :end_date, id: :trip_end_date %>
   </div>
-
   <div class="actions">
     <%= form.submit %>
   </div>
   <% else %> 
-
-  <div class="edit_trip_form">
   <div class="field">
     <%= form.label :name %>
     <%= form.text_field :name, id: :trip_name %>
   </div>
-
   <div class="field">
     <%= form.label :accommodation_url %>
     <%= form.text_field :accomodation_url, id: :trip_accomodation_url %>
   </div>
-
   <div class="field">
     <%= form.label :start_location %>
     <%= form.text_field :start_location, id: :trip_start_location %>
   </div>
-
     <div class="field">
     <%= form.label :end_location %>
     <%= form.text_field :end_location, id: :trip_end_location %>
   </div>
-
   <div class="field">
     <%= form.label :number_of_possible_attendees %>
     <%= form.number_field :number_of_possible_attendees, :min => 0, id: :trip_number_of_possible_attendees %>
   </div>
-
+<div class="modal-footer">
   <div class="actions">
     <%= form.submit %>
   </div>
-<% end %>
-<% end %>
 </div>
+<% end %>
+<% end %>
 </body>
 </div>
 </div>
-
+</div>
 <style>
 .modal {
     display: none; /* Hidden by default */
@@ -115,7 +101,6 @@
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
-
 /* Modal Content/Box */
 .modal-content {
     background-color: #fefefe;
@@ -125,7 +110,6 @@
     border-radius: 10px;
     width: 80%; /* Could be more or less, depending on screen size */
 }
-
 /* The Close Button */
 .close {
     color: #aaa;
@@ -133,7 +117,6 @@
     font-size: 28px;
     font-weight: bold;
 }
-
 .close:hover,
 .close:focus {
     color: black;
@@ -141,31 +124,22 @@
     cursor: pointer;
 }
 </style>
-
-
-
 <script>
 (function(){
-
 // Get the modal
 var modal = document.getElementById('edit-trip-modal');
-
 // Get the button that opens the modal
 var btn = document.getElementById("myBtn");
-
-
 // When the user clicks on the button, open the modal 
 btn.onclick = function() {
     modal.style.display = "block";
 }
-
 $(document).ready(function() {
   $("#closeEdit").on("click", function(event) {
       $('#edit-trip-modal').hide();
       $('.modal-backdrop').hide();
   });
 });
-
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
     if (event.target == modal) {
