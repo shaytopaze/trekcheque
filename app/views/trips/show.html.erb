@@ -92,19 +92,25 @@ function CopyLink() {
         </p>
 
         <p>
-          <strong style="text-decoration: underline">Number of possible attendees:</strong></br>
+          <strong style="text-decoration: underline">Number of invited attendees:</strong></br>
           <%= @trip.number_of_possible_attendees %>
         </p>
-
+        <%if @trip.started %>
         <p>
-          <strong style="text-decoration: underline">Accomodation per person (maximum people):</strong></br>
-          $<%= @trip.total_possible_cost %>
-        </p>
-
-        <p>
-          <strong style="text-decoration: underline">Accomodation per person (confirmed numbers):</strong></br>
+          <strong style="text-decoration: underline">Accomodation per person (confirmed):</strong></br>
           $<%= @trip.total_confirmed_cost  %>
         </p>
+        <% else %>
+         <p>
+          <strong style="text-decoration: underline">Accomodation per person (confirmed):</strong></br>
+          $<%= @trip.total_confirmed_cost  %>
+        </p>
+        <p>
+          <strong style="text-decoration: underline">Accomodation per person (estimate):</strong></br>
+          $<%= @trip.total_possible_cost %>
+        </p>
+        <% end %>
+
 
                 <% if @trip.accomodation_url != "" %>
                     <p>
