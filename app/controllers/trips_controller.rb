@@ -47,12 +47,14 @@ class TripsController < ApplicationController
       @directions = ""
       response = Net::HTTP.get(@google_url)
       @result = JSON.parse(response)
-      @end_long = @google_result['routes'][0]['legs'][0]['end_location']['lng']
-      @end_lat = @google_result['routes'][0]['legs'][0]['end_location']['lat']
-      @start_lat = @google_result['routes'][0]['legs'][0]['start_location']['lat']
-      @start_long = @google_result['routes'][0]['legs'][0]['start_location']['lng']
-      @google_image = URI("https://maps.googleapis.com/maps/api/staticmap?center=#{@end_lat},#{@end_long}&zoom=14&size=600x300&markers=color:blue%7Clabel:S%7C#{@end_lat},#{@end_long}&key=#{Rails.application.secrets.SECRET_GOOGLE_KEY}")
-      @response_image = Net::HTTP.get(@google_image)
+      if @google_result['status'] == "OK"
+        @end_long = @google_result['routes'][0]['legs'][0]['end_location']['lng']
+        @end_lat = @google_result['routes'][0]['legs'][0]['end_location']['lat']
+        @start_lat = @google_result['routes'][0]['legs'][0]['start_location']['lat']
+        @start_long = @google_result['routes'][0]['legs'][0]['start_location']['lng']
+        @google_image = URI("https://maps.googleapis.com/maps/api/staticmap?center=#{@end_lat},#{@end_long}&zoom=14&size=600x300&markers=color:blue%7Clabel:S%7C#{@end_lat},#{@end_long}&key=#{Rails.application.secrets.SECRET_GOOGLE_KEY}")
+        @response_image = Net::HTTP.get(@google_image)
+      end
       if @result['rows'][0]['elements'][0]['status'] == "OK"
         @distance = @result['rows'][0]['elements'][0]['distance']['text']
         @duration = @result['rows'][0]['elements'][0]['duration']['text']

@@ -9,7 +9,11 @@
 </div>
 
 <div id="directions" style="padding: 10px;"><ol><%= @directions.html_safe %></ol></div>
-<div><img class="google-image" src="<%= @google_image %>"></div>
+<% if @google_image %>
+  <div><img class="google-image" src="<%= @google_image %>"></div>
+<% else %>
+  <strong> Sorry couldn't find directions with the information you provided! </strong>
+<% end %>
 </div>
 </div>
 

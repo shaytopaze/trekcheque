@@ -58,7 +58,9 @@ function CopyLink() {
     <div class="dashboard">
       <div class="trip-info column">
         <h1>Trip Info</h1>
+        <% if !@trip.ended %>
         <%= render 'edit_trip_form', trip: @trip %>
+        <% end %>
         <%= render 'directions', directions: @directions, google_image: @google_image %>
         <h3>
           <% if @start_trip_loc == "" %>
