@@ -106,16 +106,26 @@ class TripsController < ApplicationController
           end
 
           @owe_statements = Array.new
-
-          @attendees_in_positive.each do |positive|
-            @attendees_in_negative.each do |negative|
-              if positive[1] <= negative[1].abs
-                @temp = positive[1]/100
-                negative[1] = negative[1] - @temp
-                @user_who_owes = User.find(positive[0])
-                @user_getting_paid = User.find(negative[0])
-                @owe_statements.push("#{@user_who_owes.name} owes #{@user_getting_paid.name} $#{@temp}")
-              end
+          i = 0
+          j = 0
+          positiveKeys = @attendees_in_positive.keys
+          negativeKeys = @attendees_in_negative.keys
+          while i < @attendees_in_positive.length && j < @attendees_in_negative.length
+            @user_who_owes = User.find(positiveKeys[i])
+            @user_getting_paid = User.find(negativeKeys[j])
+            delta = @attendees_in_positive[positiveKeys[i]] + @attendees_in_negative[negativeKeys[j]]
+            if delta < 0
+              @owe_statements.push("#{@user_who_owes.name} owes #{@user_getting_paid.name} $#{@attendees_in_positive[positiveKeys[i]].to_f/100}")
+              @attendees_in_negative[negativeKeys[j]] = delta
+              i += 1
+            elsif delta > 0
+              @owe_statements.push("#{@user_who_owes.name} owes #{@user_getting_paid.name} $#{-1 * @attendees_in_negative[negativeKeys[j]].to_f/100}")
+              @attendees_in_positive[positiveKeys[i]] = delta
+              j += 1
+            else
+              @owe_statements.push("#{@user_who_owes.name} owes #{@user_getting_paid.name} $#{@attendees_in_positive[positiveKeys[j]].to_f/100}")
+              i += 1
+              j += 1
             end
           end
 
