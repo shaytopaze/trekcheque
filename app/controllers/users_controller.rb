@@ -82,7 +82,9 @@ class UsersController < ApplicationController
     end
     
     def set_trip
-      @trip = Trip.find(params[:id])
+      if @trip 
+        @trip = Trip.find(params[:id])
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

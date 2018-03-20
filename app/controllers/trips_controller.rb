@@ -40,7 +40,8 @@ class TripsController < ApplicationController
       @end_one = @end_one.gsub!(', ', '+') || @end_one
       @end_one = @end_one.gsub!('.', '') || @end_one
     end
-
+    
+    # if trip start & end location are not null - use google maps API!
     if @trip.start_location != "" && @trip.end_location != ""
       @google_url = URI("https://maps.googleapis.com/maps/api/distancematrix/json?origins=#{@start_one}&destinations=#{@end_one}&key=#{Rails.application.secrets.SECRET_GOOGLE_KEY}")
       @google_directions = URI("https://maps.googleapis.com/maps/api/directions/json?origin=#{@start_one}&destination=#{@end_one}&key=#{Rails.application.secrets.SECRET_GOOGLE_KEY}")
@@ -49,6 +50,7 @@ class TripsController < ApplicationController
       @directions = ""
       response = Net::HTTP.get(@google_url)
       @result = JSON.parse(response)
+      # if API response is OK - create google static image!
       if @google_result['status'] == "OK"
         @end_long = @google_result['routes'][0]['legs'][0]['end_location']['lng']
         @end_lat = @google_result['routes'][0]['legs'][0]['end_location']['lat']
@@ -57,6 +59,7 @@ class TripsController < ApplicationController
         @google_image = URI("https://maps.googleapis.com/maps/api/staticmap?center=#{@end_lat},#{@end_long}&zoom=14&size=600x300&markers=color:blue%7Clabel:S%7C#{@end_lat},#{@end_long}&key=#{Rails.application.secrets.SECRET_GOOGLE_KEY}")
         @response_image = Net::HTTP.get(@google_image)
       end
+      # if API response is OK - create google directions and estimated distance/duration!
       if @result['rows'][0]['elements'][0]['status'] == "OK"
         @distance = @result['rows'][0]['elements'][0]['distance']['text']
         @duration = @result['rows'][0]['elements'][0]['duration']['text']
@@ -84,6 +87,7 @@ class TripsController < ApplicationController
       @payee_user = User.where(id: @user_id)
       @payee_user_ids = @payee_user.ids
       @attendee_user_for_finding_expense = Attendee.where(user_id: @payee_user_ids, trip_id: params[:id])
+      # not sure what this loop is for? remove?
       @attendee_user_for_finding_expense.each do |attendee_for_balance|
       end
     end
@@ -94,36 +98,32 @@ class TripsController < ApplicationController
       @contributors_size = @expense_payees.size
       @payee_owes = (@amount / @contributors_size)
     end
-
-        if @trip.ended 
-          @attendees_in_negative = Hash.new
-          @attendees_in_positive = Hash.new
-
-          @attendees.each do |attendee|
-            if attendee[:balance_cents] > 0
-              @attendees_in_positive[attendee[:user_id]] = attendee[:balance_cents] 
-            else
-              @attendees_in_negative[attendee[:user_id]] = attendee[:balance_cents]             
-            end
-          end
-
-          @owe_statements = Array.new
-
-          @attendees_in_positive.each do |positive|
-            @attendees_in_negative.each do |negative|
-              if positive[1] <= negative[1].abs
-                @temp = positive[1]/100
-                negative[1] = negative[1] - @temp
-                @user_who_owes = User.find(positive[0])
-                @user_getting_paid = User.find(negative[0])
-                @owe_statements.push("#{@user_who_owes.name} owes #{@user_getting_paid.name} $#{@temp}")
-              end
-            end
-          end
-
+    
+    # logic for ending balance owing statements
+    if @trip.ended 
+      @attendees_in_negative = Hash.new
+      @attendees_in_positive = Hash.new
+      @attendees.each do |attendee|
+        if attendee[:balance_cents] > 0
+          @attendees_in_positive[attendee[:user_id]] = attendee[:balance_cents] 
+        else
+          @attendees_in_negative[attendee[:user_id]] = attendee[:balance_cents]             
         end
+      end
+      @owe_statements = Array.new
+        @attendees_in_positive.each do |positive|
+          @attendees_in_negative.each do |negative|
+            if positive[1] <= negative[1].abs
+              @temp = positive[1]/100
+              negative[1] = negative[1] - @temp
+              @user_who_owes = User.find(positive[0])
+              @user_getting_paid = User.find(negative[0])
+              @owe_statements.push("#{@user_who_owes.name} owes #{@user_getting_paid.name} $#{@temp}")
+            end
+          end
+        end
+    end
   end
-
 
   # GET /trips/new
   def new
@@ -131,7 +131,7 @@ class TripsController < ApplicationController
     @trip = Trip.new
     @trip_types = [["Weekend Getaway", 1], ["Boys Trip", 2], ["Bachelorette", 3], ["Road Trip", 4], ["Adventure", 5]]
   end
-  
+    
   # GET /trips/1/edit
   def edit
   end
@@ -144,7 +144,7 @@ class TripsController < ApplicationController
       format.js { render :file => "trips/inline_edit.js.erb" }
     end
   end
-    
+      
     # POST /trips
     # POST /trips.json
   def create
@@ -152,6 +152,7 @@ class TripsController < ApplicationController
     @trip = Trip.new(trip_params)
     @trip_types = [["Weekend Getaway", 1], ["Boys Trip", 2], ["Bachelorette", 3], ["Road Trip", 4], ["Adventure", 5]]
     @first_attendee = Attendee.create!([{trip_id: @new_trip.id, user_id: current_user.id, balance: 0}])
+    puts @first_attendee
     @attendees = Attendee.where(trip_id: params[:id])
     @number_of_possible_attendees = @new_trip.number_of_possible_attendees
     @price_per_night = @new_trip.price_per_night
@@ -247,4 +248,7 @@ class TripsController < ApplicationController
       params.require(:trip).permit(:name, :accomodation_url, :price_per_night, :number_of_possible_attendees, :start_date, :end_date, :start_location, :end_location, :type_of_trip, :total_possible_cost, :total_confirmed_cost, :started, :ended)
     end
   end 
+
+      
+
 
