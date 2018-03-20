@@ -40,8 +40,7 @@ class TripsController < ApplicationController
       @end_one = @end_one.gsub!(', ', '+') || @end_one
       @end_one = @end_one.gsub!('.', '') || @end_one
     end
-    
-    # if trip start & end location are not null - use google maps API!
+
     if @trip.start_location != "" && @trip.end_location != ""
       @google_url = URI("https://maps.googleapis.com/maps/api/distancematrix/json?origins=#{@start_one}&destinations=#{@end_one}&key=#{Rails.application.secrets.SECRET_GOOGLE_KEY}")
       @google_directions = URI("https://maps.googleapis.com/maps/api/directions/json?origin=#{@start_one}&destination=#{@end_one}&key=#{Rails.application.secrets.SECRET_GOOGLE_KEY}")
@@ -50,7 +49,6 @@ class TripsController < ApplicationController
       @directions = ""
       response = Net::HTTP.get(@google_url)
       @result = JSON.parse(response)
-      # if API response is OK - create google static image!
       if @google_result['status'] == "OK"
         @end_long = @google_result['routes'][0]['legs'][0]['end_location']['lng']
         @end_lat = @google_result['routes'][0]['legs'][0]['end_location']['lat']
@@ -59,7 +57,6 @@ class TripsController < ApplicationController
         @google_image = URI("https://maps.googleapis.com/maps/api/staticmap?center=#{@end_lat},#{@end_long}&zoom=14&size=600x300&markers=color:blue%7Clabel:S%7C#{@end_lat},#{@end_long}&key=#{Rails.application.secrets.SECRET_GOOGLE_KEY}")
         @response_image = Net::HTTP.get(@google_image)
       end
-      # if API response is OK - create google directions and estimated distance/duration!
       if @result['rows'][0]['elements'][0]['status'] == "OK"
         @distance = @result['rows'][0]['elements'][0]['distance']['text']
         @duration = @result['rows'][0]['elements'][0]['duration']['text']
@@ -133,9 +130,10 @@ class TripsController < ApplicationController
               j += 1
             end
           end
+
         end
-    end
   end
+
 
   # GET /trips/new
   def new
@@ -143,7 +141,7 @@ class TripsController < ApplicationController
     @trip = Trip.new
     @trip_types = [["Weekend Getaway", 1], ["Boys Trip", 2], ["Bachelorette", 3], ["Road Trip", 4], ["Adventure", 5]]
   end
-    
+  
   # GET /trips/1/edit
   def edit
   end
@@ -156,7 +154,7 @@ class TripsController < ApplicationController
       format.js { render :file => "trips/inline_edit.js.erb" }
     end
   end
-      
+    
     # POST /trips
     # POST /trips.json
   def create
@@ -259,7 +257,6 @@ class TripsController < ApplicationController
       params.require(:trip).permit(:name, :accomodation_url, :price_per_night, :number_of_possible_attendees, :start_date, :end_date, :start_location, :end_location, :type_of_trip, :total_possible_cost, :total_confirmed_cost, :started, :ended)
     end
   end 
-
       
 
 

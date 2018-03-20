@@ -98,7 +98,7 @@
 #addexpensebtn:hover,
 #addexpensebtn:focus {
 	color: #fff;
-	background-color: #016868;
+	background-color: #286090;
 	border-color: #004d4d;
 }
 
@@ -114,7 +114,7 @@
 #open-directions:hover,
 #open-directions:focus {
 	color: #fff;
-	background-color: #016868;
+	background-color: #286090;
 	border-color: #004d4d;
 }
 
@@ -130,7 +130,7 @@
 #owe-btn:hover,
 #owe-btn:focus {
 	color: #fff;
-	background-color: #016868;
+	background-color: #286090;
 	border-color: #004d4d;
 }
 
@@ -149,7 +149,7 @@
 .btn-info:focus,
 .btn-info:active {
 	color: #fff;
-    background-color: #016868;	
+    background-color: #286090;	
     border-color: #004d4d;
 }
 
@@ -161,6 +161,9 @@
      font: inherit;
      font-size: 1em;
      margin-left: .3em;
+}
+#myBtn:hover {
+    color: #286090;
 }
 
 .copyLink {
@@ -178,7 +181,7 @@
 .copyLink:focus,
 .copyLink:active {
 	color: #fff;
-    background-color: #016868;	
+    background-color: #286090;	
     border-color: #004d4d;
 }
 
@@ -206,7 +209,7 @@
 }
 
 .messages-container {
-    background-color: darkcyan;
+    background-color: #004d4d;
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
     margin-top: -20px;    
