@@ -192,10 +192,7 @@ function CopyLink() {
           <button class="copyLink" onclick="CopyLink()" style="margin: 10px;">Copy Link</button>
           <p style="font-style: italic"> Copy link and share with friends so they can join this trip!</p>
         <%= render :partial => './attendees/attendees_table/', trip_attendees: @trip_attendees , attendees_for_id: @attendees_for_id, current_user: :current_user, attendees_ids: @attendees_ids, moderator: @moderator %>
-
-  <%= render partial: 'message_form', locals: {message: @message, trip: @trip, current_user: :current_user}%>
-</div>
-</div>
+        <%= render partial: 'message_form', locals: {message: @message, trip: @trip, current_user: :current_user}%>
       </div>
 
     </div>
