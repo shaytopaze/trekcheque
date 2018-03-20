@@ -1,62 +1,65 @@
 <script>
-function toggleUpdateForm() {
-    $('#expense-form-container').toggle("blind", 1000);
-};
+  function toggleUpdateForm() {
+      $('#expense-form-container').toggle("blind", 1000);
+  };
 </script>
-<h3> Expense List </h3>
 
-<div class="container-fluid">
-<table class="expenses-table">
-  <thead>
-    <tr>
-      <th style="width: 20%;">Paid by:</th>
-      <th style="width: 20%;">Amount</th>
-      <th style="width: 50%;">Description</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<body>
+  <h3> Expense List </h3>
 
-  <% @expenses.each do |expense| %>
-  <tbody>
-    <div class="expense-container">
-      <tr>
-        <td><%= expense.user.name %></td>
-        <td>$ <%= expense.amount %></td>
-        <td><%= expense.description %></td>
-        <% if @attendees_ids.include? current_user.id %>
-          <% if !@trip.ended %>
-            <td><%= link_to  [:inline_edit, @trip, expense], onclick: "toggleUpdateForm()", datatarget: expense.id, remote: true do %><i class="fa fa-edit" style="font-size:1.3em;"></i><% end %></td>
-            <td><%= link_to  trip_expense_url(@trip, expense), method: :delete, data: { confirm: 'Are you sure?' } do %><i class="fa fa-trash" style="font-size:1.3em;"></i><% end %></td>
-          <% end %>
-        <% end %>
-      </tr>
-    </div>
-  </tbody>
-  <% end %>
-</table>
+  <div class="container-fluid">
+    <table class="expenses-table">
+      <thead>
+        <tr>
+          <th style="width: 20%;">Paid by:</th>
+          <th style="width: 20%;">Amount</th>
+          <th style="width: 50%;">Description</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
 
-<div class="container-fluid" id="editexpenseform">
-<br>
-  <div class="row-fluid" id="expense-form-container" style="display: none;">
-    <div class="span8 well">
-      <ul class="nav nav-tabs">
-        <li class="active"> <a href="#editeven" data-target="#editeven" data-toggle="tab">Split evenly</a></li>
-        <li><a href="#editportion" data-target="#editportion" data-toggle="tab">By Amount</a></li>
-      </ul>
-      <div class="tab-content">
-        <div class="tab-pane active fade in" id="editeven">
-          <div id="expense-edit-partial">
+      <% @expenses.each do |expense| %>
+        <tbody>
+          <div class="expense-container">
+            <tr>
+              <td><%= expense.user.name %></td>
+              <td>$ <%= expense.amount %></td>
+              <td><%= expense.description %></td>
+              <% if @attendees_ids.include? current_user.id %>
+                <% if !@trip.ended %>
+                  <td><%= link_to  [:inline_edit, @trip, expense], onclick: "toggleUpdateForm()", datatarget: expense.id, remote: true do %><i class="fa fa-edit" style="font-size:1.3em;"></i><% end %></td>
+                  <td><%= link_to  trip_expense_url(@trip, expense), method: :delete, data: { confirm: 'Are you sure?' } do %><i class="fa fa-trash" style="font-size:1.3em;"></i><% end %></td>
+                <% end %>
+              <% end %>
+            </tr>
           </div>
-        </div>
-                  
-        <div class="tab-pane" id="editportion">
-          <div id="expense-edit-options-partial">
+        </tbody>
+      <% end %>
+    </table>
+
+  <div class="container-fluid" id="editexpenseform">
+    <br>
+    <div class="row-fluid" id="expense-form-container" style="display: none;">
+      <div class="span8 well">
+        <ul class="nav nav-tabs">
+          <li class="active"> <a href="#editeven" data-target="#editeven" data-toggle="tab">Split evenly</a></li>
+          <li><a href="#editportion" data-target="#editportion" data-toggle="tab">By Amount</a></li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane active fade in" id="editeven">
+            <div id="expense-edit-partial">
+            </div>
+          </div>
+                    
+          <div class="tab-pane" id="editportion">
+            <div id="expense-edit-options-partial">
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-</div>
-<br>
+  </div>
+  <br>
+</body>
