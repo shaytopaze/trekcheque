@@ -1,60 +1,60 @@
 <%= render 'layouts/nav_bar' %>
 <p id="notice"><%= notice %></p>
 <body>
-<h1 id="user-header">
-<strong>
-<%= @user.name %>
-</strong>
-</h1>
 
+  <h1 id="user-header">
+    <strong>
+      <%= @user.name %>
+    </strong>
+  </h1>
 
-<div class="user-email">
-  <strong>Email:</strong>
-  <%= @user.email %>
-</div>
-
-<div class="container-fluid">
-  <div class="trip-grid">
-      <% @trips_of_user.each do |trip| %>
-      <div class="trip-box">
-        <%= link_to trip_path(trip.id) do %>  
-        <div class="trip-link">
-         <strong><span style="font-size: 2rem;"><%= trip.name %></span></strong><br>
-        <%= trip.start_date.strftime("%B %d, %Y") %><br>to<br><%= trip.end_date.strftime("%B %d, %Y") %>
-        <br>
-        <% if trip.start_location && trip.end_location%>
-         <%= trip.start_location %> to <%= trip.end_location %>      
-        <% end %>
-        <br>
-        <br>
-        Friends on the trip:<br>
-         <% trip.attendees.each do |attendee| %>
-        <% friend = User.find(attendee.user_id) %>
-        <%= friend.name %>
-        <% end %>
-        <br>
-        <% if trip.type_of_trip %>
-          <% if trip.type_of_trip == "Weekend Getaway" %>
-            <%= image_tag("Weekend-Getaway.jpg", width: "200", style: "border: 1px solid #00415d; border-radius: 5px;")%>
-          <% end %>
-          <% if trip.type_of_trip == "Bachelorette" %>
-            <%= image_tag("Bachelorette-party.jpg", width: "200", style: "border: 1px solid #00415d; border-radius: 5px;")%>
-          <% end %>
-          <% if trip.type_of_trip == "Adventure" %>
-            <%= image_tag("Adventure.jpg", width: "200", style: "border: 1px solid #00415d; border-radius: 5px;")%>
-          <% end %>
-          <% if trip.type_of_trip == "Road Trip" %>
-            <%= image_tag("road-Trip.jpg", width: "200", style: "border: 1px solid #00415d; border-radius: 5px;")%>
-          <% end %>
-          <% if trip.type_of_trip == "Boys Trip" %>
-            <%= image_tag("boys-trip.jpg", width: "200", style: "border: 1px solid #00415d; border-radius: 5px;")%>
-          <% end %>
-        <% end %>
-        <% end %>
-      </div>
-      </div>
-      <% end %>
+  <div class="user-email">
+    <strong>Email:</strong>
+    <%= @user.email %>
   </div>
-</div>
+
+  <div class="container-fluid">
+    <div class="trip-grid">
+        <% @trips_of_user.each do |trip| %>
+        <div class="trip-box">
+          <%= link_to trip_path(trip.id) do %>  
+          <div class="trip-link">
+            <strong><span style="font-size: 2rem;"><%= trip.name %></span></strong><br>
+            <%= trip.start_date.strftime("%B %d, %Y") %><br>to<br><%= trip.end_date.strftime("%B %d, %Y") %>
+            <br>
+            <% if trip.start_location && trip.end_location%>
+              <%= trip.start_location %> to <%= trip.end_location %>      
+            <% end %>
+            <br>
+            <br>
+            Friends on the trip:<br>
+            <% trip.attendees.each do |attendee| %>
+              <% friend = User.find(attendee.user_id) %>
+              <%= friend.name %>
+            <% end %>
+            <br>
+            <% if trip.type_of_trip %>
+              <% if trip.type_of_trip == "Weekend Getaway" %>
+                <%= image_tag("Weekend-Getaway.jpg", width: "200", style: "border: 1px solid #00415d; border-radius: 5px;")%>
+              <% end %>
+              <% if trip.type_of_trip == "Bachelorette" %>
+                <%= image_tag("Bachelorette-party.jpg", width: "200", style: "border: 1px solid #00415d; border-radius: 5px;")%>
+              <% end %>
+              <% if trip.type_of_trip == "Adventure" %>
+                <%= image_tag("Adventure.jpg", width: "200", style: "border: 1px solid #00415d; border-radius: 5px;")%>
+              <% end %>
+              <% if trip.type_of_trip == "Road Trip" %>
+                <%= image_tag("road-Trip.jpg", width: "200", style: "border: 1px solid #00415d; border-radius: 5px;")%>
+              <% end %>
+              <% if trip.type_of_trip == "Boys Trip" %>
+                <%= image_tag("boys-trip.jpg", width: "200", style: "border: 1px solid #00415d; border-radius: 5px;")%>
+              <% end %>
+            <% end %>
+          <% end %>
+          </div>
+        </div>
+        <% end %>
+    </div>
+  </div>
 </body>
       

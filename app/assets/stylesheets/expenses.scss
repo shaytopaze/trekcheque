@@ -3,29 +3,29 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .container-fluid {
-    width: 100%;
+  width: 100%;
 }
 
 .expense-table {
-    width: 100%;
-    grid-gap: 16px;
-    padding: 20px;
+  width: 100%;
+  grid-gap: 16px;
+  padding: 20px;
 }
 
 .description-table {
-    max-width: 20%;
-    word-break: break-all;
+  max-width: 20%;
+  word-break: break-all;
 }
 
 .col {
-    display: grid;
-    grid-gap: 24px;
+  display: grid;
+  grid-gap: 24px;
 }
 
 td {
-    padding: 8px;
+  padding: 8px;
 }
 
 th, td {
-    text-align: center !important;
+  text-align: center !important;
 }

@@ -1,22 +1,23 @@
 class ExpensesController < ApplicationController
   before_action :set_expense, only: [:show, :edit, :update, :destroy, :inline_edit]
   before_action :update_balance, only: [:destroy, :update]
-  # need to create a proper update balance function on update
-  # after_action :update_balance_after_edit, only: [:inline_edit]
 
   # GET /expenses
   # GET /expenses.json
   def index
     @expenses = Expense.all
   end
+
   # GET /expenses/1
   # GET /expenses/1.json
   def show
   end
+
   # GET /expenses/new
   def new
     @expense = Expense.new
   end
+
   # GET /expenses/1/edit
   def edit
     @attendees = Attendee.where(trip_id: params[:id])
@@ -26,18 +27,21 @@ class ExpensesController < ApplicationController
         format.json { render :show, status: :created, location: trip_expenses_path }
     end
   end
+
   # POST /expenses
   # POST /expenses.json
   def create
     params.each do |key, value|
-      # puts "Param #{key}: #{value}"
     end
+
     @expense = Expense.new(expense_params)
     @expense.trip_id = params[:trip_id]
     @trip = Trip.find(params[:trip_id].to_i)
     @amount = @expense.amount
+
     # create hash to store split portions for each user
     split_hash = Hash.new()
+
     if params[:split_type] == "split_by_amount"
       passed_split = params[:expense][:payee][:split]
       portions = []
@@ -60,7 +64,6 @@ class ExpensesController < ApplicationController
       @willing_payees.each do |pid|
         @expense.payees.new(user_id: pid)
         split_hash[pid] = (@amount / @payee_size) #/
-        # TODO: this is kinda cavalier about the possibility of errors.  ha ha!
       end
     end
 
@@ -78,6 +81,7 @@ class ExpensesController < ApplicationController
             attendee_for_balance.update_attribute(:balance, @attendee_balance)
           end
         end
+
         # deduct amount paid by expense user
         @attendee_payer_of_expense = Attendee.where(user_id: @expense.user_id, trip_id: params[:trip_id].to_i).first
         @payer_balance = @attendee_payer_of_expense.balance - @expense.amount
@@ -90,22 +94,27 @@ class ExpensesController < ApplicationController
       end
     end
   end
+
   # PATCH/PUT /expenses/1
   # PATCH/PUT /expenses/1.json
   def update
     @expense = Expense.find(params[:id])
+
     if @expense
       @expense.destroy
     end
+
     @trip = Trip.find(params[:trip_id].to_i)
+
     params.each do |key, value|
-      # puts "Param #{key}: #{value}"
     end
+    
     @updated_expense = Expense.new(expense_params)
 
     @updated_expense.trip_id = params[:trip_id]
     @trip = Trip.find(params[:trip_id].to_i)
     @amount = @updated_expense.amount
+
     # create hash to store split portions for each user
     split_hash = Hash.new()
     if params[:split_type] == "split_by_amount"
@@ -160,6 +169,7 @@ class ExpensesController < ApplicationController
       end
     end
   end
+
   # DELETE /expenses/1
   # DELETE /expenses/1.json
   def destroy
@@ -176,7 +186,6 @@ class ExpensesController < ApplicationController
     #@attendees = @expense.payees.all
     @attendees = Attendee.where(trip_id: params[:trip_id])
     @trip_attendees = @attendees.collect { |a| a.user }
-    puts @trip_attendees
     respond_to do |format|
       format.js { render :file => "trips/inline_edit.js.erb" }
     end
@@ -191,11 +200,8 @@ class ExpensesController < ApplicationController
    
     def update_balance
       @willing_payees = @expense.payees.all
-      # TODO: this is kinda cavalier about the possibility of errors.  ha ha!
       @amount = @expense.amount
-      p @willing_payees
       @payee_size = @willing_payees.count
-      puts @payee_size
       @payee_owes = (@amount / @payee_size) 
       @willing_payees.each do |payee|
         @user_id = payee.user_id
@@ -208,14 +214,16 @@ class ExpensesController < ApplicationController
           attendee_for_balance.update_attribute(:balance, @attendee_balance)
         end
       end
-        @attendee_payer_of_expense = Attendee.where(user_id: @expense.user_id, trip_id: params[:trip_id].to_i).first
-        @gets_back = (@payee_owes * @payee_size)
-        @payer_balance = @attendee_payer_of_expense.balance + @gets_back
-        @attendee_payer_of_expense.update_attribute(:balance, @payer_balance)
+      @attendee_payer_of_expense = Attendee.where(user_id: @expense.user_id, trip_id: params[:trip_id].to_i).first
+      @gets_back = (@payee_owes * @payee_size)
+      @payer_balance = @attendee_payer_of_expense.balance + @gets_back
+      @attendee_payer_of_expense.update_attribute(:balance, @payer_balance)
     end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def expense_params
       params.require(:expense).permit(:trip_id, :user_id, :amount, :description, payees_attributes: [:id, :user_id, :expense_id])
     end
+
 end
         
