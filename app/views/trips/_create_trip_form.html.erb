@@ -1,88 +1,78 @@
 <a id="open-create-trip">Create Trip</a>
 <div id="create-trip-modal" class="modal">
-<div class="modal-content">
-<div class="modal-header">
-  <h1>
-  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-  Create trip:</h1>
-</div>
-<body>
-<%= form_with(model: @new_trip, action: '/trips', method: 'post', local: true) do |form| %>
-  <% if @new_trip.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@new_trip.errors.count, "error") %> prohibited this trip from being saved:</h2>
-      <ul>
-      <% @new_trip.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h1>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        Create trip:
+      </h1>
     </div>
-  <% end %>
-<div class="create_trip_form">
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name, id: :trip_name %>
-  </div>
-
-  <div class="field">
-    <%= form.label :accommodation_url %>
-    <%= form.text_field :accomodation_url, id: :trip_accomodation_url %>
-  </div>
-
-  <div class="field">
-    <%= form.label :start_location %>
-    <%= form.text_field :start_location, id: :trip_start_location %>
-  </div>
-
-    <div class="field">
-    <%= form.label :end_location %>
-    <%= form.text_field :end_location, id: :trip_end_location %>
-  </div>
-
-  <div class="field">
-      <%= form.select(:type_of_trip) do %>
-        <% trip_types.each do |c| %>
-          <%= content_tag(:option, c.first, value: c.first) %>
+    <body>
+      <%= form_with(model: @new_trip, action: '/trips', method: 'post', local: true) do |form| %>
+        <% if @new_trip.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(@new_trip.errors.count, "error") %> prohibited this trip from being saved:</h2>
+            <ul>
+            <% @new_trip.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+            </ul>
+          </div>
         <% end %>
+        <div class="create_trip_form">
+          <div class="field">
+            <%= form.label :name %>
+            <%= form.text_field :name, id: :trip_name %>
+          </div>
+          <div class="field">
+            <%= form.label :accommodation_url %>
+            <%= form.text_field :accomodation_url, id: :trip_accomodation_url %>
+          </div>
+          <div class="field">
+            <%= form.label :start_location %>
+            <%= form.text_field :start_location, id: :trip_start_location %>
+          </div>
+          <div class="field">
+            <%= form.label :end_location %>
+            <%= form.text_field :end_location, id: :trip_end_location %>
+          </div>
+          <div class="field">
+              <%= form.select(:type_of_trip) do %>
+                <% trip_types.each do |c| %>
+                  <%= content_tag(:option, c.first, value: c.first) %>
+                <% end %>
+              <% end %>
+          </div> 
+          <div class="field">
+            <%= form.label :price_per_night %>
+            <%= form.number_field :price_per_night, :step => 0.01, :min => 0, id: :trip_price_per_night %>
+          </div>
+          <div class="field">
+            <%= form.label :number_of_possible_attendees %>
+            <%= form.number_field :number_of_possible_attendees, :min => 0, id: :trip_number_of_possible_attendees %>
+          </div>
+          <div class="field">
+            <%= form.label :start_date %>
+            <%= form.date_select :start_date, id: :trip_start_date %>
+          </div>
+          <div class="field">
+            <%= form.label :end_date %>
+            <%= form.date_select :end_date, id: :trip_end_date %>
+          </div>
+          <div class="field">
+            <%= form.hidden_field :total_possible_cost, :value => 0 %>
+          </div>
+          <div class="field">
+            <%= form.hidden_field :total_confirmed_cost, :value => 0 %>
+          </div>
+    <div class="modal-footer">
+      <div class="actions">
+        <%= form.submit %>
       <% end %>
-  </div> 
-
-  <div class="field">
-    <%= form.label :price_per_night %>
-    <%= form.number_field :price_per_night, :step => 0.01, :min => 0, id: :trip_price_per_night %>
+      </div>
+    </div>
+    </body>
   </div>
-
-  <div class="field">
-    <%= form.label :number_of_possible_attendees %>
-    <%= form.number_field :number_of_possible_attendees, :min => 0, id: :trip_number_of_possible_attendees %>
-  </div>
-
-  <div class="field">
-    <%= form.label :start_date %>
-    <%= form.date_select :start_date, id: :trip_start_date %>
-  </div>
-
-  <div class="field">
-    <%= form.label :end_date %>
-    <%= form.date_select :end_date, id: :trip_end_date %>
-  </div>
-
-  <div class="field">
-    <%= form.hidden_field :total_possible_cost, :value => 0 %>
-  </div>
-  
-  <div class="field">
-    <%= form.hidden_field :total_confirmed_cost, :value => 0 %>
-  </div>
-</body>
-<div class="modal-footer">
-  <div class="actions">
-    <%= form.submit %>
-<% end %>
-  </div>
-</div>
-</div>
-</div>
 </div>
 
 <style>
@@ -98,7 +88,6 @@
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
-
 /* Modal Content/Box */
 .modal-content {
     background-color: #fefefe;
@@ -108,7 +97,6 @@
     border-radius: 10px;
     width: 80%; /* Could be more or less, depending on screen size */
 }
-
 /* The Close Button */
 .close {
     color: white;
@@ -116,40 +104,35 @@
     font-size: 28px;
     font-weight: bold;
 }
-
 .close:hover,
 .close:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
 }
-
 /* The update button */
 .edit-trip-form, input[type="submit"] {
   background-color: white;
 	outline: none;
-	color: #4d0000;
+	color: darkcyan;
 	font-size: 18px;
 	height: auto;
 	font-weight: normal;
   padding: 6px 15px;
   border-radius: 6px;
-  border: 2px solid #4d0000;
+  border: 2px solid darkcyan;
 }
 .edit-trip-form, input[type="submit"] :hover,
 .edit-trip-form, input[type="submit"] :focus,
 .edit-trip-form, input[type="submit"] :active {
 	color: white;
-	background-color: #4d0000;
+	background-color: #286090;
 	border-color: #4d0000;
-}
-
 }
 </style>
 
 <script>
 (function(){
-
   // Get the modal
   var modal = document.getElementById('create-trip-modal');
 
@@ -176,5 +159,20 @@
       }
   }
 })();
-
 </script>
+
+
+
+
+
+
+
+
+
+
+          
+
+
+
+
+

@@ -13,18 +13,9 @@ class AttendeesController < ApplicationController
     end
   end
 
-  # GET /attendees/1
-  # GET /attendees/1.json
-  def show
-  end
-
   # GET /attendees/new
   def new
     @attendee = Attendee.new
-  end
-
-  # GET /attendees/1/edit
-  def edit
   end
 
   # POST /attendees
@@ -32,6 +23,7 @@ class AttendeesController < ApplicationController
   def create
     params.each do |key, value|
     end
+
     @trips = Trip.all
     @attendee = Attendee.new(attendee_params)
     @attendee.trip_id = params[:trip_id]

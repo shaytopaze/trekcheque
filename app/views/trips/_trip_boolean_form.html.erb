@@ -2,28 +2,28 @@
   <% if @trip.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(trip.errors.count, "error") %> prohibited this trip from being saved:</h2>
-
       <ul>
-      <% @trip.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
+        <% @trip.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
-
-<% if !@trip.started %>
+  <% if !@trip.started %>
     <%= form.hidden_field :started, value: true %>
     <%= form.submit 'Start Trip', :class => 'btn-info btn-lg' %>
+  <% end %>
+  <div class="end-button">
+    <% if @trip.started && !@trip.ended%>
+      <%= form.hidden_field :ended, value: true %>
+      <%= form.submit 'End Trip', :class => 'end-trip btn-info btn-lg' %>
+    <% end %>
+    <% if @trip.started && @trip.ended %>
+      <%= form.hidden_field :ended, value: false %>
+      <%= form.submit 'Resume Trip', :class => 'end-trip btn-info btn-lg' %>
+    <% end %>
+  </div>
 <% end %>
-<div class="end-button">
-<% if @trip.started && !@trip.ended%>
-    <%= form.hidden_field :ended, value: true %>
-    <%= form.submit 'End Trip', :class => 'end-trip btn-info btn-lg' %>
-<% end %>
-<% if @trip.started && @trip.ended %>
-  <%= form.hidden_field :ended, value: false %>
-  <%= form.submit 'Resume Trip', :class => 'end-trip btn-info btn-lg' %>
-<% end %>
-</div>
-<% end %>
+
+
 

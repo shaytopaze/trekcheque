@@ -8,18 +8,9 @@ class PayeesController < ApplicationController
     @payees = Payee.all
   end
 
-  # GET /payees/1
-  # GET /payees/1.json
-  def show
-  end
-
   # GET /payees/new
   def new
     @payee = Payee.new
-  end
-
-  # GET /payees/1/edit
-  def edit
   end
 
   # POST /payees
