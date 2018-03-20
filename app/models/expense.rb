@@ -2,7 +2,7 @@ class Expense < ApplicationRecord
 
   monetize :amount_cents, numericality: true
 
-  has_many :payees, dependent :destroy
+  has_many :payees, dependent: :destroy
   belongs_to :trip
   belongs_to :user
 
