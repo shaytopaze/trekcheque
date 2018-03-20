@@ -14,10 +14,10 @@ class TripsController < ApplicationController
     @trip_types = [["Weekend Getaway", 1], ["Boys Trip", 2], ["Bachelorette", 3], ["Road Trip", 4], ["Adventure", 5]]
     @trips = Trip.all
     @message = Message.new
-    @messages = Message.where(trip_id: params[:id])
+    @messages = Message.where(trip_id: params[:trip_id])
     @expense = Expense.new
     @new_trip = Trip.new
-    @attendees = Attendee.where(trip_id: params[:id])
+    @attendees = Attendee.where(trip_id: params[:trip_id])
     @attendees_ids = []
     @attendees.each do |attendee|
       @attendees_ids.push(attendee[:user_id])
@@ -75,7 +75,7 @@ class TripsController < ApplicationController
     if @trip_attendees.present?
       @moderator = @trip_attendees.first.name
     end
-    @expenses = Expense.where(trip_id: params[:id])
+    @expenses = Expense.where(trip_id: params[:trip_id])
     @users = User.all
     @attendee_for_id = Attendee.where(user_id: @users.ids)
     @expenses_ids = @expenses.ids
@@ -86,8 +86,7 @@ class TripsController < ApplicationController
       @user_id = payee.user_id
       @payee_user = User.where(id: @user_id)
       @payee_user_ids = @payee_user.ids
-      @attendee_user_for_finding_expense = Attendee.where(user_id: @payee_user_ids, trip_id: params[:id])
-      # not sure what this loop is for? remove?
+      @attendee_user_for_finding_expense = Attendee.where(user_id: @payee_user_ids, trip_id: params[:trip_id])
       @attendee_user_for_finding_expense.each do |attendee_for_balance|
       end
     end
@@ -98,27 +97,40 @@ class TripsController < ApplicationController
       @contributors_size = @expense_payees.size
       @payee_owes = (@amount / @contributors_size)
     end
-    
-    # logic for ending balance owing statements
-    if @trip.ended 
-      @attendees_in_negative = Hash.new
-      @attendees_in_positive = Hash.new
-      @attendees.each do |attendee|
-        if attendee[:balance_cents] > 0
-          @attendees_in_positive[attendee[:user_id]] = attendee[:balance_cents] 
-        else
-          @attendees_in_negative[attendee[:user_id]] = attendee[:balance_cents]             
-        end
-      end
-      @owe_statements = Array.new
-        @attendees_in_positive.each do |positive|
-          @attendees_in_negative.each do |negative|
-            if positive[1] <= negative[1].abs
-              @temp = positive[1]/100
-              negative[1] = negative[1] - @temp
-              @user_who_owes = User.find(positive[0])
-              @user_getting_paid = User.find(negative[0])
-              @owe_statements.push("#{@user_who_owes.name} owes #{@user_getting_paid.name} $#{@temp}")
+
+        if @trip.ended 
+          @attendees_in_negative = Hash.new
+          @attendees_in_positive = Hash.new
+
+          @attendees.each do |attendee|
+            if attendee[:balance_cents] > 0
+              @attendees_in_positive[attendee[:user_id]] = attendee[:balance_cents] 
+            else
+              @attendees_in_negative[attendee[:user_id]] = attendee[:balance_cents]             
+            end
+          end
+
+          @owe_statements = Array.new
+          i = 0
+          j = 0
+          positiveKeys = @attendees_in_positive.keys
+          negativeKeys = @attendees_in_negative.keys
+          while i < @attendees_in_positive.length && j < @attendees_in_negative.length
+            @user_who_owes = User.find(positiveKeys[i])
+            @user_getting_paid = User.find(negativeKeys[j])
+            delta = @attendees_in_positive[positiveKeys[i]] + @attendees_in_negative[negativeKeys[j]]
+            if delta < 0
+              @owe_statements.push("#{@user_who_owes.name} owes #{@user_getting_paid.name} $#{@attendees_in_positive[positiveKeys[i]].to_f/100}")
+              @attendees_in_negative[negativeKeys[j]] = delta
+              i += 1
+            elsif delta > 0
+              @owe_statements.push("#{@user_who_owes.name} owes #{@user_getting_paid.name} $#{-1 * @attendees_in_negative[negativeKeys[j]].to_f/100}")
+              @attendees_in_positive[positiveKeys[i]] = delta
+              j += 1
+            else
+              @owe_statements.push("#{@user_who_owes.name} owes #{@user_getting_paid.name} $#{@attendees_in_positive[positiveKeys[j]].to_f/100}")
+              i += 1
+              j += 1
             end
           end
         end
@@ -152,8 +164,7 @@ class TripsController < ApplicationController
     @trip = Trip.new(trip_params)
     @trip_types = [["Weekend Getaway", 1], ["Boys Trip", 2], ["Bachelorette", 3], ["Road Trip", 4], ["Adventure", 5]]
     @first_attendee = Attendee.create!([{trip_id: @new_trip.id, user_id: current_user.id, balance: 0}])
-    puts @first_attendee
-    @attendees = Attendee.where(trip_id: params[:id])
+    @attendees = Attendee.where(trip_id: params[:trip_id])
     @number_of_possible_attendees = @new_trip.number_of_possible_attendees
     @price_per_night = @new_trip.price_per_night
     @trip_length_night = (@new_trip.end_date - @new_trip.start_date).to_i
@@ -183,15 +194,15 @@ class TripsController < ApplicationController
           @trip_length_night = (@trip.end_date - @trip.start_date).to_i
           @price_per_night = @trip.price_per_night
           @total_cost = @price_per_night.to_i * @trip_length_night.to_i
-          @attendees = Attendee.where(trip_id: params[:id])
+          @attendees = Attendee.where(trip_id: params[:trip_id])
           @number_of_possible_attendees = @trip.number_of_possible_attendees
           @total_possible_accomodation_cost_per_person = @total_cost.to_i / @number_of_possible_attendees.to_i
           @total_confirmed_accomodation_cost_per_person = @total_cost.to_i / @attendees.count
           @trip.update_attribute(:total_confirmed_cost, @total_confirmed_accomodation_cost_per_person)
           @trip.update_attribute(:total_possible_cost, @total_possible_accomodation_cost_per_person)
-          if Expense.exists?(trip_id: params[:id], description: "Accomodation Cost") == false
+          if Expense.exists?(trip_id: params[:trip_id], description: "Accomodation Cost") == false
             @accomodation_cost = Expense.new({
-              trip_id: params[:id],
+              trip_id: params[:trip_id],
               user_id: current_user.id,
               amount: @total_cost,
               description: "Accomodation Cost"

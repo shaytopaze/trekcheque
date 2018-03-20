@@ -181,3 +181,33 @@
     background-color: #016868;	
     border-color: #004d4d;
 }
+
+.tripMessage {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-gap: 8px;
+    padding: 0 8px 8px 8px;
+}
+
+.group-pop-up {
+    width: 70% !important;
+    max-width: 300px !important;
+    margin-bottom: 40px;
+}
+
+#messages {
+    text-align: left;
+}
+
+.messages {
+    margin-bottom: 6px !important;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+.messages-container {
+    background-color: darkcyan;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    margin-top: -20px;    
+}

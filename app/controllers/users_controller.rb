@@ -82,8 +82,8 @@ class UsersController < ApplicationController
     end
     
     def set_trip
-      if @trip 
-        @trip = Trip.find(params[:id])
+      if @trip
+        @trip = Trip.find(params[:trip_id])
       end
     end
 
