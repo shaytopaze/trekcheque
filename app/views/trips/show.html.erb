@@ -77,36 +77,36 @@ function CopyLink() {
         </h3>
 
         <p>
-          <strong style="text-decoration: underline">Price per night:</strong></br>
+          <strong>Price per night:</strong></br>
           $<%= @trip.price_per_night %>
         </p>
 
         <p>
-          <strong style="text-decoration: underline">Trip length:</strong></br>
+          <strong>Trip length:</strong></br>
           <%= @trip_length_night %> night(s)
         </p>
 
         <p>
-          <strong style="text-decoration: underline">Dates:</strong></br>
+          <strong>Dates:</strong></br>
           <%= @trip.start_date.strftime("%B %d, %Y") %> to <%= @trip.end_date.strftime("%B %d, %Y") %>
         </p>
 
         <p>
-          <strong style="text-decoration: underline">Number of invited attendees:</strong></br>
+          <strong>Number of invited attendees:</strong></br>
           <%= @trip.number_of_possible_attendees %>
         </p>
         <%if @trip.started %>
         <p>
-          <strong style="text-decoration: underline">Accomodation per person (confirmed):</strong></br>
+          <strong>Accomodation per person (confirmed):</strong></br>
           $<%= @trip.total_confirmed_cost  %>
         </p>
         <% else %>
          <p>
-          <strong style="text-decoration: underline">Accomodation per person (confirmed):</strong></br>
+          <strong>Accomodation per person (confirmed):</strong></br>
           $<%= @trip.total_confirmed_cost  %>
         </p>
         <p>
-          <strong style="text-decoration: underline">Accomodation per person (estimate):</strong></br>
+          <strong>Accomodation per person (estimate):</strong></br>
           $<%= @trip.total_possible_cost %>
         </p>
         <% end %>
@@ -114,7 +114,7 @@ function CopyLink() {
 
                 <% if @trip.accomodation_url != "" %>
                     <p>
-                        <strong style="text-decoration: underline">
+                        <strong>
                             <%= link_to 'Accommodation Link', @trip.accomodation_url %>
                                 </strong>
                     </p>
