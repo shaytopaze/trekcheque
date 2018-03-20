@@ -13,11 +13,6 @@ class AttendeesController < ApplicationController
     end
   end
 
-  # GET /attendees/1
-  # GET /attendees/1.json
-  # def show
-  # end
-
   # GET /attendees/new
   def new
     @attendee = Attendee.new
