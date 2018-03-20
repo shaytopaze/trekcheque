@@ -190,7 +190,7 @@ class ExpensesController < ApplicationController
     end
    
     def update_balance
-      @willing_payees = @expense.payees.all
+      @willing_payees = params[:expense][:payee][:user_id].select { |uid| uid.length > 0 }
       # TODO: this is kinda cavalier about the possibility of errors.  ha ha!
       @amount = @expense.amount
       p @willing_payees
