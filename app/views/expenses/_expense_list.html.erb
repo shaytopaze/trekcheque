@@ -25,8 +25,8 @@ function toggleUpdateForm() {
         <td><%= expense.description %></td>
         <% if @attendees_ids.include? current_user.id %>
           <% if !@trip.ended %>
-            <td><button><%= link_to 'Edit', [:inline_edit, @trip, expense], onclick: "toggleUpdateForm()", datatarget: expense.id, remote: true %></button></td>
-            <td><button><%= link_to 'Destroy', trip_expense_url(@trip, expense), method: :delete, data: { confirm: 'Are you sure?' } %></button></td>
+            <td><%= link_to  [:inline_edit, @trip, expense], onclick: "toggleUpdateForm()", datatarget: expense.id, remote: true do %><i class="fa fa-edit" style="font-size:1.3em;"></i><% end %></td>
+            <td><%= link_to  trip_expense_url(@trip, expense), method: :delete, data: { confirm: 'Are you sure?' } do %><i class="fa fa-trash" style="font-size:1.3em;"></i><% end %></td>
           <% end %>
         <% end %>
       </tr>
