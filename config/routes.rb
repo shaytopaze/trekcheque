@@ -2,10 +2,16 @@ Rails.application.routes.draw do
 
   root to: 'users#new'
 
+  # serve websocket cable requests in-process
+  mount ActionCable.server => '/cable'
+   resources :trips, param: :trip_id
+   resources :messages  
+
   # if using update probably use patch? only changes the one field
   # have only got create and destroy attendees within the trip 
   resources :trips, except: [:index] do
     resources :attendees, only: [:create, :destroy]
+    resources :messages, only: [:create, :destroy]
 
     resources :expenses, except: [:index, :new] do  
       resources :payees, only: [:create, :destroy]
