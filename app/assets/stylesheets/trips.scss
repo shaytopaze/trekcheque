@@ -154,6 +154,16 @@
 }
 
 #myBtn {
+     background:none!important;
+     color:inherit;
+     border:none; 
+     padding:0!important;
+     font: inherit;
+     font-size: 1em;
+     margin-left: .3em;
+}
+
+.copyLink {
   background-color: #CCDBDB;
   outline: none;
   color: darkcyan;
@@ -164,11 +174,10 @@
   border-radius: 6px;
   border: 2px solid darkcyan;
 }
-#myBtn:hover,
-#myBtn:focus,
-#myBtn:active {
+.copyLink:hover,
+.copyLink:focus,
+.copyLink:active {
 	color: #fff;
-	background-color: #016868;
-	border-color: #004d4d;
-    border-radius: 6px;
+    background-color: #016868;	
+    border-color: #004d4d;
 }
