@@ -59,13 +59,15 @@ class TripsController < ApplicationController
         @response_image = Net::HTTP.get(@google_image)
       end
       # if google API results are OK -> set directions and duration/distance
-      if @result['rows'][0]['elements'][0]['status'] == "OK"
-        @distance = @result['rows'][0]['elements'][0]['distance']['text']
-        @duration = @result['rows'][0]['elements'][0]['duration']['text']
-        @google_result['routes'][0]['legs'][0]['steps'].each do |step|
-          @directions += "<li>"
-          @directions += step['html_instructions']
-          @directions += "</li>"
+      if @results
+        if @result['rows'][0]['elements'][0]['status'] == "OK"
+          @distance = @result['rows'][0]['elements'][0]['distance']['text']
+          @duration = @result['rows'][0]['elements'][0]['duration']['text']
+          @google_result['routes'][0]['legs'][0]['steps'].each do |step|
+            @directions += "<li>"
+            @directions += step['html_instructions']
+            @directions += "</li>"
+          end
         end
       end
     end
@@ -141,11 +143,7 @@ class TripsController < ApplicationController
     @trip = Trip.new
     @trip_types = [["Weekend Getaway", 1], ["Boys Trip", 2], ["Bachelorette", 3], ["Road Trip", 4], ["Adventure", 5]]
   end
-  
-  # # GET /trips/1/edit
-  # def edit
-  # end
-  
+    
   # function used for edit trip modal!
   def inline_edit
     @attendees = Attendee.where(trip_id: params[:trip_id])
@@ -244,16 +242,6 @@ class TripsController < ApplicationController
     end 
   end
   
-  # DELETE /trips/1
-  # DELETE /trips/1.json
-  # def destroy
-  #   @trip.destroy
-  #   respond_to do |format|
-  #     format.html { redirect_to trips_url, notice: 'Trip was successfully destroyed.' }
-  #     format.json { head :no_content }
-  #   end
-  # end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_trip
