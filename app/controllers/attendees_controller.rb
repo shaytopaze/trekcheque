@@ -32,6 +32,7 @@ class AttendeesController < ApplicationController
   def create
     params.each do |key, value|
     end
+
     @trips = Trip.all
     @attendee = Attendee.new(attendee_params)
     @attendee.trip_id = params[:trip_id]
