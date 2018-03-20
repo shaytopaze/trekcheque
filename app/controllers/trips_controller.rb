@@ -59,7 +59,7 @@ class TripsController < ApplicationController
         @response_image = Net::HTTP.get(@google_image)
       end
       # if google API results are OK -> set directions and duration/distance
-      if @results
+      if @result
         if @result['rows'][0]['elements'][0]['status'] == "OK"
           @distance = @result['rows'][0]['elements'][0]['distance']['text']
           @duration = @result['rows'][0]['elements'][0]['duration']['text']
