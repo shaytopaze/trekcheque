@@ -1,7 +1,150 @@
+<%= render 'layouts/nav_bar' %>
+<body>
+  <h1 id="trip-header">
+    <strong>
+      <%= @trip.name %>
+    </strong>
+  </h1>
+  <p id="notice"><%= notice %></p>
+  <div class="container-fluid">
+    <div class="dashboard">
+      <div class="trip-info column">
+        <h1>Trip Info
+          <% if !@trip.ended %>
+            <%= render 'edit_trip_form', trip: @trip %>
+          <% end %>
+        </h1>
+          <%= render 'directions', directions: @directions, google_image: @google_image, duration: @duration, distance: @distance %>
+        <h3>
+          <% if @start_trip_loc == "" %>
+            <%= "Point A"%>
+          <% else %>
+            <%= @start_trip_loc %>
+          <% end %>
+            to
+          <% if @end_trip_loc == "" %>
+            <%= "Point B"%>
+          <% else %>
+            <%= @end_trip_loc %>
+          <% end %>
+        </h3>
+        <p>
+          <strong>Price per night:</strong></br>
+          $<%= @trip.price_per_night %>
+        </p>
+        <p>
+          <strong>Trip length:</strong></br>
+          <%= @trip_length_night %> night(s)
+        </p>
+        <p>
+          <strong>Dates:</strong></br>
+          <%= @trip.start_date.strftime("%B %d, %Y") %> to <%= @trip.end_date.strftime("%B %d, %Y") %>
+        </p>
+        <p>
+          <strong>Number of invited attendees:</strong></br>
+          <%= @trip.number_of_possible_attendees %>
+        </p>
+        <%if @trip.started %>
+          <p>
+            <strong>Accomodation per person (confirmed):</strong></br>
+            $<%= @trip.total_confirmed_cost  %>
+          </p>
+        <% else %>
+          <p>
+            <strong>Accomodation per person (confirmed):</strong></br>
+            $<%= @trip.total_confirmed_cost  %>
+          </p>
+          <p>
+            <strong>Accomodation per person (estimate):</strong></br>
+            $<%= @trip.total_possible_cost %>
+          </p>
+        <% end %>
+        <% if @trip.accomodation_url != "" %>
+          <p>
+            <strong>
+              <%= link_to 'Accommodation Link', @trip.accomodation_url %>
+            </strong>
+          </p>
+        <% end %>
+      </div>
+
+      <div class="expenses column">
+        <div class="padding-img">
+          <% if !@trip.started%>
+            <% if @trip.type_of_trip %>
+              <% if @trip.type_of_trip == "Weekend Getaway" %>
+                <%= image_tag("Weekend-Getaway.jpg", width: "500", style: "border: 1px solid #00415d; border-radius: 5px;")%>
+              <% end %>
+              <% if @trip.type_of_trip == "Bachelorette" %>
+                <%= image_tag("Bachelorette-party.jpg", width: "500", style: "border: 1px solid #00415d; border-radius: 5px;")%>
+              <% end %>
+              <% if @trip.type_of_trip == "Adventure" %>
+                <%= image_tag("Adventure.jpg", width: "500", style: "border: 1px solid #00415d; border-radius: 5px;")%>
+              <% end %>
+              <% if @trip.type_of_trip == "Road Trip" %>
+                <%= image_tag("road-Trip.jpg", width: "500", style: "border: 1px solid #00415d; border-radius: 5px;")%>
+              <% end %>
+              <% if @trip.type_of_trip == "Boys Trip" %>
+                <%= image_tag("boys-trip.jpg", width: "500", style: "border: 1px solid #00415d; border-radius: 5px;")%>
+              <% end %>
+            <% end %>
+          <% end %>
+        </div>
+        <% if @trip.started %>
+          <h1>Expenses</h1>
+            <% if @attendees_ids.include? current_user.id %>
+              <% if !@trip.ended %>
+                <button type="button" id="addexpensebtn" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Add Expense</button>
+                <div class="container-fluid" id="addexpenseform" style="display:none;">
+                <br>
+                <div class="row-fluid">
+                  <div class="span8 well">
+                    <ul class="nav nav-tabs">
+                      <li class="active"> <a href="#even" data-target="#even" data-toggle="tab">Split evenly</a></li>
+                      <li><a href="#portion" data-target="#portion" data-toggle="tab">By Amount</a></li>
+                    </ul>
+                    <div class="tab-content">
+                      <div class="tab-pane active fade in" id="even">
+                        <%= render :partial => 'create_expense_form', expense: @expense, trip: @trip, payee: @payee %>
+                      </div>
+                      <div class="tab-pane" id="portion">
+                        <%= render :partial => 'expense_options_form', expense: @expense, trip: @trip, payee: @payee, trip_attendees: @trip_attendees %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <% else %>
+                <%= render :partial => 'show_expense_tallies', owe_statemets: @owe_statements %>
+              <% end %>
+            <% end %>
+            <%= render :partial => './expenses/expense_list', expenses: @expenses, trip: @trip %>
+          <% end %>
+          <div>
+            <% if @attendees.count > 0 %>
+              <%= render :partial => 'trip_boolean_form', trip: @trip %>
+            <% end %>
+          </div>
+      </div>
+      <div class="attendee column">
+        <h1>Attendees</h1>
+        <h4>Moderator: <%= @moderator %></h4>
+          <button class="copyLink" onclick="CopyLink()" style="margin: 10px;">Copy Link</button>
+          <p style="font-style: italic"> Copy link and share with friends so they can join this trip!</p>
+          <%= render :partial => './attendees/attendees_table/', trip_attendees: @trip_attendees , attendees_for_id: @attendees_for_id, current_user: :current_user, attendees_ids: @attendees_ids, moderator: @moderator, attendees: @attendees %>
+          <%= render partial: 'message_form', locals: {message: @message, trip: @trip, current_user: :current_user}%>
+      </div>
+    </div>
+  </div>
+</body>
+
 <script>
 $(document).ready(function() {
   $("#addexpensebtn").on("click", function(event) {
     $("#addexpenseform").toggle("blind", 1000);
+  });
+    $("#group-chat-btn").on("click", function(event) {
+    $("#group-chat").toggle("blind", 1000);
   });
 });
 
@@ -16,15 +159,10 @@ function copyTextToClipboard(text) {
   textArea.style.border = 'none';
   textArea.style.outline = 'none';
   textArea.style.boxShadow = 'none';
-
   textArea.style.background = 'transparent';
   textArea.style.display = 'hidden';
-
-
   textArea.value = text;
-
   document.body.appendChild(textArea);
-
   textArea.select();
 
   try {
@@ -34,162 +172,10 @@ function copyTextToClipboard(text) {
   } catch (err) {
     console.log('Oops, unable to copy');
   }
-
   document.body.removeChild(textArea);
 }
 
 function CopyLink() {
   copyTextToClipboard(location.href);
 }
-
 </script>
-
-<%= render 'layouts/nav_bar' %>
-
-<body>
-  <h1 id="trip-header">
-  <strong>
-    <%= @trip.name %>
-  </strong>
-  </h1>
-  <p id="notice"><%= notice %></p>
-
-  <div class="container-fluid">
-    <div class="dashboard">
-      <div class="trip-info column">
-        <h1>Trip Info</h1>
-        <% if !@trip.ended %>
-        <%= render 'edit_trip_form', trip: @trip %>
-        <% end %>
-        <%= render 'directions', directions: @directions, google_image: @google_image, duration: @duration, distance: @distance %>
-        <h3>
-          <% if @start_trip_loc == "" %>
-            <%= "Point A"%>
-            <% else %>
-            <%= @start_trip_loc %>
-            <% end %>
-            to
-           <% if @end_trip_loc == "" %>
-            <%= "Point B"%>
-            <% else %>
-            <%= @end_trip_loc %>
-            <% end %>
-        </h3>
-
-        <p>
-          <strong>Price per night:</strong></br>
-          $<%= @trip.price_per_night %>
-        </p>
-
-        <p>
-          <strong>Trip length:</strong></br>
-          <%= @trip_length_night %> night(s)
-        </p>
-
-        <p>
-          <strong>Dates:</strong></br>
-          <%= @trip.start_date.strftime("%B %d, %Y") %> to <%= @trip.end_date.strftime("%B %d, %Y") %>
-        </p>
-
-        <p>
-          <strong>Number of invited attendees:</strong></br>
-          <%= @trip.number_of_possible_attendees %>
-        </p>
-        <%if @trip.started %>
-        <p>
-          <strong>Accomodation per person (confirmed):</strong></br>
-          $<%= @trip.total_confirmed_cost  %>
-        </p>
-        <% else %>
-         <p>
-          <strong>Accomodation per person (confirmed):</strong></br>
-          $<%= @trip.total_confirmed_cost  %>
-        </p>
-        <p>
-          <strong>Accomodation per person (estimate):</strong></br>
-          $<%= @trip.total_possible_cost %>
-        </p>
-        <% end %>
-
-
-                <% if @trip.accomodation_url != "" %>
-                    <p>
-                        <strong>
-                            <%= link_to 'Accommodation Link', @trip.accomodation_url %>
-                                </strong>
-                    </p>
-                    <% end %>
-
-      </div>
-
-
-      <div class="expenses column">
-      <div class="padding-img">
-      <% if !@trip.started%>
-          <% if @trip.type_of_trip %>
-          <% if @trip.type_of_trip == "Weekend Getaway" %>
-            <%= image_tag("Weekend-Getaway.jpg", width: "500", style: "border: 1px solid #00415d; border-radius: 5px;")%>
-          <% end %>
-          <% if @trip.type_of_trip == "Bachelorette" %>
-            <%= image_tag("Bachelorette-party.jpg", width: "500", style: "border: 1px solid #00415d; border-radius: 5px;")%>
-          <% end %>
-          <% if @trip.type_of_trip == "Adventure" %>
-            <%= image_tag("Adventure.jpg", width: "500", style: "border: 1px solid #00415d; border-radius: 5px;")%>
-          <% end %>
-          <% if @trip.type_of_trip == "Road Trip" %>
-            <%= image_tag("road-Trip.jpg", width: "500", style: "border: 1px solid #00415d; border-radius: 5px;")%>
-          <% end %>
-          <% if @trip.type_of_trip == "Boys Trip" %>
-            <%= image_tag("boys-trip.jpg", width: "500", style: "border: 1px solid #00415d; border-radius: 5px;")%>
-          <% end %>
-        <% end %>
-        <% end %>
-        </div>
-
-          <% if @trip.started %>
-          <h1>Expenses</h1>
-            <% if @attendees_ids.include? current_user.id %>
-              <% if !@trip.ended %>
-              <button type="button" id="addexpensebtn" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Add Expense</button>
-              <div class="container-fluid" id="addexpenseform" style="display:none;">
-              <br>
-                <div class="row-fluid">
-                  <div class="span8 well">
-                    <ul class="nav nav-tabs">
-                      <li class="active"> <a href="#even" data-target="#even" data-toggle="tab">Split evenly</a></li>
-                      <li><a href="#portion" data-target="#portion" data-toggle="tab">By Amount</a></li>
-                    </ul>
-                    <div class="tab-content">
-                      <div class="tab-pane active fade in" id="even">
-                        <%= render :partial => 'create_expense_form', expense: @expense, trip: @trip, payee: @payee %>
-                      </div>
-                      <div class="tab-pane" id="portion">
-                      <%= render :partial => 'expense_options_form', expense: @expense, trip: @trip, payee: @payee, trip_attendees: @trip_attendees %>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <% else %>
-                <%= render :partial => 'show_expense_tallies', owe_statemets: @owe_statements %>
-              <% end %>
-            <% end %>
-            <%= render :partial => './expenses/expense_list', expenses: @expenses, trip: @trip %>
-          <% end %>
-          <div>
-        <% if @attendees.count > 0 %>
-          <%= render :partial => 'trip_boolean_form', trip: @trip %>
-        <% end %>
-        </div>
-      </div>
-      <div class="attendee column">
-        <h1>Attendees</h1>
-        <h4>Moderator: <%= @moderator %></h4>
-          <button class="copyLink" onclick="CopyLink()" style="margin: 10px;">Copy Link</button>
-          <p style="font-style: italic"> Copy link and share with friends so they can join this trip!</p>
-        <%= render :partial => './attendees/attendees_table/', trip_attendees: @trip_attendees , attendees_for_id: @attendees_for_id, current_user: :current_user, attendees_ids: @attendees_ids, moderator: @moderator %>
-      </div>
-
-    </div>
-  </div>
-</body>

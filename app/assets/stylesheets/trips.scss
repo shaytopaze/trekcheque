@@ -87,7 +87,7 @@
 }
 
 #addexpensebtn {
-  background-color: #CCDBDB;
+  background-color: white;
 	outline: none;
     color: darkcyan;
 	font-size: 18px;
@@ -98,12 +98,12 @@
 #addexpensebtn:hover,
 #addexpensebtn:focus {
 	color: #fff;
-	background-color: #016868;
+	background-color: #286090;
 	border-color: #004d4d;
 }
 
 #open-directions {
-  background-color: #CCDBDB;
+  background-color: white;
 	outline: none;
     color: darkcyan;
 	font-size: 18px;
@@ -114,12 +114,12 @@
 #open-directions:hover,
 #open-directions:focus {
 	color: #fff;
-	background-color: #016868;
+	background-color: #286090;
 	border-color: #004d4d;
 }
 
 #owe-btn {
-  background-color: #CCDBDB;
+  background-color: white;
 	outline: none;
     color: darkcyan;
 	font-size: 18px;
@@ -130,12 +130,12 @@
 #owe-btn:hover,
 #owe-btn:focus {
 	color: #fff;
-	background-color: #016868;
+	background-color: #286090;
 	border-color: #004d4d;
 }
 
 .btn-info {
-  background-color: #CCDBDB;
+  background-color: white;
   outline: none;
   color: darkcyan;
   font-size: 18px;
@@ -149,12 +149,25 @@
 .btn-info:focus,
 .btn-info:active {
 	color: #fff;
-    background-color: #016868;	
+    background-color: #286090;	
     border-color: #004d4d;
 }
 
 #myBtn {
-  background-color: #CCDBDB;
+     background:none!important;
+     color:inherit;
+     border:none; 
+     padding:0!important;
+     font: inherit;
+     font-size: 1em;
+     margin-left: .3em;
+}
+#myBtn:hover {
+    color: #286090;
+}
+
+.copyLink {
+  background-color: white;
   outline: none;
   color: darkcyan;
   font-size: 18px;
@@ -164,11 +177,40 @@
   border-radius: 6px;
   border: 2px solid darkcyan;
 }
-#myBtn:hover,
-#myBtn:focus,
-#myBtn:active {
+.copyLink:hover,
+.copyLink:focus,
+.copyLink:active {
 	color: #fff;
-	background-color: #016868;
-	border-color: #004d4d;
-    border-radius: 6px;
+    background-color: #286090;	
+    border-color: #004d4d;
+}
+
+.tripMessage {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-gap: 8px;
+    padding: 0 8px 8px 8px;
+}
+
+.group-pop-up {
+    width: 70% !important;
+    max-width: 300px !important;
+    margin-bottom: 40px;
+}
+
+#messages {
+    text-align: left;
+}
+
+.messages {
+    margin-bottom: 6px !important;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+.messages-container {
+    background-color: #004d4d;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    margin-top: -20px;    
 }

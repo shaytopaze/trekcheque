@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_action :set_trip, only: [:show]
-
+  
   # GET /users
   # GET /users.json
   def index
@@ -82,7 +82,9 @@ class UsersController < ApplicationController
     end
     
     def set_trip
-      @trip = Trip.find(params[:id])
+      if @trip
+        @trip = Trip.find(params[:trip_id])
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

@@ -1,19 +1,19 @@
 <button class="directions" id="owe-btn">Show Balances</button>
 <div id="owe-modal" class="modal">
-<div class="modal-content">
-<body>
-<div class="modal-header">
- <button type="button" class="close" data-dismiss="modal" id="closeOwe" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-<h3> Attendee Payments </h3>
+  <div class="modal-content">
+    <div class="modal-header">
+      <body>
+      <button type="button" class="close" data-dismiss="modal" id="closeOwe" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <h3> Attendee Payments </h3>
+    </div>
+    <p>
+      <% @owe_statements.each do |statement| %>
+        <%= statement %></br>
+      <% end %>
+    </p>
+  </div>
 </div>
 
-<p>
-<% @owe_statements.each do |statement| %>
-  <%= statement %></br>
-<% end %>
-</p>
-</div>
-</div>
 <style>
 .modal {
     display: none; /* Hidden by default */
@@ -51,7 +51,7 @@
 }
 /* The update button */
 .directions, input[type="submit"] {
-  background-color: #CCDBDB;
+  background-color: white;
 	outline: none;
 	color: darkcyan;
 	font-size: 18px;
@@ -68,6 +68,7 @@
 	background-color: rgb(0, 206, 196);
 }
 </style>
+
 <script>
 (function(){
 // Get the modal
@@ -78,14 +79,12 @@ var owe_btn = document.getElementById("owe-btn");
 owe_btn.onclick = function() {
     owe_modal.style.display = "block";
 }
-
 $(document).ready(function() {
   $("#closeOwe").on("click", function(event) {
       $('#owe-modal').hide();
       $('.modal-backdrop').hide();
   });
 });
-
 })();
 </script>
 

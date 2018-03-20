@@ -1,33 +1,33 @@
 <button class="directions" id="open-directions">Directions</button>
-<div id="directions-modal" class="modal">
-<div class="modal-content">
-<div class="modal-header">
-  <h1>
-  <button id="closeDirections" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-  Directions:
-  </h1>
-</div>
-  <% if @trip.start_location != "" && @trip.end_location != "" %>
-    <% if (@result['rows'][0]['elements'][0]['status'] == "OK" )%>
-      <p>
-        <strong>Driving distance:</strong>
-          <%= @distance %>
-      </p>
-       <p>
-         <strong>Driving time (hopefully):</strong>
-         </br>
-         <%= @duration %>
-       </p>
-<div id="directions" style="padding: 10px;"><ol><%= @directions.html_safe %></ol></div>
-    <% end %>
-  <% end %>
-<% if @google_image %>
-  <div><img class="google-image" src="<%= @google_image %>"></div>
-<% else %>
-  <strong> Sorry we couldn't find directions with the information you provided! </strong>
-<% end %>
-</div>
-</div>
+  <div id="directions-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1>
+          <button id="closeDirections" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          Directions:
+        </h1>
+      </div>
+      <% if @trip.start_location != "" && @trip.end_location != "" %>
+        <% if (@result['rows'][0]['elements'][0]['status'] == "OK" )%>
+          <p>
+            <strong>Driving distance:</strong>
+            <%= @distance %>
+          </p>
+          <p>
+            <strong>Driving time (hopefully):</strong>
+            </br>
+            <%= @duration %>
+          </p>
+          <div id="directions" style="padding: 10px;"><ol><%= @directions.html_safe %></ol></div>
+        <% end %>
+      <% end %>
+      <% if @google_image %>
+        <div><img class="google-image" src="<%= @google_image %>"></div>
+      <% else %>
+        <strong> Sorry we couldn't find directions with the information you provided! </strong>
+      <% end %>
+    </div>
+  </div>
 
 <style>
 .google-image {
@@ -47,7 +47,6 @@
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
-
 /* Modal Content/Box */
 .modal-content {
     background-color: #fefefe;
@@ -57,7 +56,6 @@
     border-radius: 10px;
     width: 80%; /* Could be more or less, depending on screen size */
 }
-
 /* The Close Button */
 .close {
     color: #aaa;
@@ -65,17 +63,15 @@
     font-size: 28px;
     font-weight: bold;
 }
-
 .close:hover,
 .close:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
 }
-
 /* The update button */
 .directions, input[type="submit"] {
-  background-color: #CCDBDB;
+  background-color: white;
 	outline: none;
 	color: darkcyan;
 	font-size: 18px;
@@ -91,20 +87,15 @@
 	color: #fff;
 	background-color: rgb(0, 206, 196);
 }
-
 </style>
 
 <script>
 (function(){
-
   var directions_modal = document.getElementById('directions-modal');
-
 
   var directions_btn = document.getElementById("open-directions");
 
   var span = document.getElementsByClassName("close")[0];
-
-
 
   directions_btn.onclick = function() {
       directions_modal.style.display = "block";
@@ -115,7 +106,11 @@
       $('#directions-modal').hide();
   });
 });
-
 })();
-
 </script>
+
+
+
+
+
+

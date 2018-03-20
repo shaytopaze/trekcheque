@@ -1,0 +1,60 @@
+<div class="message-footer">
+  <button type="button" id="group-chat-btn" class="btn btn-info btn-lg" data-target="#group-chat"><%= @trip.name %> chat</button>
+</div>
+<div class="container-fluid" id="group-chat" style="display:none;">
+  <div class="row col-md-8 col-md-offset-2">
+    <div class="group-pop-up">
+      <div class="messages-container">
+        <div class="panel panel-default messages">
+          <% if @trip.messages.any? %>
+            <div class="panel-body" id="messages">
+              <% @trip.messages.each do |message| %>
+                <p><strong><%= message.user.name %></strong><i> says</i> : <%= message.content %></p>
+              <% end %>
+            </div>
+          <%else%>
+            <div class="panel-body hidden" id="messages">
+            </div>
+          <%end%>
+        </div>
+        <%= form_for [@trip, @message], remote: true, authenticity_token: true do |f| %>
+          <%= f.hidden_field :trip_id, value: @trip.id %>
+          <div style="text-align: left; padding-left: 16px;"><%= f.label :your_message %></div>
+          <div class="tripMessage">
+            <%= f.text_area :content, class: "form-control", data: {textarea: "message"} %>
+            <%= f.submit "send", class: "btn btn-primary", data: {send: "message"} %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.message-footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #004d4d;
+    color: white;
+    text-align: center;
+}
+#group-chat-btn {
+  float: right;
+  margin-right: 100px;
+}
+.group-pop-up {
+  float: right;
+  margin-right: 50px;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  width: 25%;
+  background-color: #004d4d;
+  text-align: center;
+}
+</style>
+
+
+
