@@ -22,9 +22,9 @@ class TripsController < ApplicationController
     @attendees.each do |attendee|
       @attendees_ids.push(attendee[:user_id])
     end
-
     @trip_length_night = (@trip.end_date - @trip.start_date).to_i
-
+    
+    # if a trip start & end location were entered - set variables to use for google API!
     if @trip.start_location
       @start_trip = @trip.start_location.to_s
       @start_trip_loc = @start_trip + ""
@@ -32,7 +32,6 @@ class TripsController < ApplicationController
       @start_one = @start_one.gsub!(', ', '+') || @start_one
       @start_one = @start_one.gsub!('.', '') || @start_one
     end
-
     if @trip.end_location
       @end_trip = @trip.end_location.to_s
       @end_trip_loc = @end_trip + ""
@@ -40,7 +39,8 @@ class TripsController < ApplicationController
       @end_one = @end_one.gsub!(', ', '+') || @end_one
       @end_one = @end_one.gsub!('.', '') || @end_one
     end
-
+     
+    # google API -> if start and end location are filled in, enter details into URI!
     if @trip.start_location != "" && @trip.end_location != ""
       @google_url = URI("https://maps.googleapis.com/maps/api/distancematrix/json?origins=#{@start_one}&destinations=#{@end_one}&key=#{Rails.application.secrets.SECRET_GOOGLE_KEY}")
       @google_directions = URI("https://maps.googleapis.com/maps/api/directions/json?origin=#{@start_one}&destination=#{@end_one}&key=#{Rails.application.secrets.SECRET_GOOGLE_KEY}")
@@ -49,6 +49,7 @@ class TripsController < ApplicationController
       @directions = ""
       response = Net::HTTP.get(@google_url)
       @result = JSON.parse(response)
+      # if google API results are OK -> gather longitute/latitude and set google static image!
       if @google_result['status'] == "OK"
         @end_long = @google_result['routes'][0]['legs'][0]['end_location']['lng']
         @end_lat = @google_result['routes'][0]['legs'][0]['end_location']['lat']
@@ -57,6 +58,7 @@ class TripsController < ApplicationController
         @google_image = URI("https://maps.googleapis.com/maps/api/staticmap?center=#{@end_lat},#{@end_long}&zoom=14&size=600x300&markers=color:blue%7Clabel:S%7C#{@end_lat},#{@end_long}&key=#{Rails.application.secrets.SECRET_GOOGLE_KEY}")
         @response_image = Net::HTTP.get(@google_image)
       end
+      # if google API results are OK -> set directions and duration/distance
       if @result['rows'][0]['elements'][0]['status'] == "OK"
         @distance = @result['rows'][0]['elements'][0]['distance']['text']
         @duration = @result['rows'][0]['elements'][0]['duration']['text']
@@ -67,73 +69,71 @@ class TripsController < ApplicationController
         end
       end
     end
-
+    
     @trip_attendees = @attendees.collect { |a| a.user }
+    # Moderator is always the first attendee created -> setting moderator variable
     if @trip_attendees.present?
       @moderator = @trip_attendees.first.name
     end
+    
+    # CHECK IF WE ARE USING THIS
     @expenses = Expense.where(trip_id: params[:trip_id])
     @users = User.all
     @attendee_for_id = Attendee.where(user_id: @users.ids)
     @expenses_ids = @expenses.ids
-
     @payees = Payee.where(expense_id: @expenses_ids)
-  
     @payees.each do |payee|
       @user_id = payee.user_id
       @payee_user = User.where(id: @user_id)
       @payee_user_ids = @payee_user.ids
       @attendee_user_for_finding_expense = Attendee.where(user_id: @payee_user_ids, trip_id: params[:trip_id])
+      # not sure what this is for? --> Delete?
       @attendee_user_for_finding_expense.each do |attendee_for_balance|
       end
     end
-
     @expenses.each do |expense|
       @amount = expense.amount
       @expense_payees = @payees.where(expense_id: expense.id)
       @contributors_size = @expense_payees.size
       @payee_owes = (@amount / @contributors_size)
     end
-
-        if @trip.ended 
-          @attendees_in_negative = Hash.new
-          @attendees_in_positive = Hash.new
-
-          @attendees.each do |attendee|
-            if attendee[:balance_cents] > 0
-              @attendees_in_positive[attendee[:user_id]] = attendee[:balance_cents] 
-            else
-              @attendees_in_negative[attendee[:user_id]] = attendee[:balance_cents]             
-            end
-          end
-
-          @owe_statements = Array.new
-          i = 0
-          j = 0
-          positiveKeys = @attendees_in_positive.keys
-          negativeKeys = @attendees_in_negative.keys
-          while i < @attendees_in_positive.length && j < @attendees_in_negative.length
-            @user_who_owes = User.find(positiveKeys[i])
-            @user_getting_paid = User.find(negativeKeys[j])
-            delta = @attendees_in_positive[positiveKeys[i]] + @attendees_in_negative[negativeKeys[j]]
-            if delta < 0
-              @owe_statements.push("#{@user_who_owes.name} owes #{@user_getting_paid.name} $#{@attendees_in_positive[positiveKeys[i]].to_f/100}")
-              @attendees_in_negative[negativeKeys[j]] = delta
-              i += 1
-            elsif delta > 0
-              @owe_statements.push("#{@user_who_owes.name} owes #{@user_getting_paid.name} $#{-1 * @attendees_in_negative[negativeKeys[j]].to_f/100}")
-              @attendees_in_positive[positiveKeys[i]] = delta
-              j += 1
-            else
-              @owe_statements.push("#{@user_who_owes.name} owes #{@user_getting_paid.name} $#{@attendees_in_positive[positiveKeys[j]].to_f/100}")
-              i += 1
-              j += 1
-            end
-          end
-
+    
+    # logic for final 'owe statements' <-- owing balances
+    if @trip.ended 
+      @attendees_in_negative = Hash.new
+      @attendees_in_positive = Hash.new
+      @attendees.each do |attendee|
+        if attendee[:balance_cents] > 0
+          @attendees_in_positive[attendee[:user_id]] = attendee[:balance_cents] 
+        else
+          @attendees_in_negative[attendee[:user_id]] = attendee[:balance_cents]             
         end
+      end
+      @owe_statements = Array.new
+      i = 0
+      j = 0
+      positiveKeys = @attendees_in_positive.keys
+      negativeKeys = @attendees_in_negative.keys
+      while i < @attendees_in_positive.length && j < @attendees_in_negative.length
+        @user_who_owes = User.find(positiveKeys[i])
+        @user_getting_paid = User.find(negativeKeys[j])
+        delta = @attendees_in_positive[positiveKeys[i]] + @attendees_in_negative[negativeKeys[j]]
+        if delta < 0
+          @owe_statements.push("#{@user_who_owes.name} owes #{@user_getting_paid.name} $#{@attendees_in_positive[positiveKeys[i]].to_f/100}")
+          @attendees_in_negative[negativeKeys[j]] = delta
+          i += 1
+        elsif delta > 0
+          @owe_statements.push("#{@user_who_owes.name} owes #{@user_getting_paid.name} $#{-1 * @attendees_in_negative[negativeKeys[j]].to_f/100}")
+          @attendees_in_positive[positiveKeys[i]] = delta
+          j += 1
+        else
+          @owe_statements.push("#{@user_who_owes.name} owes #{@user_getting_paid.name} $#{@attendees_in_positive[positiveKeys[j]].to_f/100}")
+          i += 1
+          j += 1
+        end
+      end
+    end
   end
-
 
   # GET /trips/new
   def new
@@ -142,26 +142,29 @@ class TripsController < ApplicationController
     @trip_types = [["Weekend Getaway", 1], ["Boys Trip", 2], ["Bachelorette", 3], ["Road Trip", 4], ["Adventure", 5]]
   end
   
-  # GET /trips/1/edit
-  def edit
-  end
-
-
+  # # GET /trips/1/edit
+  # def edit
+  # end
+  
+  # function used for edit trip modal!
   def inline_edit
     @attendees = Attendee.where(trip_id: params[:trip_id])
     @trip_attendees = @attendees.collect { |a| a.user }
+    # Are we still using this file?
     respond_to do |format|
       format.js { render :file => "trips/inline_edit.js.erb" }
     end
   end
     
-    # POST /trips
-    # POST /trips.json
+  # POST /trips
+  # POST /trips.json
   def create
     @new_trip = Trip.create(trip_params)
     @trip = Trip.new(trip_params)
     @trip_types = [["Weekend Getaway", 1], ["Boys Trip", 2], ["Bachelorette", 3], ["Road Trip", 4], ["Adventure", 5]]
+    # @first_attendee -> add the current user as an attendee automatically - when creating a trip
     @first_attendee = Attendee.create!([{trip_id: @new_trip.id, user_id: current_user.id, balance: 0}])
+    # @attendees -> list of attendees only for current trip
     @attendees = Attendee.where(trip_id: params[:trip_id])
     @number_of_possible_attendees = @new_trip.number_of_possible_attendees
     @price_per_night = @new_trip.price_per_night
@@ -170,6 +173,7 @@ class TripsController < ApplicationController
     respond_to do |format|
       @attendees_amount = @attendees.size
       if @new_trip.save
+        # calculating total possible trip cost after trip has been created!
         @total_possible_accomodation_cost_per_person = @total_cost.to_i / @number_of_possible_attendees.to_i
         @new_trip.update_attribute(:total_possible_cost, @total_possible_accomodation_cost_per_person)
         @new_trip.update_attribute(:total_confirmed_cost, @total_confirmed_accomodation_cost_per_person)
@@ -186,7 +190,6 @@ class TripsController < ApplicationController
   # PATCH/PUT /trips/1
   # PATCH/PUT /trips/1.json
   def update
-    puts "IM IN UPDATE"
     respond_to do |format|
       if @trip.update(trip_params)
           @trip_length_night = (@trip.end_date - @trip.start_date).to_i
@@ -196,8 +199,10 @@ class TripsController < ApplicationController
           @number_of_possible_attendees = @trip.number_of_possible_attendees
           @total_possible_accomodation_cost_per_person = @total_cost.to_i / @number_of_possible_attendees.to_i
           @total_confirmed_accomodation_cost_per_person = @total_cost.to_i / @attendees.count
+          # if trip has been changed - update confirmed cost & total cost accordingly
           @trip.update_attribute(:total_confirmed_cost, @total_confirmed_accomodation_cost_per_person)
           @trip.update_attribute(:total_possible_cost, @total_possible_accomodation_cost_per_person)
+          # Create accomodation cost on trip start! <-- if it exists already, it will not create again
           if Expense.exists?(trip_id: params[:trip_id], description: "Accomodation Cost") == false
             @accomodation_cost = Expense.new({
               trip_id: params[:trip_id],
@@ -205,7 +210,7 @@ class TripsController < ApplicationController
               amount: @total_cost,
               description: "Accomodation Cost"
             })
-          #add amount to balance
+          #add accomodation cost to balance of every attendee confirmed
           @accomodation_cost.save
             if @accomodation_cost.save
               @attendees.each do |attendee|
@@ -215,11 +220,13 @@ class TripsController < ApplicationController
                 })
               end
               @attendees.each do |attendee|
+                # whomever did not click 'start' owes for accomodation - add cost to their balance
                 if attendee.user_id != current_user.id
                   attendee.balance = attendee.balance.to_i + @total_confirmed_accomodation_cost_per_person
                   @attendee_balance = attendee.balance
                   attendee.update_attribute(:balance, @attendee_balance)
                 else
+                  # whomever clicked 'start' is the payee of the accomodation - minus cost from their balance
                   @payee_owed = @total_cost - @total_confirmed_accomodation_cost_per_person
                   attendee.balance = attendee.balance.to_i - @payee_owed
                   @attendee_balance = attendee.balance
@@ -239,13 +246,13 @@ class TripsController < ApplicationController
   
   # DELETE /trips/1
   # DELETE /trips/1.json
-  def destroy
-    @trip.destroy
-    respond_to do |format|
-      format.html { redirect_to trips_url, notice: 'Trip was successfully destroyed.' }
-      format.json { head :no_content }
-    end
-  end
+  # def destroy
+  #   @trip.destroy
+  #   respond_to do |format|
+  #     format.html { redirect_to trips_url, notice: 'Trip was successfully destroyed.' }
+  #     format.json { head :no_content }
+  #   end
+  # end
 
   private
     # Use callbacks to share common setup or constraints between actions.
