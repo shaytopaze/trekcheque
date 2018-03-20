@@ -87,7 +87,7 @@
 }
 
 #addexpensebtn {
-  background-color: rgba(211, 191, 162, 0.1);
+  background-color: white;
 	outline: none;
     color: darkcyan;
 	font-size: 18px;
@@ -102,8 +102,40 @@
 	border-color: #004d4d;
 }
 
+#open-directions {
+  background-color: white;
+	outline: none;
+    color: darkcyan;
+	font-size: 18px;
+	height: auto;
+	font-weight: normal;
+	padding: 6px 15px;
+}
+#open-directions:hover,
+#open-directions:focus {
+	color: #fff;
+	background-color: #016868;
+	border-color: #004d4d;
+}
+
+#owe-btn {
+  background-color: white;
+	outline: none;
+    color: darkcyan;
+	font-size: 18px;
+	height: auto;
+	font-weight: normal;
+	padding: 6px 15px;
+}
+#owe-btn:hover,
+#owe-btn:focus {
+	color: #fff;
+	background-color: #016868;
+	border-color: #004d4d;
+}
+
 .btn-info {
-  background-color: rgba(211, 191, 162, 0.1);
+  background-color: white;
   outline: none;
   color: darkcyan;
   font-size: 18px;
@@ -122,7 +154,17 @@
 }
 
 #myBtn {
-  background-color: rgba(211, 191, 162, 0.1);
+     background:none!important;
+     color:inherit;
+     border:none; 
+     padding:0!important;
+     font: inherit;
+     font-size: 1em;
+     margin-left: .3em;
+}
+
+.copyLink {
+  background-color: white;
   outline: none;
   color: darkcyan;
   font-size: 18px;
@@ -132,11 +174,40 @@
   border-radius: 6px;
   border: 2px solid darkcyan;
 }
-#myBtn:hover,
-#myBtn:focus,
-#myBtn:active {
+.copyLink:hover,
+.copyLink:focus,
+.copyLink:active {
 	color: #fff;
-	background-color: #016868;
-	border-color: #004d4d;
-    border-radius: 6px;
+    background-color: #016868;	
+    border-color: #004d4d;
+}
+
+.tripMessage {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-gap: 8px;
+    padding: 0 8px 8px 8px;
+}
+
+.group-pop-up {
+    width: 70% !important;
+    max-width: 300px !important;
+    margin-bottom: 40px;
+}
+
+#messages {
+    text-align: left;
+}
+
+.messages {
+    margin-bottom: 6px !important;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+.messages-container {
+    background-color: darkcyan;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    margin-top: -20px;    
 }

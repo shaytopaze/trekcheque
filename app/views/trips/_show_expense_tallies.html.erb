@@ -1,9 +1,92 @@
+<button class="directions" id="owe-btn">Show Balances</button>
+<div id="owe-modal" class="modal">
+<div class="modal-content">
+<body>
+<div class="modal-header">
+ <button type="button" class="close" data-dismiss="modal" id="closeOwe" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 <h3> Attendee Payments </h3>
+</div>
 
 <p>
 <% @owe_statements.each do |statement| %>
   <%= statement %></br>
 <% end %>
 </p>
+</div>
+</div>
+<style>
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 10px;
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+/* The update button */
+.directions, input[type="submit"] {
+  background-color: #CCDBDB;
+	outline: none;
+	color: darkcyan;
+	font-size: 18px;
+	height: auto;
+	font-weight: normal;
+  padding: 6px 15px;
+  border-radius: 6px;
+  border: 2px solid darkcyan;
+}
+.directions, input[type="submit"] :hover,
+.directions, input[type="submit"] :focus,
+.directions, input[type="submit"] :active {
+	color: #fff;
+	background-color: rgb(0, 206, 196);
+}
+</style>
+<script>
+(function(){
+// Get the modal
+var owe_modal = document.getElementById('owe-modal');
+// Get the button that opens the modal
+var owe_btn = document.getElementById("owe-btn");
+// When the user clicks on the button, open the modal 
+owe_btn.onclick = function() {
+    owe_modal.style.display = "block";
+}
+
+$(document).ready(function() {
+  $("#closeOwe").on("click", function(event) {
+      $('#owe-modal').hide();
+      $('.modal-backdrop').hide();
+  });
+});
+
+})();
+</script>
 
 
