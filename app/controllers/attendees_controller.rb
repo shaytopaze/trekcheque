@@ -41,7 +41,7 @@ class AttendeesController < ApplicationController
     @trip_length_night = (@trip.end_date - @trip.start_date).to_i
     @price_per_night = @trip.price_per_night
     @total_cost = @price_per_night.to_i * @trip_length_night.to_i
-  
+
     if @attendee.save
       @total_confirmed_accomodation_cost_per_person = @total_cost.to_i / @attendees.size
       @trip.update_attribute(:total_confirmed_cost, @total_confirmed_accomodation_cost_per_person)
