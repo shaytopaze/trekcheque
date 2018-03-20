@@ -39,8 +39,6 @@ class AttendeesController < ApplicationController
     @attendee.user_id = current_user.id
     @attendee.balance = 0
     @attendees = Attendee.where(trip_id: params[:trip_id])
-    puts "HEY IM ATTENDEES"
-    puts @attendees
     @trip_length_night = (@trip.end_date - @trip.start_date).to_i
     @price_per_night = @trip.price_per_night
     @total_cost = @price_per_night.to_i * @trip_length_night.to_i
