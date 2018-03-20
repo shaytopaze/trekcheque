@@ -20,12 +20,10 @@
 
 <%= form_for [@trip, @message], remote: true, authenticity_token: true do |f| %>
   <%= f.hidden_field :trip_id, value: @trip.id %>
-  <div style="text-align: left;
-    padding-left: 16px;"><%= f.label :your_message %></div>
 <div class="tripMessage">
-  <%= f.text_area :content, class: "form-control", data: {textarea: "message"} %>
+  <%= f.text_area :content, class: "form-control", data: {textarea: "message"}, id: "message_content", placeholder: "Your message here.." %>
 
-  <%= f.submit "send", class: "btn btn-primary", data: {send: "message"} %>
+  <%= f.submit "send", class: "btn btn-primary", id: "send_message", data: {send: "message"} %>
 <% end %>
 </div>
 </div>
@@ -33,6 +31,16 @@
 </div>
 </div>
 </div>
+
+<script>
+$(document).ready(function() {
+  $("#send_message").on("click", function(event) {
+    setTimeout(function() {
+      $("#message_content").val("");
+    }, 100);
+  });
+});
+</script>
 
 <style>
 .message-footer {

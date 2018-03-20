@@ -197,6 +197,8 @@
 
 #messages {
     text-align: left;
+    max-height: 250px;
+    overflow: scroll;
 }
 
 .messages {
