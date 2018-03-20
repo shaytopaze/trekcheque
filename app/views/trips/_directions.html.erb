@@ -1,0 +1,121 @@
+<button class="directions" id="open-directions">Directions</button>
+<div id="directions-modal" class="modal">
+<div class="modal-content">
+<div class="modal-header">
+  <h1>
+  <button id="closeDirections" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  Directions:
+  </h1>
+</div>
+  <% if @trip.start_location != "" && @trip.end_location != "" %>
+    <% if (@result['rows'][0]['elements'][0]['status'] == "OK" )%>
+      <p>
+        <strong>Driving distance:</strong>
+          <%= @distance %>
+      </p>
+       <p>
+         <strong>Driving time (hopefully):</strong>
+         </br>
+         <%= @duration %>
+       </p>
+<div id="directions" style="padding: 10px;"><ol><%= @directions.html_safe %></ol></div>
+    <% end %>
+  <% end %>
+<% if @google_image %>
+  <div><img class="google-image" src="<%= @google_image %>"></div>
+<% else %>
+  <strong> Sorry we couldn't find directions with the information you provided! </strong>
+<% end %>
+</div>
+</div>
+
+<style>
+.google-image {
+    height: 200px;
+    width: 400px;
+    padding: 10px;
+}
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 10px;
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* The update button */
+.directions, input[type="submit"] {
+  background-color: white;
+	outline: none;
+	color: darkcyan;
+	font-size: 18px;
+	height: auto;
+	font-weight: normal;
+  padding: 6px 15px;
+  border-radius: 6px;
+  border: 2px solid darkcyan;
+}
+.directions, input[type="submit"] :hover,
+.directions, input[type="submit"] :focus,
+.directions, input[type="submit"] :active {
+	color: #fff;
+	background-color: rgb(0, 206, 196);
+}
+
+</style>
+
+<script>
+(function(){
+
+  var directions_modal = document.getElementById('directions-modal');
+
+
+  var directions_btn = document.getElementById("open-directions");
+
+  var span = document.getElementsByClassName("close")[0];
+
+
+
+  directions_btn.onclick = function() {
+      directions_modal.style.display = "block";
+  }
+
+  $(document).ready(function() {
+  $("#closeDirections").on("click", function(event) {
+      $('#directions-modal').hide();
+  });
+});
+
+})();
+
+</script>

@@ -4,11 +4,12 @@ class MessagesController < ApplicationController
     @message = Message.new(message_params)
     @message.trip_id = params[:trip_id]
     @message.user = current_user
+    
     if @message.save
       ActionCable.server.broadcast 'messages',
-        message: message.content,
-        user: message.user.username,
-        trip: message.trip_id
+        message: @message.content,
+        user: @message.user.name,
+        trip: @message.trip_id
       head :ok
     else 
       redirect_to @trip
