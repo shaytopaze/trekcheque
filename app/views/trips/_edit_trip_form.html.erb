@@ -1,93 +1,93 @@
 <button id="myBtn"><i class="fa fa-edit"></i></button>
 <div id="edit-trip-modal" class="modal">
-<div class="modal-content">
-<body>
-<div class="modal-header">
-  <h1>
-  <button type="button" class="close" data-dismiss="modal" id="closeEdit" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-  Edit trip:
-  </h1>
+  <div class="modal-content">
+    <body>
+      <div class="modal-header">
+        <h1>
+          <button type="button" class="close" data-dismiss="modal" id="closeEdit" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          Edit trip:
+        </h1>
+      </div>
+      <%= form_with(model: trip, local: true) do |form| %>
+        <% if trip.errors.any? %>
+          <div id="error_explanation">
+            <h2><%= pluralize(trip.errors.count, "error") %> prohibited this trip from being saved:</h2>
+            <ul>
+              <% trip.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+        <div class="edit_trip_form">
+          <% if !trip.started %>
+            <div class="field">
+              <%= form.label :name %>
+              <%= form.text_field :name, id: :trip_name %>
+            </div>
+            <div class="field">
+              <%= form.label :accommodation_url %>
+              <%= form.text_field :accomodation_url, id: :trip_accomodation_url %>
+            </div>
+            <div class="field">
+              <%= form.label :start_location %>
+              <%= form.text_field :start_location, id: :trip_start_location %>
+            </div>
+              <div class="field">
+              <%= form.label :end_location %>
+              <%= form.text_field :end_location, id: :trip_end_location %>
+            </div>
+            <div class="field">
+              <%= form.label :price_per_night %>
+              <%= form.number_field :price_per_night, :step => 0.01, :min => 0, id: :trip_price_per_night %>
+            </div>
+            <div class="field">
+              <%= form.label :number_of_possible_attendees %>
+              <%= form.number_field :number_of_possible_attendees, :min => 0, id: :trip_number_of_possible_attendees %>
+            </div>
+            <div class="field">
+              <%= form.label :start_date %>
+              <%= form.date_select :start_date, id: :trip_start_date %>
+            </div>
+            <div class="field">
+              <%= form.label :end_date %>
+              <%= form.date_select :end_date, id: :trip_end_date %>
+            </div>
+            <div class="actions">
+              <%= form.submit %>
+            </div>
+          <% else %> 
+            <div class="field">
+              <%= form.label :name %>
+              <%= form.text_field :name, id: :trip_name %>
+            </div>
+            <div class="field">
+              <%= form.label :accommodation_url %>
+              <%= form.text_field :accomodation_url, id: :trip_accomodation_url %>
+            </div>
+            <div class="field">
+              <%= form.label :start_location %>
+              <%= form.text_field :start_location, id: :trip_start_location %>
+            </div>
+              <div class="field">
+              <%= form.label :end_location %>
+              <%= form.text_field :end_location, id: :trip_end_location %>
+            </div>
+            <div class="field">
+              <%= form.label :number_of_possible_attendees %>
+              <%= form.number_field :number_of_possible_attendees, :min => 0, id: :trip_number_of_possible_attendees %>
+            </div>
+            <div class="modal-footer">
+              <div class="actions">
+                <%= form.submit %>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+    </body>
+  </div>
 </div>
-<%= form_with(model: trip, local: true) do |form| %>
-  <% if trip.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(trip.errors.count, "error") %> prohibited this trip from being saved:</h2>
-      <ul>
-      <% trip.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-<div class="edit_trip_form">
-<% if !trip.started %>
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name, id: :trip_name %>
-  </div>
-  <div class="field">
-    <%= form.label :accommodation_url %>
-    <%= form.text_field :accomodation_url, id: :trip_accomodation_url %>
-  </div>
-  <div class="field">
-    <%= form.label :start_location %>
-    <%= form.text_field :start_location, id: :trip_start_location %>
-  </div>
-    <div class="field">
-    <%= form.label :end_location %>
-    <%= form.text_field :end_location, id: :trip_end_location %>
-  </div>
-  <div class="field">
-    <%= form.label :price_per_night %>
-    <%= form.number_field :price_per_night, :step => 0.01, :min => 0, id: :trip_price_per_night %>
-  </div>
-  <div class="field">
-    <%= form.label :number_of_possible_attendees %>
-    <%= form.number_field :number_of_possible_attendees, :min => 0, id: :trip_number_of_possible_attendees %>
-  </div>
-  <div class="field">
-    <%= form.label :start_date %>
-    <%= form.date_select :start_date, id: :trip_start_date %>
-  </div>
-  <div class="field">
-    <%= form.label :end_date %>
-    <%= form.date_select :end_date, id: :trip_end_date %>
-  </div>
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-  <% else %> 
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name, id: :trip_name %>
-  </div>
-  <div class="field">
-    <%= form.label :accommodation_url %>
-    <%= form.text_field :accomodation_url, id: :trip_accomodation_url %>
-  </div>
-  <div class="field">
-    <%= form.label :start_location %>
-    <%= form.text_field :start_location, id: :trip_start_location %>
-  </div>
-    <div class="field">
-    <%= form.label :end_location %>
-    <%= form.text_field :end_location, id: :trip_end_location %>
-  </div>
-  <div class="field">
-    <%= form.label :number_of_possible_attendees %>
-    <%= form.number_field :number_of_possible_attendees, :min => 0, id: :trip_number_of_possible_attendees %>
-  </div>
-<div class="modal-footer">
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-</div>
-<% end %>
-<% end %>
-</body>
-</div>
-</div>
-</div>
+
 <style>
 .modal {
     display: none; /* Hidden by default */
@@ -124,6 +124,7 @@
     cursor: pointer;
 }
 </style>
+
 <script>
 (function(){
 // Get the modal
