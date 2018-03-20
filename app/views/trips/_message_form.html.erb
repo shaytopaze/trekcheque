@@ -38,6 +38,8 @@ $(document).ready(function() {
     setTimeout(function() {
       $("#message_content").val("");
     }, 100);
+      var elem = document.getElementById('messages');
+      elem.scrollTop = elem.scrollHeight;
   });
 });
 </script>
