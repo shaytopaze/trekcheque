@@ -5,6 +5,7 @@ class User < ApplicationRecord
   has_many :attendees
   has_many :expenses
   has_many :trips, :through => :attendees
+  has_many :messages
 
   validates :name, presence: true, length: { minimum: 1, maximum: 25 }
   validates :email, presence: true, uniqueness: { case_sensitive: false }

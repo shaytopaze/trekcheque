@@ -10,11 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180307220424) do
+ActiveRecord::Schema.define(version: 20180319051951) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "attendees", force: :cascade do |t|
-    t.integer "trip_id"
-    t.integer "user_id"
+    t.bigint "trip_id"
+    t.bigint "user_id"
     t.integer "balance_cents"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -23,8 +26,8 @@ ActiveRecord::Schema.define(version: 20180307220424) do
   end
 
   create_table "expenses", force: :cascade do |t|
-    t.integer "trip_id"
-    t.integer "user_id"
+    t.bigint "trip_id"
+    t.bigint "user_id"
     t.integer "amount_cents"
     t.text "description"
     t.datetime "created_at", null: false
@@ -33,9 +36,19 @@ ActiveRecord::Schema.define(version: 20180307220424) do
     t.index ["user_id"], name: "index_expenses_on_user_id"
   end
 
+  create_table "messages", force: :cascade do |t|
+    t.bigint "trip_id"
+    t.bigint "user_id"
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["trip_id"], name: "index_messages_on_trip_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
+  end
+
   create_table "payees", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "expense_id"
+    t.bigint "user_id"
+    t.bigint "expense_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["expense_id"], name: "index_payees_on_expense_id"
@@ -68,4 +81,12 @@ ActiveRecord::Schema.define(version: 20180307220424) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "attendees", "trips"
+  add_foreign_key "attendees", "users"
+  add_foreign_key "expenses", "trips"
+  add_foreign_key "expenses", "users"
+  add_foreign_key "messages", "trips"
+  add_foreign_key "messages", "users"
+  add_foreign_key "payees", "expenses"
+  add_foreign_key "payees", "users"
 end

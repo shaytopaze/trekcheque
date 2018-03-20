@@ -13,6 +13,8 @@ class TripsController < ApplicationController
   def show
     @trip_types = [["Weekend Getaway", 1], ["Boys Trip", 2], ["Bachelorette", 3], ["Road Trip", 4], ["Adventure", 5]]
     @trips = Trip.all
+    @message = Message.new
+    @messages = Message.where(trip_id: params[:id])
     @expense = Expense.new
     @new_trip = Trip.new
     @attendees = Attendee.where(trip_id: params[:id])
@@ -120,7 +122,8 @@ class TripsController < ApplicationController
           end
 
         end
-      end
+  end
+
 
   # GET /trips/new
   def new
