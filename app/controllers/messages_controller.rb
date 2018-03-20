@@ -4,6 +4,7 @@ class MessagesController < ApplicationController
     @message = Message.new(message_params)
     @message.trip_id = params[:trip_id]
     @message.user = current_user
+    
     if @message.save
       ActionCable.server.broadcast 'messages',
         message: @message.content,
