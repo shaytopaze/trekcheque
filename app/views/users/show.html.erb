@@ -49,6 +49,9 @@
               <% if trip.type_of_trip == "Boys Trip" %>
                 <%= image_tag("boys-trip.jpg", width: "200", style: "border: 1px solid #00415d; border-radius: 5px;")%>
               <% end %>
+              <% if trip.type_of_trip == "Other" %>
+                <%= image_tag("other.jpeg", width: "200", style: "border: 1px solid #00415d; border-radius: 5px;")%>
+              <% end %>
             <% end %>
           <% end %>
           </div>
