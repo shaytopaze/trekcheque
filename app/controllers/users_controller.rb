@@ -13,7 +13,7 @@ class UsersController < ApplicationController
   def show
     @new_trip = Trip.new
     @user_as_attendees = Attendee.where(user_id: params[:id])
-    @trip_types = [["Weekend Getaway", 1], ["Boys Trip", 2], ["Bachelorette", 3], ["Road Trip", 4], ["Adventure", 5]]
+    @trip_types = [["Weekend Getaway", 1], ["Boys Trip", 2], ["Bachelorette", 3], ["Road Trip", 4], ["Adventure", 5], ["Other", 6]]
     @trips_of_user = @user.trips.order('start_date')
     if params[:id].to_i != current_user[:id].to_i
       redirect_to user_path(session[:user_id])
